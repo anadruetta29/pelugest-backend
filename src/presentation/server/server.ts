@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import cors from 'cors';
+import { globalExceptionHandler } from '../../common/middlewares/error.middleware';
 
 interface Options {
     port: number;
@@ -33,6 +34,9 @@ export class Server {
         /* Routes */
         this.app.use(this.routes);
         this.app.use("/public", express.static('public'));
+
+        /* Exception Handler */
+        this.app.use(globalExceptionHandler); 
 
         /* Server */
         this.app.listen(this.port, () => {
