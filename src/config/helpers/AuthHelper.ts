@@ -1,4 +1,4 @@
-import { PasswordEncoder } from "../adapters/PasswordEncoder";
+import { PasswordEncoder } from "../adapters/password-encoder";
 import { JWTHelper } from "./JWTHelper";
 
 export class AuthHelper {
