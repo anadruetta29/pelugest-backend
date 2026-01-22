@@ -20,9 +20,10 @@ export class AuthController {
     login = async (req: Request, res: Response) => {
 
         const [_, dto] = LoginUserDTO.create(req.body);
-
+        
         const tokenData = await this.authService.login(dto!);
         
         return res.status(200).json(tokenData);
-    }
+    } 
+
 }

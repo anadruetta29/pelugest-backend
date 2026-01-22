@@ -1,20 +1,24 @@
+import { RoleRepository } from './../../../data/repository/role-repository';
 import { UserEntity } from "../../../common/entity/user";
 import { ErrorHandler } from "../../../common/errors/ErrorHandler";
 import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
 import { AuthHelper } from "../../../config/helpers/AuthHelper";
 import { UserRepository } from "../../../data/repository/user-repository";
-import { RegexValidator } from "../../../domain";
+import { RecordStatusRepositoryI, RegexValidator, RoleRepositoryI } from "../../../domain";
 import { LoginUserDTO } from "../../../domain/dto/auth/login";
 import { RegisterUserDTO } from "../../../domain/dto/auth/register";
 import { UserRepositoryI } from "../../../domain/repository/user-repository-interface";
+import { RecordStatusRepository } from '../../../data';
 
 export class AuthService {
 
 
     constructor(
         private readonly authHelper = new AuthHelper(),
-        private readonly userRepository: UserRepositoryI = new UserRepository()    
+        private readonly userRepository: UserRepositoryI = new UserRepository(),    
+        private readonly roleRepository: RoleRepositoryI = new RoleRepository(),
+        private readonly recordStatusRepository: RecordStatusRepositoryI = new RecordStatusRepository()
     ) {}
 
     public async register(dto: RegisterUserDTO) {
@@ -36,6 +40,15 @@ export class AuthService {
             throw new ErrorHandler(ErrorTypeName.EMAIL_ALREADY_EXISTS);
         }
 
+        const [role, recordStatus] = await Promise.all([
+            this.roleRepository.findByName('HAIRDRESSER'),
+            this.recordStatusRepository.findByName('ACTIVE')
+        ]);
+
+        if (!role || !recordStatus) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
+        }
+        
         const userId = GenerateUUIDHelper.generate();      
 
         const hashedPassword = await this.authHelper.hashPassword(password);
@@ -46,8 +59,8 @@ export class AuthService {
             lastname,
             email,
             password: hashedPassword,
-            role: { id: 'HAIRDRESSER_ID_AQUI' }, 
-            status: { id: '1' } 
+            role: { id: role.id }, 
+            status: { id: recordStatus.id } 
         });
 
         const savedUser = await this.userRepository.save(newUserEntity);
@@ -70,7 +83,7 @@ export class AuthService {
             throw new ErrorHandler(ErrorTypeName.USER_NOT_FOUND);
         }
 
-        const isPasswordCorrect = await this.authHelper.validatePassword(user.password, password);
+        const isPasswordCorrect = await this.authHelper.validatePassword(user, password);
         
         if (!isPasswordCorrect) {
             throw new ErrorHandler(ErrorTypeName.INVALID_PASSWORD);

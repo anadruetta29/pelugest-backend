@@ -18,10 +18,6 @@ export class LoginUserDTO {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
 
-        if (password.length < 8) {
-            throw new ErrorHandler(ErrorTypeName.INVALID_PASSWORD);
-        }
-
         return [undefined, new LoginUserDTO(email, password)];
     }
 }

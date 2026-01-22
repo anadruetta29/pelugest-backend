@@ -16,12 +16,16 @@ model Role {
     id    String @id @default(uuid())
     name  String @unique
 	users User[] 
+
+  @@map("roles")
 }
 
 model RecordStatus {
     id    String @id @default(uuid())
     name  String @unique
     users User[]
+
+    @@map("record_status")
 }
 
 model User {
@@ -35,5 +39,7 @@ model User {
 
     role   Role         @relation(fields: [id_rol], references: [id])
     status RecordStatus @relation(fields: [id_record_status], references: [id])
+
+    @@map("users")
 }
 
