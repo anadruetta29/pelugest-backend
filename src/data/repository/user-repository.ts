@@ -1,13 +1,28 @@
 import { prisma } from "../../app";
 import { UserEntity } from "../../common/entity/user";
+import { UserRepositoryI } from "../../domain/repository/user-repository-interface";
 import { UserEntityMapper, UserModel } from "../postgres/mapper/user-entity-mapper";
 
-
 export class UserRepository implements UserRepositoryI {
-    
-    private normalizePage(page: number | null | undefined): number {
-        return (page !== undefined && page !== null && page > 0) ? page - 1 : 0;
+
+    async findByEmail(email: string): Promise<UserEntity | null> {
+        const model = await prisma.user.findUnique({
+            where: { email },
+            include: { role: true, status: true }
+        });
+
+        return UserEntityMapper.toDomain(model as UserModel);
     }
+
+    async findById(id: string): Promise<UserEntity | null> {
+        const model = await prisma.user.findUnique({
+            where: { id },
+            include: { role: true, status: true }
+        });
+
+        return UserEntityMapper.toDomain(model as UserModel);
+    }
+
 
     async save(user: UserEntity): Promise<UserEntity> {
         const model = UserEntityMapper.toModel(user);

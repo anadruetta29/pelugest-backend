@@ -1,53 +1,84 @@
+import { UserEntity } from "../../../common/entity/user";
 import { ErrorHandler } from "../../../common/errors/ErrorHandler";
 import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
 import { AuthHelper } from "../../../config/helpers/AuthHelper";
 import { LoginUserDTO } from "../../../domain/dto/auth/login";
 import { RegisterUserDTO } from "../../../domain/dto/auth/register";
+import { UserRepositoryI } from "../../../domain/repository/user-repository-interface";
 
 
 export class AuthService {
+    
     private readonly authHelper = new AuthHelper();
+
+    constructor(
+        private readonly userRepository: UserRepositoryI
+    ) {}
 
     public async register(dto: RegisterUserDTO) {
 
         const { name, lastname, email, password } = dto;
         
-        const userId = GenerateUUIDHelper.generate();      
-        
-        const userExists = false;
-        if (userExists) {
+        const existingUser = await this.userRepository.findByEmail(email);
+        if (existingUser) {
             throw new ErrorHandler(ErrorTypeName.EMAIL_ALREADY_EXISTS);
         }
 
-        // 2. Hashear la contraseña usando nuestro helper (PasswordEncoder interno)
+        const userId = GenerateUUIDHelper.generate();      
+
         const hashedPassword = await this.authHelper.hashPassword(password);
-        // 3. Guardar en la base de datos
-        // const newUser = await db.user.create({ ...dto, password: hashedPassword });
+        
+        const newUserEntity = UserEntity.fromObject({
+            id: userId,
+            name,
+            lastname,
+            email,
+            password: hashedPassword,
+            role: { id: 'HAIRDRESSER_ID_AQUI' }, 
+            status: { id: '1' } 
+        });
+
+        const savedUser = await this.userRepository.save(newUserEntity);
 
         return {
             message: "User created successfully",
-            // user: newUser
+            user: {
+                id: savedUser.id,
+                email: savedUser.email
+            }
         };
     }
 
     public async login(dto: LoginUserDTO) {
-        // 1. Buscar al usuario por email
-        // const user = await db.user.findByEmail(dto.email);
-        const user: any = null; // Simulación
+        const { email, password } = dto;
+
+        const user = await this.userRepository.findByEmail(email);
 
         if (!user) {
             throw new ErrorHandler(ErrorTypeName.USER_NOT_FOUND);
         }
 
-        // 2. Validar password usando el helper (PasswordEncoder.compare interno)
-        const isPasswordCorrect = await this.authHelper.validatePassword(user, dto.password);
+        const isPasswordCorrect = await this.authHelper.validatePassword(user.password, password);
         
         if (!isPasswordCorrect) {
             throw new ErrorHandler(ErrorTypeName.INVALID_PASSWORD);
         }
 
-        // 3. Generar el Token (JWTHelper interno)
-        return this.authHelper.createToken(user);
+        const token = await this.authHelper.createToken({
+            id: user.id,
+            email: user.email,
+            role: user.role?.name
+        });
+
+        return {
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role?.name
+            },
+            token: token
+        };
     }
 }
