@@ -1,10 +1,12 @@
 export class RegexValidator {
 
-    public static readonly NAME_PATTERN = /^[a-zA-ZÀ-ÿ\s]{2,40}$/;
-    
-    public static readonly LASTNAME_PATTERN = /^[a-zA-ZÀ-ÿ\s]{2,40}$/;
-    
-    public static readonly EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    public static readonly EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    public static readonly NAME = /^[\p{L}]{2,20}(?:[ '-][\p{L}]{2,20})*$/u;
+
+    public static readonly LASTNAME = /^[\p{L}]{2,20}(?:[ '-][\p{L}]{2,20})*$/u;
+
+    public static readonly PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)\S{8,}$/;
 
     public static validate(value: string, pattern: RegExp): boolean {
         return pattern.test(value);

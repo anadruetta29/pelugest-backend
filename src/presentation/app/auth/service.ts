@@ -25,13 +25,13 @@ export class AuthService {
 
         const { name, lastname, email, password } = dto;
 
-        if (!RegexValidator.validate(name, RegexValidator.NAME_PATTERN)) {
+        if (!RegexValidator.validate(name, RegexValidator.NAME)) {
             throw new ErrorHandler(ErrorTypeName.INVALID_NAME);
         }
-        if (!RegexValidator.validate(lastname, RegexValidator.LASTNAME_PATTERN)) {
+        if (!RegexValidator.validate(lastname, RegexValidator.LASTNAME)) {
             throw new ErrorHandler(ErrorTypeName.INVALID_LASTNAME);
         }
-        if (!RegexValidator.validate(email, RegexValidator.EMAIL_PATTERN)) {
+        if (!RegexValidator.validate(email, RegexValidator.EMAIL)) {
             throw new ErrorHandler(ErrorTypeName.INVALID_EMAIL);
         }
         
