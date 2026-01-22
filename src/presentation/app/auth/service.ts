@@ -10,6 +10,7 @@ import { LoginUserDTO } from "../../../domain/dto/auth/login";
 import { RegisterUserDTO } from "../../../domain/dto/auth/register";
 import { UserRepositoryI } from "../../../domain/repository/user-repository-interface";
 import { RecordStatusRepository } from '../../../data';
+import { AuthUserDTO } from '../../../domain/dto/auth/auth';
 
 export class AuthService {
 
@@ -103,6 +104,33 @@ export class AuthService {
                 role: user.role?.name
             },
             token: token
+        };
+    }
+
+    public async auth(dto: AuthUserDTO) {
+        const { session } = dto;
+        
+        const rawHeader = `Bearer ${session.token.accessToken}`;
+        const validatedToken = this.authHelper.validateToken(rawHeader);
+
+        if (!validatedToken) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_TOKEN);
+        }
+
+        const userId = this.authHelper.getSubject(validatedToken);
+        
+        const user = await this.userRepository.findById(userId);
+        if (!user) throw new ErrorHandler(ErrorTypeName.USER_NOT_FOUND);
+
+        return {
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role?.name,
+                status: user.status?.name 
+            },
+            session: session 
         };
     }
 }

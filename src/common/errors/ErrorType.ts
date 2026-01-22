@@ -9,7 +9,8 @@ export enum ErrorTypeName {
     INTERNAL_ERROR = 'INTERNAL_ERROR',
     INVALID_NAME = 'INVALID_NAME',
     INVALID_LASTNAME = 'INVALID_LASTNAME',
-    INVALID_EMAIL = 'INVALID_EMAIL'
+    INVALID_EMAIL = 'INVALID_EMAIL',
+    INVALID_TOKEN = 'INVALID_TOKEN'
 }
 
 export interface ErrorDetail {
@@ -29,4 +30,5 @@ export const ErrorType: Record<ErrorTypeName, ErrorDetail> = {
     [ErrorTypeName.INVALID_NAME]: { message: "Invalid name format. Only letters are allowed.", httpCode: 400 },
     [ErrorTypeName.INVALID_LASTNAME]: { message: "Invalid lastname format. Only letters are allowed.", httpCode: 400 },
     [ErrorTypeName.INVALID_EMAIL]: { message: "Invalid email format.", httpCode: 400 },
+    [ErrorTypeName.INVALID_TOKEN]: { message: "Invalid token.", httpCode: 400 },
 };

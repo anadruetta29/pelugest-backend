@@ -10,6 +10,7 @@ export class AuthRoute {
 
         router.post('/register', (req, res) => controller.register(req, res));       
         router.post('/login', (req, res) => controller.login(req, res));
+        router.get('/', (req, res) => controller.auth(req, res))
 
         return router
     }

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { AuthService } from './service';
 import { RegisterUserDTO } from '../../../domain/dto/auth/register';
 import { LoginUserDTO } from '../../../domain/dto/auth/login';
+import { AuthUserDTO } from '../../../domain/dto/auth/auth';
 
 export class AuthController {
     constructor(
@@ -25,5 +26,13 @@ export class AuthController {
         
         return res.status(200).json(tokenData);
     } 
+
+    auth = async (req: Request, res: Response) => {
+        const [_, dto] = AuthUserDTO.create(req.body);
+
+        const session = await this.authService.auth(dto!);
+        
+        return res.status(200).json(session);
+    }
 
 }
