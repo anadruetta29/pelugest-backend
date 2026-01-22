@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { ErrorHandler } from '../errors/ErrorHandler';
 import { ErrorResponse } from '../errors/ErrorResponse';
 import { ErrorTypeName } from '../errors/ErrorType';
 
-export const globalExceptionHandler = (error: any, req: Request, res: Response) => {
+export const globalExceptionHandler = (error: any, req: Request, res: Response, next: NextFunction) => {
     
     if (error instanceof ErrorHandler) {
         const errorResponse = new ErrorResponse(error);

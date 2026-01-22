@@ -1,6 +1,7 @@
 import { UserEntity } from "../../common/entity/user";
 
 export interface UserRepositoryI {
+    
     save(user: UserEntity): Promise<UserEntity>;
     
     update(user: UserEntity): Promise<UserEntity>;

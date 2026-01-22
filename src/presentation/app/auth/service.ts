@@ -3,17 +3,17 @@ import { ErrorHandler } from "../../../common/errors/ErrorHandler";
 import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
 import { AuthHelper } from "../../../config/helpers/AuthHelper";
+import { UserRepository } from "../../../data/repository/user-repository";
 import { LoginUserDTO } from "../../../domain/dto/auth/login";
 import { RegisterUserDTO } from "../../../domain/dto/auth/register";
 import { UserRepositoryI } from "../../../domain/repository/user-repository-interface";
 
-
 export class AuthService {
-    
-    private readonly authHelper = new AuthHelper();
+
 
     constructor(
-        private readonly userRepository: UserRepositoryI
+        private readonly authHelper = new AuthHelper(),
+        private readonly userRepository: UserRepositoryI = new UserRepository()    
     ) {}
 
     public async register(dto: RegisterUserDTO) {

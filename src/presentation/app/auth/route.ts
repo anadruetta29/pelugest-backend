@@ -8,8 +8,8 @@ export class AuthRoute {
         const service = new AuthService()
         const controller = new AuthController(service)
 
-        router.post('/register', controller.register);       
-        router.post('/login', controller.login);
+        router.post('/register', (req, res) => controller.register(req, res));       
+        router.post('/login', (req, res) => controller.login(req, res));
 
         return router
     }
