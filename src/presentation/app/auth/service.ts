@@ -4,6 +4,7 @@ import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
 import { AuthHelper } from "../../../config/helpers/AuthHelper";
 import { UserRepository } from "../../../data/repository/user-repository";
+import { RegexValidator } from "../../../domain";
 import { LoginUserDTO } from "../../../domain/dto/auth/login";
 import { RegisterUserDTO } from "../../../domain/dto/auth/register";
 import { UserRepositoryI } from "../../../domain/repository/user-repository-interface";
@@ -19,6 +20,16 @@ export class AuthService {
     public async register(dto: RegisterUserDTO) {
 
         const { name, lastname, email, password } = dto;
+
+        if (!RegexValidator.validate(name, RegexValidator.NAME_PATTERN)) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_NAME);
+        }
+        if (!RegexValidator.validate(lastname, RegexValidator.LASTNAME_PATTERN)) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_LASTNAME);
+        }
+        if (!RegexValidator.validate(email, RegexValidator.EMAIL_PATTERN)) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_EMAIL);
+        }
         
         const existingUser = await this.userRepository.findByEmail(email);
         if (existingUser) {

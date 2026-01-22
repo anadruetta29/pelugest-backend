@@ -7,6 +7,9 @@ export enum ErrorTypeName {
     INVALID_PASSWORD = 'INVALID_PASSWORD',
     EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',
     INTERNAL_ERROR = 'INTERNAL_ERROR',
+    INVALID_NAME = 'INVALID_NAME',
+    INVALID_LASTNAME = 'INVALID_LASTNAME',
+    INVALID_EMAIL = 'INVALID_EMAIL'
 }
 
 export interface ErrorDetail {
@@ -23,4 +26,7 @@ export const ErrorType: Record<ErrorTypeName, ErrorDetail> = {
     [ErrorTypeName.INVALID_PASSWORD]: { message: "Invalid password", httpCode: 400 },
     [ErrorTypeName.EMAIL_ALREADY_EXISTS]: { message: "Email already exists", httpCode: 400 },
     [ErrorTypeName.INTERNAL_ERROR]: { message: "Internal error", httpCode: 500 },
+    [ErrorTypeName.INVALID_NAME]: { message: "Invalid name format. Only letters are allowed.", httpCode: 400 },
+    [ErrorTypeName.INVALID_LASTNAME]: { message: "Invalid lastname format. Only letters are allowed.", httpCode: 400 },
+    [ErrorTypeName.INVALID_EMAIL]: { message: "Invalid email format.", httpCode: 400 },
 };
