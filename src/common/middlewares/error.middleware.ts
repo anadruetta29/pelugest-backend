@@ -13,4 +13,5 @@ export const globalExceptionHandler = (error: any, req: Request, res: Response, 
     console.error(error);
     const internalError = new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
     return res.status(500).json(new ErrorResponse(internalError));
+    
 };

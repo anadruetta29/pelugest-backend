@@ -1,6 +1,7 @@
 import { ErrorTypeName, ErrorType } from './ErrorType';
 
 export class ErrorHandler extends Error {
+    
     public readonly httpCode: number;
 
     constructor(errorTypeName: ErrorTypeName) {

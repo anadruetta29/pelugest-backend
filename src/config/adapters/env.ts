@@ -13,6 +13,7 @@ const getEnvPath = () => {
 dotenv.config({ path: getEnvPath() });
 
 export const env = {
+    
     PORT: get('PORT').default(3000).asPortNumber(), 
     
     DB: {
