@@ -19,20 +19,21 @@ model Role {
 }
 
 model RecordStatus {
-    id    Int    @id @default(autoincrement())
+    id    String @id @default(uuid())
     name  String @unique
-	users User[] 
+    users User[]
 }
 
 model User {
-	id               String       @id
-	name             String
-	lastname         String
-	email            String       @unique
-	password         String
-	id_rol           String
-	id_record_status Int          @default(1)
+    id               String @id @default(uuid())
+    name             String
+    lastname         String
+    email            String @unique
+    password         String
+    id_rol           String
+    id_record_status String   
 
-	role          Role         @relation(fields: [id_rol], references: [id])
-	status        RecordStatus @relation(fields: [id_record_status], references: [id])
+    role   Role         @relation(fields: [id_rol], references: [id])
+    status RecordStatus @relation(fields: [id_record_status], references: [id])
 }
+
