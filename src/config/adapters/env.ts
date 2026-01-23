@@ -13,6 +13,7 @@ const getEnvPath = () => {
 dotenv.config({ path: getEnvPath() });
 
 export const env = {
+    
     PORT: get('PORT').default(3000).asPortNumber(), 
     
     DB: {
@@ -21,5 +22,10 @@ export const env = {
         NAME: get('PG_DATABASE').required().asString(),
         USER: get('PG_USER').required().asString(),
         PASS: get('PG_PASSWORD').required().asString(),
+    },
+
+    JWT: {
+        SECRET: get('JWT_SECRET').required().asString(),
+        EXPIRES_IN: get('JWT_EXPIRES_IN').default('28800').asIntPositive(),
     }
 };

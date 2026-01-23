@@ -1,22 +1,23 @@
+import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 import { env } from "./config/adapters/env";
 import { AppRouter } from "./presentation/server/routes";
 import { Server } from "./presentation/server/server";
-import { Pool } from "pg";
 
-(async () => {
-    main();
-})();
+const pool = new Pool({
+    host: env.DB.HOST,
+    port: env.DB.PORT,
+    database: env.DB.NAME,
+    user: env.DB.USER,
+    password: env.DB.PASS,
+});
+
+const adapter = new PrismaPg(pool);
+export const prisma = new PrismaClient({ adapter });
 
 async function main() {
-
-	const pool = new Pool({
-        host: env.DB.HOST,
-        port: env.DB.PORT,
-        database: env.DB.NAME,
-        user: env.DB.USER,
-        password: env.DB.PASS,
-    });
-
+    
 	try {
         await pool.query("SELECT 1");
         console.log("Connected to PostgreSQL successfully!");
@@ -36,3 +37,8 @@ async function main() {
 	console.log(`Server running on port ${env.PORT}`);
 
 }
+
+
+(async () => {
+    main();
+})();
