@@ -1,10 +1,13 @@
+import { RecordStatusEntity } from "./record-status";
+
 export class ClientEntity {
     private constructor(
         public id: string,
         public name: string,
         public surname: string,
         public mobilePhoneNumber: number,
-        public landlinePhoneNumber: number
+        public landlinePhoneNumber: number,
+        public status: RecordStatusEntity
     ) {}
 
     static fromObject(object: {[key: string]: any}): ClientEntity {
@@ -12,7 +15,8 @@ export class ClientEntity {
             object.name, 
             object.surname,
             object.mobilePhoneNumber,
-            object.landlinePhoneNumber
+            object.landlinePhoneNumber,
+            object.status
         )
     }
 }

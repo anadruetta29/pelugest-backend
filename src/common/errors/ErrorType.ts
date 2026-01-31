@@ -1,4 +1,5 @@
 export enum ErrorTypeName {
+    UNAUTHORIZED = 'UNAUTHORIZED',
     MISSING_REQUIRED_FIELDS = 'MISSING_REQUIRED_FIELDS',
     INVALID_FIELDS = 'INVALID_FIELDS',
     USER_DELETED = 'USER_DELETED',
@@ -21,6 +22,7 @@ export interface ErrorDetail {
 }
 
 export const ErrorType: Record<ErrorTypeName, ErrorDetail> = {
+    [ErrorTypeName.UNAUTHORIZED]: { message: "User unauthorized", httpCode: 400},
     [ErrorTypeName.MISSING_REQUIRED_FIELDS]: { message: "Missing required fields", httpCode: 400 },
     [ErrorTypeName.INVALID_FIELDS]: { message: "Invalid fields", httpCode: 400 },
     [ErrorTypeName.USER_DELETED]: { message: "User has been banned", httpCode: 400 },

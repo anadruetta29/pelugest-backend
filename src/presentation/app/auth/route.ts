@@ -1,17 +1,39 @@
 import { Router } from "express"
-import { AuthService } from "./service"
-import { AuthController } from "./controller"
+import { AuthHelper } from "../../../config";
+import { AuthMiddleware } from '../../../common';
+import { ClientService } from '../client/service';
+import { ClientController } from '../client/controller';
 
-export class AuthRoute {
+export class ClientRoute {
     static get routes(): Router {
-        const router = Router()
-        const service = new AuthService()
-        const controller = new AuthController(service)
+        const router = Router();
+        const service = new ClientService();
+        const controller = new ClientController(service);
 
-        router.post('/register', (req, res) => controller.register(req, res));       
-        router.post('/login', (req, res) => controller.login(req, res));
-        router.get('/', (req, res) => controller.auth(req, res))
+        router.post(
+            '/create',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.create(req, res)
+        );
 
-        return router
+        router.post(
+            '/update',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.update(req, res)
+        );
+
+        router.post(
+            '/delete',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.delete(req, res)
+        );
+
+        router.get(
+            '/find-by-id',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.findById(req, res)
+        );
+
+        return router;
     }
 }
