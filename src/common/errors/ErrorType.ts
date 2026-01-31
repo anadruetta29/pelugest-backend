@@ -12,7 +12,7 @@ export enum ErrorTypeName {
     INVALID_SURNAME = 'INVALID_SURNAME',
     INVALID_EMAIL = 'INVALID_EMAIL',
     INVALID_TOKEN = 'INVALID_TOKEN',
-    INVALID_CELLPHONE_NUMBER = "INVALID_CELLOPHONE_NUMBER",
+    INVALID_MOBILE_NUMBER = "INVALID_CELLOPHONE_NUMBER",
     INVALID_LANDLINE_NUMBER = "INVALID_LANDLINE_NUMBER",
 }
 
@@ -35,6 +35,6 @@ export const ErrorType: Record<ErrorTypeName, ErrorDetail> = {
     [ErrorTypeName.INVALID_SURNAME]: { message: "Invalid surname format. Only letters are allowed.", httpCode: 400 },
     [ErrorTypeName.INVALID_EMAIL]: { message: "Invalid email format.", httpCode: 400 },
     [ErrorTypeName.INVALID_TOKEN]: { message: "Invalid token.", httpCode: 400 },
-    [ErrorTypeName.INVALID_CELLPHONE_NUMBER]: { message: "Invalid cellphone number", httpCode: 400},
+    [ErrorTypeName.INVALID_MOBILE_NUMBER]: { message: "Invalid cellphone number", httpCode: 400},
     [ErrorTypeName.INVALID_LANDLINE_NUMBER]: { message: "Invalid landline number", httpCode: 400}
 };

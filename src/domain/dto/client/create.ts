@@ -4,8 +4,8 @@ export class CreateClientDTO {
     private constructor(
         public name: string,
         public surname: string,
-        public mobilePhoneNumber: number,
-        public landlinePhoneNumber: number
+        public mobilePhoneNumber: string,
+        public landlinePhoneNumber: string
     ){}
 
     static create(object: { [key: string]: any }): [string?, CreateClientDTO?]  {

@@ -73,6 +73,7 @@ export class AuthService {
                 email: savedUser.email
             }
         };
+        
     }
 
     public async login(dto: LoginUserDTO) {

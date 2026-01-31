@@ -48,8 +48,8 @@ model Client {
     id     String @id @default(uuid())
     name   String
     surname String
-    mobilePhoneNumber Int
-    landlinePhoneNumber Int
+    mobilePhoneNumber String
+    landlinePhoneNumber String
     id_record_status String 
 
     status RecordStatus @relation(fields: [id_record_status], references: [id])

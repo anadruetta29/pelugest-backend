@@ -5,8 +5,8 @@ export class ClientEntity {
         public id: string,
         public name: string,
         public surname: string,
-        public mobilePhoneNumber: number,
-        public landlinePhoneNumber: number,
+        public mobilePhoneNumber: string,
+        public landlinePhoneNumber: string,
         public status: RecordStatusEntity
     ) {}
 
