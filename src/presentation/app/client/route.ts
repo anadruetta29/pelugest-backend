@@ -1,18 +1,40 @@
+import { authHelper } from './../../../config/helpers/AuthHelper';
 import { Router } from "express"
-import { ClientController } from "./controller";
-import { ClientService } from "./service";
+import { AuthHelper } from "../../../config";
+import { AuthMiddleware } from '../../../common';
+import { ClientService } from '../client/service';
+import { ClientController } from '../client/controller';
 
 export class ClientRoute {
     static get routes(): Router {
-        const router = Router()
-        const service = new ClientService()
-        const controller = new ClientController(service)
+        const router = Router();
+        const service = new ClientService();
+        const controller = new ClientController(service);
 
-        router.post('/create', (req, res) => controller.create(req, res));       
-        router.post('/update', (req, res) => controller.update(req, res));
-        router.post('/delete', (req, res) => controller.delete(req, res));
-        router.get('/find-by-id', (req, res) => controller.findById(req, res));
+        router.post(
+            '/create',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.create(req, res)
+        );
 
-        return router
+        router.post(
+            '/update',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.update(req, res)
+        );
+
+        router.post(
+            '/delete',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.delete(req, res)
+        );
+
+        router.get(
+            '/find-by-id',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.findById(req, res)
+        );
+
+        return router;
     }
 }
