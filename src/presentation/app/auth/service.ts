@@ -24,13 +24,13 @@ export class AuthService {
 
     public async register(dto: RegisterUserDTO) {
 
-        const { name, lastname, email, password } = dto;
+        const { name, surname, email, password } = dto;
 
         if (!RegexValidator.validate(name, RegexValidator.NAME)) {
             throw new ErrorHandler(ErrorTypeName.INVALID_NAME);
         }
-        if (!RegexValidator.validate(lastname, RegexValidator.LASTNAME)) {
-            throw new ErrorHandler(ErrorTypeName.INVALID_LASTNAME);
+        if (!RegexValidator.validate(surname, RegexValidator.SURNAME)) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_SURNAME);
         }
         if (!RegexValidator.validate(email, RegexValidator.EMAIL)) {
             throw new ErrorHandler(ErrorTypeName.INVALID_EMAIL);
@@ -57,7 +57,7 @@ export class AuthService {
         const newUserEntity = UserEntity.fromObject({
             id: userId,
             name,
-            lastname,
+            surname,
             email,
             password: hashedPassword,
             role: { id: role.id }, 
@@ -73,6 +73,7 @@ export class AuthService {
                 email: savedUser.email
             }
         };
+        
     }
 
     public async login(dto: LoginUserDTO) {

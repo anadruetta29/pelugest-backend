@@ -24,6 +24,7 @@ model RecordStatus {
     id    String @id @default(uuid())
     name  String @unique
     users User[]
+    clients Client[]
 
     @@map("record_status")
 }
@@ -31,7 +32,7 @@ model RecordStatus {
 model User {
     id               String @id @default(uuid())
     name             String
-    lastname         String
+    surname         String
     email            String @unique
     password         String
     id_rol           String
@@ -43,3 +44,15 @@ model User {
     @@map("users")
 }
 
+model Client {
+    id     String @id @default(uuid())
+    name   String
+    surname String
+    mobilePhoneNumber String
+    landlinePhoneNumber String
+    id_record_status String 
+
+    status RecordStatus @relation(fields: [id_record_status], references: [id])
+
+    @@map("clients")
+}

@@ -1,4 +1,6 @@
 export enum ErrorTypeName {
+    UNAUTHORIZED = 'UNAUTHORIZED',
+    CLIENT_NOT_FOUND = 'CLIENT_NOT_FOUND',
     MISSING_REQUIRED_FIELDS = 'MISSING_REQUIRED_FIELDS',
     INVALID_FIELDS = 'INVALID_FIELDS',
     USER_DELETED = 'USER_DELETED',
@@ -8,9 +10,11 @@ export enum ErrorTypeName {
     EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',
     INTERNAL_ERROR = 'INTERNAL_ERROR',
     INVALID_NAME = 'INVALID_NAME',
-    INVALID_LASTNAME = 'INVALID_LASTNAME',
+    INVALID_SURNAME = 'INVALID_SURNAME',
     INVALID_EMAIL = 'INVALID_EMAIL',
-    INVALID_TOKEN = 'INVALID_TOKEN'
+    INVALID_TOKEN = 'INVALID_TOKEN',
+    INVALID_MOBILE_NUMBER = "INVALID_CELLOPHONE_NUMBER",
+    INVALID_LANDLINE_NUMBER = "INVALID_LANDLINE_NUMBER"
 }
 
 export interface ErrorDetail {
@@ -19,6 +23,7 @@ export interface ErrorDetail {
 }
 
 export const ErrorType: Record<ErrorTypeName, ErrorDetail> = {
+    [ErrorTypeName.UNAUTHORIZED]: { message: "User unauthorized", httpCode: 400},
     [ErrorTypeName.MISSING_REQUIRED_FIELDS]: { message: "Missing required fields", httpCode: 400 },
     [ErrorTypeName.INVALID_FIELDS]: { message: "Invalid fields", httpCode: 400 },
     [ErrorTypeName.USER_DELETED]: { message: "User has been banned", httpCode: 400 },
@@ -28,7 +33,10 @@ export const ErrorType: Record<ErrorTypeName, ErrorDetail> = {
     [ErrorTypeName.EMAIL_ALREADY_EXISTS]: { message: "Email already exists", httpCode: 400 },
     [ErrorTypeName.INTERNAL_ERROR]: { message: "Internal error", httpCode: 500 },
     [ErrorTypeName.INVALID_NAME]: { message: "Invalid name format. Only letters are allowed.", httpCode: 400 },
-    [ErrorTypeName.INVALID_LASTNAME]: { message: "Invalid lastname format. Only letters are allowed.", httpCode: 400 },
+    [ErrorTypeName.INVALID_SURNAME]: { message: "Invalid surname format. Only letters are allowed.", httpCode: 400 },
     [ErrorTypeName.INVALID_EMAIL]: { message: "Invalid email format.", httpCode: 400 },
     [ErrorTypeName.INVALID_TOKEN]: { message: "Invalid token.", httpCode: 400 },
+    [ErrorTypeName.INVALID_MOBILE_NUMBER]: { message: "Invalid cellphone number", httpCode: 400},
+    [ErrorTypeName.INVALID_LANDLINE_NUMBER]: { message: "Invalid landline number", httpCode: 400},
+    [ErrorTypeName.CLIENT_NOT_FOUND]: { message: "Client not found", httpCode: 400 }
 };

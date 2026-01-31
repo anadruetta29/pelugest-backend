@@ -4,19 +4,19 @@ import { ErrorTypeName } from "../../../common/errors/ErrorType";
 export class RegisterUserDTO {
     private constructor(
         public readonly name: string,
-        public readonly lastname: string,
+        public readonly surname: string,
         public readonly email: string,
         public readonly password: string,
     ) {}
 
     static create(object: { [key: string]: any }): [string?, RegisterUserDTO?] {
-        const { name, lastname, email, password } = object;
+        const { name, surname, email, password } = object;
 
         if (!name) {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
 
-        if (!lastname) {
+        if (!surname) {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }        
         
@@ -33,6 +33,6 @@ export class RegisterUserDTO {
             throw new ErrorHandler(ErrorTypeName.INVALID_PASSWORD);
         } // TO DO: Regex for password 
 
-        return [undefined, new RegisterUserDTO(name, lastname, email, password)];
+        return [undefined, new RegisterUserDTO(name, surname, email, password)];
     }
 }

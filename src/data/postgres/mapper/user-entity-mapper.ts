@@ -17,7 +17,7 @@ export class UserEntityMapper {
         return UserEntity.fromObject({
             id: userModel.id,
             name: userModel.name,
-            lastname: userModel.lastname,
+            surname: userModel.surname,
             email: userModel.email,
             password: userModel.password,
             role: userModel.role 
@@ -41,7 +41,7 @@ export class UserEntityMapper {
         return {
             id: user.id,
             name: user.name,
-            lastname: user.lastname,
+            surname: user.surname,
             email: user.email,
             password: user.password,
             id_rol: user.role?.id, 
