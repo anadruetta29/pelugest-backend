@@ -17,20 +17,20 @@ export class ClientRoute {
             (req, res) => controller.create(req, res)
         );
 
-        router.post(
-            '/update',
+        router.put(
+            '/update/:id',
             AuthMiddleware.validateSession,
             (req, res) => controller.update(req, res)
         );
 
-        router.post(
+        router.delete(
             '/delete',
             AuthMiddleware.validateSession,
             (req, res) => controller.delete(req, res)
         );
 
         router.get(
-            '/find-by-id',
+            '/find-by-id/:id',
             AuthMiddleware.validateSession,
             (req, res) => controller.findById(req, res)
         );

@@ -16,7 +16,10 @@ export class ClientController {
     }
 
     update = async (req: Request, res: Response) => {
-        const [_, dto] = UpdateClientDTO.create(req.body);
+        const [_, dto] = UpdateClientDTO.create({
+            id: req.params.id,
+            ...req.body  
+        });
 
         const result = await this.clientService.update(dto!);
 

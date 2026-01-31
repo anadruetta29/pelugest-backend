@@ -7,7 +7,7 @@ export class AppRouter {
         const router = Router();
 
         router.use('/api/auth', AuthRoute.routes);
-        router.use('/api/client', ClientRoute.routes)
+        router.use('/api/clients', ClientRoute.routes)
 
         return router;
     }
