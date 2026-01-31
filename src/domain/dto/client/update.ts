@@ -1,4 +1,4 @@
-import { ErrorHandler, ErrorTypeName } from "../../../common";
+import { ErrorHandler, ErrorTypeName, RecordStatusEntity } from "../../../common";
 
 export class UpdateClientDTO {
     private constructor(
@@ -6,11 +6,12 @@ export class UpdateClientDTO {
         public name: string,
         public surname: string,
         public mobilePhoneNumber: string,
-        public landlinePhoneNumber: string
+        public landlinePhoneNumber: string,
+        public status: RecordStatusEntity
     ) {}
 
     static create(object: { [key: string]: any }): [string?, UpdateClientDTO?] {
-        const { id, name, surname, mobilePhoneNumber, landlinePhoneNumber } = object;
+        const { id, name, surname, mobilePhoneNumber, landlinePhoneNumber, status } = object;
 
         if (!id) {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
@@ -32,6 +33,10 @@ export class UpdateClientDTO {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
 
-        return [undefined, new UpdateClientDTO(id, name, surname, mobilePhoneNumber, landlinePhoneNumber)];
+        if (!status) {
+            throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
+        }
+
+        return [undefined, new UpdateClientDTO(id, name, surname, mobilePhoneNumber, landlinePhoneNumber, status)];
     }
 }

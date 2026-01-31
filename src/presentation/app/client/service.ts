@@ -62,7 +62,7 @@ export class ClientService {
     }
 
     public async update(dto: UpdateClientDTO) {
-        const { id, name, surname, mobilePhoneNumber, landlinePhoneNumber } = dto;
+        const { id, name, surname, mobilePhoneNumber, landlinePhoneNumber, status } = dto;
 
         const client = await this.clientRepository.findById(id);
 
@@ -91,7 +91,8 @@ export class ClientService {
             name,
             surname,
             mobilePhoneNumber,
-            landlinePhoneNumber
+            landlinePhoneNumber,
+            status
         });
 
         const savedClient = await this.clientRepository.update(updatedClient);
