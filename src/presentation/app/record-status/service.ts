@@ -15,6 +15,9 @@ export class RecordStatusService {
             throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
         }
 
-        return status;
+        return {
+            id: status.id,
+            name: status.name
+        };
     }
 }
