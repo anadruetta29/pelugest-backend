@@ -8,9 +8,11 @@ export enum ErrorTypeName {
     EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',
     INTERNAL_ERROR = 'INTERNAL_ERROR',
     INVALID_NAME = 'INVALID_NAME',
-    INVALID_LASTNAME = 'INVALID_LASTNAME',
+    INVALID_SURNAME = 'INVALID_SURNAME',
     INVALID_EMAIL = 'INVALID_EMAIL',
-    INVALID_TOKEN = 'INVALID_TOKEN'
+    INVALID_TOKEN = 'INVALID_TOKEN',
+    INVALID_CELLPHONE_NUMBER = "INVALID_CELLOPHONE_NUMBER",
+    INVALID_LANDLINE_NUMBER = "INVALID_LANDLINE_NUMBER",
 }
 
 export interface ErrorDetail {
@@ -28,7 +30,9 @@ export const ErrorType: Record<ErrorTypeName, ErrorDetail> = {
     [ErrorTypeName.EMAIL_ALREADY_EXISTS]: { message: "Email already exists", httpCode: 400 },
     [ErrorTypeName.INTERNAL_ERROR]: { message: "Internal error", httpCode: 500 },
     [ErrorTypeName.INVALID_NAME]: { message: "Invalid name format. Only letters are allowed.", httpCode: 400 },
-    [ErrorTypeName.INVALID_LASTNAME]: { message: "Invalid lastname format. Only letters are allowed.", httpCode: 400 },
+    [ErrorTypeName.INVALID_SURNAME]: { message: "Invalid surname format. Only letters are allowed.", httpCode: 400 },
     [ErrorTypeName.INVALID_EMAIL]: { message: "Invalid email format.", httpCode: 400 },
     [ErrorTypeName.INVALID_TOKEN]: { message: "Invalid token.", httpCode: 400 },
+    [ErrorTypeName.INVALID_CELLPHONE_NUMBER]: { message: "Invalid cellphone number", httpCode: 400},
+    [ErrorTypeName.INVALID_LANDLINE_NUMBER]: { message: "Invalid landline number", httpCode: 400}
 };

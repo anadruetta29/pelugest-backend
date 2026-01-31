@@ -18,7 +18,7 @@ CREATE TABLE "record_status" (
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "lastname" TEXT NOT NULL,
+    "surname" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "id_rol" TEXT NOT NULL,

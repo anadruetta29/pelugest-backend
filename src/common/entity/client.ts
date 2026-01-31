@@ -2,7 +2,7 @@ export class ClientEntity {
     private constructor(
         public id: string,
         public name: string,
-        public lastname: string,
+        public surname: string,
         public mobilePhoneNumber: number,
         public landlinePhoneNumber: number
     ) {}
@@ -10,7 +10,7 @@ export class ClientEntity {
     static fromObject(object: {[key: string]: any}): ClientEntity {
         return new ClientEntity(object.id,
             object.name, 
-            object.lastname,
+            object.surname,
             object.mobilePhoneNumber,
             object.landlinePhoneNumber
         )

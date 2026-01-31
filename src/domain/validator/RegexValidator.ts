@@ -4,7 +4,7 @@ export class RegexValidator {
 
     public static readonly NAME = /^[\p{L}]{2,20}(?:[ '-][\p{L}]{2,20})*$/u;
 
-    public static readonly LASTNAME = /^[\p{L}]{2,20}(?:[ '-][\p{L}]{2,20})*$/u;
+    public static readonly SURNAME = /^[\p{L}]{2,20}(?:[ '-][\p{L}]{2,20})*$/u;
 
     public static readonly PASSWORD = /^\S{1,8}$/;
 

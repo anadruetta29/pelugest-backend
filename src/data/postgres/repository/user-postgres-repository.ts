@@ -12,7 +12,7 @@ export class UserPostgresRepository {
             data: {
                 id: data.id,
                 name: data.name,
-                lastname: data.lastname,
+                surname: data.surname,
                 email: data.email,
                 password: data.password,
                 role: {

@@ -31,7 +31,7 @@ export class UserRepository implements UserRepositoryI {
             data: {
                 id: model.id,
                 name: model.name,
-                lastname: model.lastname,
+                surname: model.surname,
                 email: model.email,
                 password: model.password,
                 role: { connect: { id: model.id_rol } },
@@ -50,7 +50,7 @@ export class UserRepository implements UserRepositoryI {
             where: { id: model.id },
             data: {
                 name: model.name,
-                lastname: model.lastname,
+                surname: model.surname,
                 email: model.email,
                 id_rol: model.id_rol,
                 id_record_status: model.id_record_status

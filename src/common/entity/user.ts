@@ -5,7 +5,7 @@ export class UserEntity {
     private constructor(
         public id: string,
         public name: string, 
-        public lastname: string,
+        public surname: string,
         public email: string,
         public password: string,
         public status: RecordStatusEntity,
@@ -16,7 +16,7 @@ export class UserEntity {
         return new UserEntity(
             object.id,
             object.name,
-            object.lastname,
+            object.surname,
             object.email,
             object.password,
             object.status,
