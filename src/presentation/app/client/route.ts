@@ -35,6 +35,12 @@ export class ClientRoute {
             (req, res) => controller.findById(req, res)
         );
 
+        router.get(
+            '/get-all-by-status',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.getAllByStatus(req, res)
+        );
+
         return router;
     }
 }

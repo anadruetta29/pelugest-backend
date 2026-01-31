@@ -1,10 +1,7 @@
-import { RoleRepository } from './../../../data/repository/role-repository';
-import { UserEntity } from "../../../common/entity/user";
+import { GetAllByStatusDTO } from '../../../domain/dto/client/get-all-by-status';
 import { ErrorHandler } from "../../../common/errors/ErrorHandler";
 import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
-import { AuthHelper } from "../../../config/helpers/AuthHelper";
-import { UserRepository } from "../../../data/repository/user-repository";
 import { ClientRepositoryI, CreateClientDTO, DeleteClientDTO, FindByIdDTO, RecordStatusRepositoryI, RegexValidator, RoleRepositoryI, UpdateClientDTO, UserRepositoryI } from "../../../domain";
 import { ClientRepository, RecordStatusRepository } from '../../../data';
 import { ClientEntity } from '../../../common';
@@ -143,6 +140,20 @@ export class ClientService {
 
         return {
             client
+        };
+    }
+
+    public async getAllByStatus(dto: GetAllByStatusDTO) {
+        const { statusId } = dto;
+
+        const clients = await this.clientRepository.getAllByStatus(statusId);
+
+        if (!clients) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR)
+        }
+
+        return {
+            clients
         };
     }
 }
