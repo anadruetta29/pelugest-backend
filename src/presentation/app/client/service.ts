@@ -5,7 +5,7 @@ import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
 import { AuthHelper } from "../../../config/helpers/AuthHelper";
 import { UserRepository } from "../../../data/repository/user-repository";
-import { ClientRepositoryI, CreateClientDTO, RecordStatusRepositoryI, RegexValidator, RoleRepositoryI, UserRepositoryI } from "../../../domain";
+import { ClientRepositoryI, CreateClientDTO, DeleteClientDTO, RecordStatusRepositoryI, RegexValidator, RoleRepositoryI, UpdateClientDTO, UserRepositoryI } from "../../../domain";
 import { ClientRepository, RecordStatusRepository } from '../../../data';
 import { ClientEntity } from '../../../common';
 
@@ -61,7 +61,75 @@ export class ClientService {
         };
     }
 
-    public async update() {}
-    public async delete() {}
+    public async update(dto: UpdateClientDTO) {
+        const { id, name, surname, mobilePhoneNumber, landlinePhoneNumber } = dto;
+
+        const client = await this.clientRepository.findById(id);
+
+        if (!client) {
+            throw new ErrorHandler(ErrorTypeName.CLIENT_NOT_FOUND);
+        }
+
+        if (!RegexValidator.validate(name, RegexValidator.NAME)) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_NAME);
+        }
+
+        if (!RegexValidator.validate(surname, RegexValidator.SURNAME)) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_SURNAME);
+        }
+
+        if (!RegexValidator.validate(mobilePhoneNumber, RegexValidator.MOBILE_NUMBER)) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_MOBILE_NUMBER);
+        }
+
+        if (!RegexValidator.validate(landlinePhoneNumber, RegexValidator.LANDLINE_NUMBER)) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_LANDLINE_NUMBER);
+        }
+
+        const updatedClient = ClientEntity.fromObject({
+            ...client,
+            name,
+            surname,
+            mobilePhoneNumber,
+            landlinePhoneNumber
+        });
+
+        const savedClient = await this.clientRepository.update(updatedClient);
+
+        return {
+            message: "Client updated successfully",
+            client: {
+                id: savedClient.id
+            }
+        };
+    }
+
+    public async delete(dto: DeleteClientDTO) {
+        const { id } = dto;
+
+        const client = await this.clientRepository.findById(id);
+
+        if (!client) {
+            throw new ErrorHandler(ErrorTypeName.CLIENT_NOT_FOUND);
+        }
+
+        const recordStatus = await this.recordStatusRepository.findByName('DELETED');
+
+        if (!recordStatus) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
+        }
+
+        const deletedClient = ClientEntity.fromObject({
+            ...client,
+            status: { id: recordStatus.id }
+        });
+
+        await this.clientRepository.update(deletedClient);
+
+        return {
+            message: "Client deleted successfully"
+        };
+    }
+
     public async findById() {}
 }

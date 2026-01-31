@@ -2,6 +2,7 @@ import { ErrorHandler, ErrorTypeName } from "../../../common";
 
 export class UpdateClientDTO {
     private constructor(
+        public id: string,
         public name: string,
         public surname: string,
         public mobilePhoneNumber: string,
@@ -9,7 +10,11 @@ export class UpdateClientDTO {
     ) {}
 
     static create(object: { [key: string]: any }): [string?, UpdateClientDTO?] {
-        const { name, surname, mobilePhoneNumber, landlinePhoneNumber } = object;
+        const { id, name, surname, mobilePhoneNumber, landlinePhoneNumber } = object;
+
+        if (!id) {
+            throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
+        }
 
         if (!name) {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
@@ -27,6 +32,6 @@ export class UpdateClientDTO {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
 
-        return [undefined, new UpdateClientDTO(name, surname, mobilePhoneNumber, landlinePhoneNumber)];
+        return [undefined, new UpdateClientDTO(id, name, surname, mobilePhoneNumber, landlinePhoneNumber)];
     }
 }

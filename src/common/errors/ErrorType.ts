@@ -1,5 +1,6 @@
 export enum ErrorTypeName {
     UNAUTHORIZED = 'UNAUTHORIZED',
+    CLIENT_NOT_FOUND = 'CLIENT_NOT_FOUND',
     MISSING_REQUIRED_FIELDS = 'MISSING_REQUIRED_FIELDS',
     INVALID_FIELDS = 'INVALID_FIELDS',
     USER_DELETED = 'USER_DELETED',
@@ -13,7 +14,7 @@ export enum ErrorTypeName {
     INVALID_EMAIL = 'INVALID_EMAIL',
     INVALID_TOKEN = 'INVALID_TOKEN',
     INVALID_MOBILE_NUMBER = "INVALID_CELLOPHONE_NUMBER",
-    INVALID_LANDLINE_NUMBER = "INVALID_LANDLINE_NUMBER",
+    INVALID_LANDLINE_NUMBER = "INVALID_LANDLINE_NUMBER"
 }
 
 export interface ErrorDetail {
@@ -36,5 +37,6 @@ export const ErrorType: Record<ErrorTypeName, ErrorDetail> = {
     [ErrorTypeName.INVALID_EMAIL]: { message: "Invalid email format.", httpCode: 400 },
     [ErrorTypeName.INVALID_TOKEN]: { message: "Invalid token.", httpCode: 400 },
     [ErrorTypeName.INVALID_MOBILE_NUMBER]: { message: "Invalid cellphone number", httpCode: 400},
-    [ErrorTypeName.INVALID_LANDLINE_NUMBER]: { message: "Invalid landline number", httpCode: 400}
+    [ErrorTypeName.INVALID_LANDLINE_NUMBER]: { message: "Invalid landline number", httpCode: 400},
+    [ErrorTypeName.CLIENT_NOT_FOUND]: { message: "Client not found", httpCode: 400 }
 };
