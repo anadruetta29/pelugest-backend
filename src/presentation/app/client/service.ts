@@ -5,7 +5,7 @@ import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
 import { AuthHelper } from "../../../config/helpers/AuthHelper";
 import { UserRepository } from "../../../data/repository/user-repository";
-import { ClientRepositoryI, CreateClientDTO, DeleteClientDTO, RecordStatusRepositoryI, RegexValidator, RoleRepositoryI, UpdateClientDTO, UserRepositoryI } from "../../../domain";
+import { ClientRepositoryI, CreateClientDTO, DeleteClientDTO, FindByIdDTO, RecordStatusRepositoryI, RegexValidator, RoleRepositoryI, UpdateClientDTO, UserRepositoryI } from "../../../domain";
 import { ClientRepository, RecordStatusRepository } from '../../../data';
 import { ClientEntity } from '../../../common';
 
@@ -131,5 +131,17 @@ export class ClientService {
         };
     }
 
-    public async findById() {}
+    public async findById(dto: FindByIdDTO) {
+        const { id } = dto;
+
+        const client = await this.clientRepository.findById(id);
+
+        if (!client) {
+            throw new ErrorHandler(ErrorTypeName.CLIENT_NOT_FOUND);
+        }
+
+        return {
+            client
+        };
+    }
 }
