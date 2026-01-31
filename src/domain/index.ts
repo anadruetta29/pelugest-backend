@@ -6,6 +6,7 @@ export * from './dto/client/delete';
 export * from './dto/client/find-by-id';
 export * from './dto/client/get-all-by-status';
 export * from './dto/client/update';
+export * from './dto/record-status/find-by-name';
 export * from './repository/client-respository-interface';
 export * from './repository/record-status-repository-interface';
 export * from './repository/role-repository-interface';

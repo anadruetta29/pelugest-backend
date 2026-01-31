@@ -64,7 +64,7 @@ export class ClientService {
         const client = await this.clientRepository.findById(id);
 
         if (!client) {
-            throw new ErrorHandler(ErrorTypeName.CLIENT_NOT_FOUND);
+            throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
         }
 
         if (!RegexValidator.validate(name, RegexValidator.NAME)) {
@@ -108,7 +108,7 @@ export class ClientService {
         const client = await this.clientRepository.findById(id);
 
         if (!client) {
-            throw new ErrorHandler(ErrorTypeName.CLIENT_NOT_FOUND);
+            throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
         }
 
         const recordStatus = await this.recordStatusRepository.findByName('DELETED');
@@ -135,7 +135,7 @@ export class ClientService {
         const client = await this.clientRepository.findById(id);
 
         if (!client) {
-            throw new ErrorHandler(ErrorTypeName.CLIENT_NOT_FOUND);
+            throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
         }
 
         return {
