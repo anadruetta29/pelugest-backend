@@ -43,7 +43,9 @@ export class ClientController {
     }
 
     getAllByStatus = async(req: Request, res: Response) => {
-        const [_, dto] = GetAllByStatusDTO.create(req.body);
+        const { statusId } = req.params;
+
+        const [_, dto] = GetAllByStatusDTO.create({ statusId });
 
         const result = await this.clientService.getAllByStatus(dto!);
 

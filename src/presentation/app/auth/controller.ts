@@ -28,10 +28,13 @@ export class AuthController {
     } 
 
     auth = async (req: Request, res: Response) => {
-        const [_, dto] = AuthUserDTO.create(req.body);
+        const authHeader = req.headers.authorization;
+
+        const [_, dto] = AuthUserDTO.create({
+            session: { token: authHeader }
+        });
 
         const session = await this.authService.auth(dto!);
-        
         return res.status(200).json(session);
     }
 

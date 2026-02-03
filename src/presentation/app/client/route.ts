@@ -36,7 +36,7 @@ export class ClientRoute {
         );
 
         router.get(
-            '/get-all-by-status',
+            '/get-all-by-status/:statusId',
             AuthMiddleware.validateSession,
             (req, res) => controller.getAllByStatus(req, res)
         );
