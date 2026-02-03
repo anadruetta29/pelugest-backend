@@ -119,9 +119,10 @@ export class AuthService {
             throw new ErrorHandler(ErrorTypeName.INVALID_TOKEN);
         }
 
-        const userId = this.authHelper.getSubject(validatedToken);
-
-        const user = await this.userRepository.findById(userId);
+        const userEmail = this.authHelper.getSubject(validatedToken);
+        
+        const user = await this.userRepository.findByEmail(userEmail);
+        
         if (!user) {
             throw new ErrorHandler(ErrorTypeName.USER_NOT_FOUND);
         }
