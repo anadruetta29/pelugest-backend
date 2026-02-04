@@ -6,8 +6,8 @@ export class UpdateClientDTO {
         public name: string,
         public surname: string,
         public mobilePhoneNumber: string,
-        public landlinePhoneNumber: string,
-        public status: RecordStatusEntity
+        public status: RecordStatusEntity,
+        public landlinePhoneNumber?: string
     ) {}
 
     static create(object: { [key: string]: any }): [string?, UpdateClientDTO?] {
@@ -26,10 +26,6 @@ export class UpdateClientDTO {
         }
 
         if (!mobilePhoneNumber) {
-            throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
-        }
-
-        if (!landlinePhoneNumber) {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
 

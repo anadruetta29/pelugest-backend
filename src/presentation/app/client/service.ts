@@ -25,8 +25,10 @@ export class ClientService {
         if (!RegexValidator.validate(mobilePhoneNumber, RegexValidator.MOBILE_NUMBER)) {
             throw new ErrorHandler(ErrorTypeName.INVALID_MOBILE_NUMBER);
         }
-        if (!RegexValidator.validate(landlinePhoneNumber, RegexValidator.LANDLINE_NUMBER)) {
-            throw new ErrorHandler(ErrorTypeName.INVALID_LANDLINE_NUMBER);
+        if (dto.landlinePhoneNumber) { 
+            if (!RegexValidator.validate(dto.landlinePhoneNumber, RegexValidator.LANDLINE_NUMBER)) {
+                throw new ErrorHandler(ErrorTypeName.INVALID_LANDLINE_NUMBER);
+            }
         }
 
         const [recordStatus] = await Promise.all([
@@ -79,8 +81,10 @@ export class ClientService {
             throw new ErrorHandler(ErrorTypeName.INVALID_MOBILE_NUMBER);
         }
 
-        if (!RegexValidator.validate(landlinePhoneNumber, RegexValidator.LANDLINE_NUMBER)) {
-            throw new ErrorHandler(ErrorTypeName.INVALID_LANDLINE_NUMBER);
+        if (dto.landlinePhoneNumber) { 
+            if (!RegexValidator.validate(dto.landlinePhoneNumber, RegexValidator.LANDLINE_NUMBER)) {
+                throw new ErrorHandler(ErrorTypeName.INVALID_LANDLINE_NUMBER);
+            }
         }
 
         const updatedClient = ClientEntity.fromObject({
