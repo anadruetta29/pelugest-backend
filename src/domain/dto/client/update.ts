@@ -33,6 +33,6 @@ export class UpdateClientDTO {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
 
-        return [undefined, new UpdateClientDTO(id, name, surname, mobilePhoneNumber, landlinePhoneNumber, status)];
+        return [undefined, new UpdateClientDTO(id, name, surname, mobilePhoneNumber,  status, landlinePhoneNumber)];
     }
 }
