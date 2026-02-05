@@ -10,6 +10,7 @@ export class AppRouter {
         router.use('/api/auth', AuthRoute.routes);
         router.use('/api/clients', ClientRoute.routes);
         router.use('/api/record-status', RecordStatusRoute.routes);
+        router.use('/api/services')
         return router;
     }
 }

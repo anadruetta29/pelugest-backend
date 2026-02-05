@@ -10,6 +10,9 @@ export interface ClientRepositoryI {
 
     findById(id: string): Promise<ClientEntity | null>;
 
+    getAll(): Promise<ClientEntity[] | null> 
+
     getAllByStatus(statusId: string): Promise<ClientEntity[]>;
+
 
 }

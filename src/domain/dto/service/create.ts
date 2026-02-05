@@ -15,6 +15,14 @@ export class CreateServicetDTO {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
 
+        if (typeof basePrice !== "number" || basePrice <= 0) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
+        }
+
+        if (typeof estimatedDurationMin !== "number" || estimatedDurationMin <= 0) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
+        }
+
         return [undefined, new CreateServicetDTO(name, description, estimatedDurationMin, basePrice)];
     }
 }

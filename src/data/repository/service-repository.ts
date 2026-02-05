@@ -1,5 +1,7 @@
+import { Service } from '@prisma/client';
 import { prisma } from "../../app";
 import { ServiceEntity } from "../../common";
+import { ServiceRepositoryI } from "../../domain/repository/service-repository-interface";
 import { ServiceEntityMapper, ServiceModel } from "../postgres/mapper/service-entity-mapper";
 
 export class ServiceRepository implements ServiceRepositoryI {
@@ -32,8 +34,8 @@ export class ServiceRepository implements ServiceRepositoryI {
         return ServiceEntityMapper.toDomain(saved as ServiceModel)!;
     }
 
-    async update(client: ServiceEntity): Promise<ServiceEntity> {
-        const model = ServiceEntityMapper.toModel(client);
+    async update(service: ServiceEntity): Promise<ServiceEntity> {
+        const model = ServiceEntityMapper.toModel(service);
         
         const updated = await prisma.service.update({
             where: { id: model.id },
