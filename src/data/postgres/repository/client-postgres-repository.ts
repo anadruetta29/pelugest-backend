@@ -1,7 +1,7 @@
 import { prisma } from "../../../app"; 
 import { ClientEntity } from "../../../common";
 import { UserEntity } from "../../../common/entity/user";
-import { ClientEntityMapper } from "../mapper/client-mapper";
+import { ClientEntityMapper } from "../mapper/client-entity-mapper";
 import { UserEntityMapper } from "../mapper/user-entity-mapper";
 
 export class ClientPostgresRepository {

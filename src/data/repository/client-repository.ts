@@ -1,7 +1,7 @@
 import { Client } from './../../../node_modules/.prisma/client/index.d';
 import { prisma } from "../../app";
 import { ClientEntity } from "../../common";
-import { ClientEntityMapper, ClientModel } from "../postgres/mapper/client-mapper";
+import { ClientEntityMapper, ClientModel } from "../postgres/mapper/client-entity-mapper";
 import { ClientRepositoryI } from '../../domain/repository/client-respository-interface';
 
 export class ClientRepository implements ClientRepositoryI {
@@ -58,6 +58,13 @@ export class ClientRepository implements ClientRepositoryI {
         });
     }
 
+    async getAll(): Promise<ClientEntity[]> {
+        const models = await prisma.client.findMany({
+            include: { status: true }
+        });
+
+        return ClientEntityMapper.toDomainList(models as ClientModel[]);
+    }
 
     async getAllByStatus(statusId: string): Promise<ClientEntity[]> {
         const models = await prisma.client.findMany({

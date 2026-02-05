@@ -1,7 +1,7 @@
 // record-status-postgres-repository.ts
 import { prisma } from "../../../app";
 import { RecordStatusEntity } from "../../../common/entity/record-status";
-import { RecordStatusEntityMapper } from "../mapper/record-status-mapper";
+import { RecordStatusEntityMapper } from "../mapper/record-status-entity-mapper";
 
 export class RecordStatusPostgresRepository {
 

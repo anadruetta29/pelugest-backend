@@ -1,6 +1,6 @@
 import { prisma } from "../../app";
 import { RecordStatusEntity } from "../../common/entity/record-status";
-import { RecordStatusEntityMapper, RecordStatusModel } from "../postgres/mapper/record-status-mapper";
+import { RecordStatusEntityMapper, RecordStatusModel } from "../postgres/mapper/record-status-entity-mapper";
 
 export class RecordStatusRepository {
 
