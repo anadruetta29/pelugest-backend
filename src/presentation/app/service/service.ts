@@ -12,7 +12,7 @@ import { ServiceEntity } from '../../../common';
 import { UpdateServiceDTO } from '../../../domain/dto/service/update';
 import { DeleteServiceDTO } from '../../../domain/dto/service/delete';
 import { FindByIdDTO } from '../../../domain/dto/service/find-by-id';
-import { GetAllClientsDTO } from '../../../domain/dto/client/get-all';
+import { GetAllServicesDTO } from '../../../domain/dto/service/get-all';
 
 export class ServiceService {
 
@@ -142,7 +142,7 @@ export class ServiceService {
         };
     }
 
-    public async getAll(dto: GetAllClientsDTO) {
+    public async getAll(dto: GetAllServicesDTO) {
         const services = await this.serviceRepository.getAll();
 
         if (!services) {
