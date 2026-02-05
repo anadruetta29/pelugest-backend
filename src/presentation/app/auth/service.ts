@@ -108,20 +108,24 @@ export class AuthService {
         };
     }
 
-    public async auth(dto: AuthUserDTO) {
-        const { session } = dto;
-        
-        const rawHeader = `Bearer ${session.token.accessToken}`;
-        const validatedToken = this.authHelper.validateToken(rawHeader);
+    public async auth(authorizationHeader?: string) {
+        if (!authorizationHeader) {
+            throw new ErrorHandler(ErrorTypeName.INVALID_TOKEN);
+        }
+
+        const validatedToken = this.authHelper.validateToken(authorizationHeader);
 
         if (!validatedToken) {
             throw new ErrorHandler(ErrorTypeName.INVALID_TOKEN);
         }
 
-        const userId = this.authHelper.getSubject(validatedToken);
+        const userEmail = this.authHelper.getSubject(validatedToken);
         
-        const user = await this.userRepository.findById(userId);
-        if (!user) throw new ErrorHandler(ErrorTypeName.USER_NOT_FOUND);
+        const user = await this.userRepository.findByEmail(userEmail);
+        
+        if (!user) {
+            throw new ErrorHandler(ErrorTypeName.USER_NOT_FOUND);
+        }
 
         return {
             user: {
@@ -129,9 +133,9 @@ export class AuthService {
                 name: user.name,
                 email: user.email,
                 role: user.role?.name,
-                status: user.status?.name 
-            },
-            session: session 
+                status: user.status?.name
+            }
         };
     }
+
 }

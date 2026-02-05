@@ -1,10 +1,7 @@
-import { RoleRepository } from './../../../data/repository/role-repository';
-import { UserEntity } from "../../../common/entity/user";
+import { GetAllByStatusDTO } from '../../../domain/dto/client/get-all-by-status';
 import { ErrorHandler } from "../../../common/errors/ErrorHandler";
 import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
-import { AuthHelper } from "../../../config/helpers/AuthHelper";
-import { UserRepository } from "../../../data/repository/user-repository";
 import { ClientRepositoryI, CreateClientDTO, DeleteClientDTO, FindByIdDTO, RecordStatusRepositoryI, RegexValidator, RoleRepositoryI, UpdateClientDTO, UserRepositoryI } from "../../../domain";
 import { ClientRepository, RecordStatusRepository } from '../../../data';
 import { ClientEntity } from '../../../common';
@@ -28,8 +25,10 @@ export class ClientService {
         if (!RegexValidator.validate(mobilePhoneNumber, RegexValidator.MOBILE_NUMBER)) {
             throw new ErrorHandler(ErrorTypeName.INVALID_MOBILE_NUMBER);
         }
-        if (!RegexValidator.validate(landlinePhoneNumber, RegexValidator.LANDLINE_NUMBER)) {
-            throw new ErrorHandler(ErrorTypeName.INVALID_LANDLINE_NUMBER);
+        if (dto.landlinePhoneNumber) { 
+            if (!RegexValidator.validate(dto.landlinePhoneNumber, RegexValidator.LANDLINE_NUMBER)) {
+                throw new ErrorHandler(ErrorTypeName.INVALID_LANDLINE_NUMBER);
+            }
         }
 
         const [recordStatus] = await Promise.all([
@@ -67,7 +66,7 @@ export class ClientService {
         const client = await this.clientRepository.findById(id);
 
         if (!client) {
-            throw new ErrorHandler(ErrorTypeName.CLIENT_NOT_FOUND);
+            throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
         }
 
         if (!RegexValidator.validate(name, RegexValidator.NAME)) {
@@ -82,8 +81,10 @@ export class ClientService {
             throw new ErrorHandler(ErrorTypeName.INVALID_MOBILE_NUMBER);
         }
 
-        if (!RegexValidator.validate(landlinePhoneNumber, RegexValidator.LANDLINE_NUMBER)) {
-            throw new ErrorHandler(ErrorTypeName.INVALID_LANDLINE_NUMBER);
+        if (dto.landlinePhoneNumber) { 
+            if (!RegexValidator.validate(dto.landlinePhoneNumber, RegexValidator.LANDLINE_NUMBER)) {
+                throw new ErrorHandler(ErrorTypeName.INVALID_LANDLINE_NUMBER);
+            }
         }
 
         const updatedClient = ClientEntity.fromObject({
@@ -111,7 +112,7 @@ export class ClientService {
         const client = await this.clientRepository.findById(id);
 
         if (!client) {
-            throw new ErrorHandler(ErrorTypeName.CLIENT_NOT_FOUND);
+            throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
         }
 
         const recordStatus = await this.recordStatusRepository.findByName('DELETED');
@@ -138,11 +139,25 @@ export class ClientService {
         const client = await this.clientRepository.findById(id);
 
         if (!client) {
-            throw new ErrorHandler(ErrorTypeName.CLIENT_NOT_FOUND);
+            throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
         }
 
         return {
             client
+        };
+    }
+
+    public async getAllByStatus(dto: GetAllByStatusDTO) {
+        const { statusId } = dto;
+
+        const clients = await this.clientRepository.getAllByStatus(statusId);
+
+        if (!clients) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR)
+        }
+
+        return {
+            clients
         };
     }
 }

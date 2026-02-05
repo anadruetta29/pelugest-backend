@@ -5,7 +5,7 @@ export class CreateClientDTO {
         public name: string,
         public surname: string,
         public mobilePhoneNumber: string,
-        public landlinePhoneNumber: string
+        public landlinePhoneNumber?: string
     ){}
 
     static create(object: { [key: string]: any }): [string?, CreateClientDTO?]  {

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ClientService } from './service';
-import { CreateClientDTO, DeleteClientDTO, FindByIdDTO, UpdateClientDTO } from '../../../domain';
+import { CreateClientDTO, DeleteClientDTO, FindByIdDTO, GetAllByStatusDTO, UpdateClientDTO } from '../../../domain';
 
 export class ClientController {
     constructor(
@@ -40,5 +40,16 @@ export class ClientController {
         const result = await this.clientService.findById(dto!);
 
         return res.status(200).json(result);
+    }
+
+    getAllByStatus = async(req: Request, res: Response) => {
+        const { statusId } = req.params;
+
+        const [_, dto] = GetAllByStatusDTO.create({ statusId });
+
+        const result = await this.clientService.getAllByStatus(dto!);
+
+        return res.status(200).json(result);
+
     }
 }

@@ -25,11 +25,12 @@ export class Server {
 
         this.app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
 
-        this.app.use(cors({ 
-            origin: true, 
-            credentials: true, 
-            exposedHeaders: ["Authorization"] 
+        this.app.use(cors({
+        origin: "http://localhost:5173",
+        credentials: true
         }));
+
+        this.app.use(express.json());
 
         /* Routes */
         this.app.use(this.routes);
