@@ -56,3 +56,53 @@ model Client {
 
     @@map("clients")
 }
+
+model ServiceProductRequirement {
+	id     String @id @default(uuid())
+	standardAmountMl Int 
+	id_service String
+	id_product String
+
+	product Product @relation(fields: [id_product], references: [id])
+	service Service @relation(fields: [id_service], references: [id])
+
+	@@map("service_product_requirements")
+}
+
+model Service {
+	id     String @id @default(uuid()) 
+	name   String
+	description String
+	estimatedDurationMin Int
+	basePrice Decimal
+	id_record_status String
+
+	status RecordStatus @relation(fields: [id_record_status], references: [id])
+	requirements ServiceProductRequirement[]
+
+	@@map("services")
+}
+
+model StockProduct {
+	id     String @id @default(uuid()) 
+	currentAmountMl Int
+	minimumStockMl Int
+  	id_product      String @unique
+
+	product Product @relation(fields: [id_product], references: [id])
+
+	@@map("stock_products")
+}
+
+model Product {
+	id     String @id @default(uuid()) 
+	name   String
+	price Decimal
+	id_record_status String
+
+	status RecordStatus @relation(fields: [id_record_status], references: [id])
+	stock  StockProduct?
+ 	requirements ServiceProductRequirement[]
+
+	@@map("products")
+}
