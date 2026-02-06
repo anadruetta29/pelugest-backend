@@ -1,5 +1,4 @@
 import { Service } from '@prisma/client';
-import { GetAllByStatusDTO } from '../../../domain/dto/client/get-all-by-status';
 import { ErrorHandler } from "../../../common/errors/ErrorHandler";
 import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
@@ -11,8 +10,9 @@ import { CreateServicetDTO } from '../../../domain/dto/service/create';
 import { ServiceEntity } from '../../../common';
 import { UpdateServiceDTO } from '../../../domain/dto/service/update';
 import { DeleteServiceDTO } from '../../../domain/dto/service/delete';
-import { FindByIdDTO } from '../../../domain/dto/service/find-by-id';
 import { GetAllServicesDTO } from '../../../domain/dto/service/get-all';
+import { FindServiceByIdDTO } from '../../../domain/dto/service/find-by-id';
+import { GetAllServicesByStatusDTO } from '../../../domain/dto/service/get-all-by-status';
 
 export class ServiceService {
 
@@ -128,7 +128,7 @@ export class ServiceService {
         };
     }
 
-    public async findById(dto: FindByIdDTO) {
+    public async findById(dto: FindServiceByIdDTO) {
         const { id } = dto;
 
         const service = await this.serviceRepository.findById(id);
@@ -155,7 +155,7 @@ export class ServiceService {
  
     }
 
-    public async getAllByStatus(dto: GetAllByStatusDTO) {
+    public async getAllByStatus(dto: GetAllServicesByStatusDTO) {
         const { statusId } = dto;
 
         const services = await this.serviceRepository.getAllByStatus(statusId);

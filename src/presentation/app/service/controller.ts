@@ -3,9 +3,9 @@ import { ServiceService } from './service';
 import { CreateServicetDTO } from '../../../domain/dto/service/create';
 import { UpdateServiceDTO } from '../../../domain/dto/service/update';
 import { DeleteServiceDTO } from '../../../domain/dto/service/delete';
-import { FindByIdDTO } from '../../../domain/dto/service/find-by-id';
-import { GetAllByStatusDTO } from '../../../domain';
-import { GetAllClientsDTO } from '../../../domain/dto/client/get-all';
+import { FindServiceByIdDTO } from '../../../domain/dto/service/find-by-id';
+import { GetAllServicesDTO } from '../../../domain/dto/service/get-all';
+import { GetAllServicesByStatusDTO } from '../../../domain/dto/service/get-all-by-status';
 
 export class ServiceController {
     constructor(
@@ -40,7 +40,7 @@ export class ServiceController {
     }
 
     findById = async (req: Request, res: Response) => {
-        const [_, dto] = FindByIdDTO.create({ id: req.params.id });
+        const [_, dto] = FindServiceByIdDTO.create({ id: req.params.id });
 
         const result = await this.serviceService.findById(dto!);
 
@@ -48,7 +48,7 @@ export class ServiceController {
     }
 
     getAll = async(req: Request, res: Response) => {
-        const [_, dto] = GetAllClientsDTO.create();
+        const [_, dto] = GetAllServicesDTO.create();
 
         const result = await this.serviceService.getAll(dto!);
 
@@ -58,7 +58,7 @@ export class ServiceController {
     getAllByStatus = async(req: Request, res: Response) => {
         const { statusId } = req.params;
 
-        const [_, dto] = GetAllByStatusDTO.create({ statusId });
+        const [_, dto] = GetAllServicesByStatusDTO.create({ statusId });
 
         const result = await this.serviceService.getAllByStatus(dto!);
 

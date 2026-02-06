@@ -1,8 +1,7 @@
-import { GetAllByStatusDTO } from '../../../domain/dto/client/get-all-by-status';
 import { ErrorHandler } from "../../../common/errors/ErrorHandler";
 import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
-import { ClientRepositoryI, CreateClientDTO, DeleteClientDTO, FindByIdDTO, RecordStatusRepositoryI, RegexValidator, RoleRepositoryI, UpdateClientDTO, UserRepositoryI } from "../../../domain";
+import { ClientRepositoryI, CreateClientDTO, DeleteClientDTO, FindClientByIdDTO, GetAllClientsByStatusDTO, RecordStatusRepositoryI, RegexValidator, RoleRepositoryI, UpdateClientDTO, UserRepositoryI } from "../../../domain";
 import { ClientRepository, RecordStatusRepository } from '../../../data';
 import { ClientEntity } from '../../../common';
 
@@ -133,7 +132,7 @@ export class ClientService {
         };
     }
 
-    public async findById(dto: FindByIdDTO) {
+    public async findById(dto: FindClientByIdDTO) {
         const { id } = dto;
 
         const client = await this.clientRepository.findById(id);
@@ -147,7 +146,7 @@ export class ClientService {
         };
     }
 
-    public async getAllByStatus(dto: GetAllByStatusDTO) {
+    public async getAllByStatus(dto: GetAllClientsByStatusDTO) {
         const { statusId } = dto;
 
         const clients = await this.clientRepository.getAllByStatus(statusId);
