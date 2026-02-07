@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ServiceService } from './service';
-import { CreateServicetDTO } from '../../../domain/dto/service/create';
+import { CreateServiceDTO } from '../../../domain/dto/service/create';
 import { UpdateServiceDTO } from '../../../domain/dto/service/update';
 import { DeleteServiceDTO } from '../../../domain/dto/service/delete';
 import { FindServiceByIdDTO } from '../../../domain/dto/service/find-by-id';
@@ -14,7 +14,7 @@ export class ServiceController {
     ) {}
 
     create = async (req: Request, res: Response) => {
-        const [_, dto] = CreateServicetDTO.create(req.body);
+        const [_, dto] = CreateServiceDTO.create(req.body);
 
         const result = await this.serviceService.create(dto!);
 
