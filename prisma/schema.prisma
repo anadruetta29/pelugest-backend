@@ -21,13 +21,17 @@ model Role {
 }
 
 model RecordStatus {
-    id    String @id @default(uuid())
-    name  String @unique
-    users User[]
-    clients Client[]
+	id    String @id @default(uuid())
+	name  String @unique
 
-    @@map("record_status")
+	users    User[]
+	clients  Client[]
+	services Service[]
+	products Product[]
+
+	@@map("record_status")
 }
+
 
 model User {
     id               String @id @default(uuid())

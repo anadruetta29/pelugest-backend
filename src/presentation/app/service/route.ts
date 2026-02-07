@@ -2,14 +2,14 @@ import { authHelper } from './../../../config/helpers/AuthHelper';
 import { Router } from "express"
 import { AuthHelper } from "../../../config";
 import { AuthMiddleware } from '../../../common';
-import { ClientService } from '../client/service';
-import { ClientController } from '../client/controller';
+import { ServiceController } from './controller';
+import { ServiceService } from './service';
 
-export class ClientRoute {
+export class ServiceRoute {
     static get routes(): Router {
         const router = Router();
-        const service = new ClientService();
-        const controller = new ClientController(service);
+        const service = new ServiceService();
+        const controller = new ServiceController(service);
 
         router.post(
             '/create',

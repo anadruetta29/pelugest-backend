@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { ClientService } from './service';
-import { CreateClientDTO, DeleteClientDTO, FindByIdDTO, GetAllByStatusDTO, UpdateClientDTO } from '../../../domain';
+import { CreateClientDTO, DeleteClientDTO, FindClientByIdDTO, GetAllClientsByStatusDTO, UpdateClientDTO } from '../../../domain';
+import { DeactivateClientDTO } from '../../../domain/dto/client/deactivate';
+import { GetAllClientsDTO } from '../../../domain/dto/client/get-all';
 
 export class ClientController {
     constructor(
@@ -35,9 +37,17 @@ export class ClientController {
     }
 
     findById = async (req: Request, res: Response) => {
-        const [_, dto] = FindByIdDTO.create({ id: req.params.id });
+        const [_, dto] = FindClientByIdDTO.create({ id: req.params.id });
 
         const result = await this.clientService.findById(dto!);
+
+        return res.status(200).json(result);
+    }
+
+    getAll = async(req: Request, res: Response) => {
+        const [_, dto] = GetAllClientsDTO.create();
+
+        const result = await this.clientService.getAll(dto!);
 
         return res.status(200).json(result);
     }
@@ -45,11 +55,21 @@ export class ClientController {
     getAllByStatus = async(req: Request, res: Response) => {
         const { statusId } = req.params;
 
-        const [_, dto] = GetAllByStatusDTO.create({ statusId });
+        const [_, dto] = GetAllClientsByStatusDTO.create({ statusId });
 
         const result = await this.clientService.getAllByStatus(dto!);
 
         return res.status(200).json(result);
 
+    }
+
+    deactivate = async(req: Request, res: Response) => {
+        const { id } = req.params;
+
+        const [_, dto] = DeactivateClientDTO.create({ id });
+
+        const result = await this.clientService.deactivate(dto!);
+
+        return res.status(200).json(result);
     }
 }

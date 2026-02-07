@@ -1,5 +1,5 @@
-export * from './postgres/mapper/client-mapper';
-export * from './postgres/mapper/record-status-mapper';
+export * from './postgres/mapper/client-entity-mapper';
+export * from './postgres/mapper/record-status-entity-mapper';
 export * from './postgres/mapper/role-entity-mapper';
 export * from './postgres/mapper/user-entity-mapper';
 export * from './postgres/repository/client-postgres-repository';
