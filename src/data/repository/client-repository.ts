@@ -1,6 +1,7 @@
+import { RecordStatus } from './../../../generated/prisma/client';
 import { Client } from './../../../node_modules/.prisma/client/index.d';
 import { prisma } from "../../app";
-import { ClientEntity } from "../../common";
+import { ClientEntity, RecordStatusEntity } from "../../common";
 import { ClientEntityMapper, ClientModel } from "../postgres/mapper/client-entity-mapper";
 import { ClientRepositoryI } from '../../domain/repository/client-respository-interface';
 
@@ -14,7 +15,6 @@ export class ClientRepository implements ClientRepositoryI {
 
         return ClientEntityMapper.toDomain(model as ClientModel);
     }
-
 
     async save(client: ClientEntity): Promise<ClientEntity> {
         const model = ClientEntityMapper.toModel(client);
@@ -73,6 +73,20 @@ export class ClientRepository implements ClientRepositoryI {
         });
         
         return ClientEntityMapper.toDomainList(models as ClientModel[]);
+    }
+
+    async deactivate(id: string): Promise<ClientEntity> {
+        const model = await prisma.client.update({
+            where: { id },
+            data: {
+                status: {
+                    connect: { name: "INACTIVE" }
+                }
+            },
+            include: { status: true }
+        });
+
+        return ClientEntityMapper.toDomain(model as ClientModel)!;
     }
 
 }

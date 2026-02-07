@@ -77,4 +77,18 @@ export class ServiceRepository implements ServiceRepositoryI {
         return ServiceEntityMapper.toDomainList(models as ServiceModel[]);
     }
 
+    async deactivate(id: string): Promise<ServiceEntity> {
+        const models = await prisma.service.update({
+            where: { id: id },
+            data: {
+                status: {
+                    connect: { name: "INACTIVE" }
+                }
+            },
+            include: { status: true }
+        });
+    
+        return ServiceEntityMapper.toDomain(models as ServiceModel)!;
+    }
+
 }

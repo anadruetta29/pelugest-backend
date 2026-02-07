@@ -4,6 +4,8 @@ import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
 import { ClientRepositoryI, CreateClientDTO, DeleteClientDTO, FindClientByIdDTO, GetAllClientsByStatusDTO, RecordStatusRepositoryI, RegexValidator, RoleRepositoryI, UpdateClientDTO, UserRepositoryI } from "../../../domain";
 import { ClientRepository, RecordStatusRepository } from '../../../data';
 import { ClientEntity } from '../../../common';
+import { DeactivateClientDTO } from "../../../domain/dto/client/deactivate";
+import { GetAllClientsDTO } from "../../../domain/dto/client/get-all";
 
 export class ClientService {
 
@@ -146,6 +148,19 @@ export class ClientService {
         };
     }
 
+    public async getAll(dto: GetAllClientsDTO) {
+        const clients = await this.clientRepository.getAll();
+    
+        if (!clients) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR)
+        }
+    
+        return {
+            clients
+        };
+     
+    }
+
     public async getAllByStatus(dto: GetAllClientsByStatusDTO) {
         const { statusId } = dto;
 
@@ -158,5 +173,22 @@ export class ClientService {
         return {
             clients
         };
+    }
+
+    public async deactivate(dto: DeactivateClientDTO) {
+        const { id } = dto; 
+
+        const deactivatedClient = await this.clientRepository.deactivate(id);
+
+        if (!deactivatedClient) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR)
+        }
+
+        return {
+            message: "Client deactivated successfully",
+            client: {
+                id: deactivatedClient.id
+            }
+        }
     }
 }

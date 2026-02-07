@@ -13,6 +13,7 @@ import { DeleteServiceDTO } from '../../../domain/dto/service/delete';
 import { GetAllServicesDTO } from '../../../domain/dto/service/get-all';
 import { FindServiceByIdDTO } from '../../../domain/dto/service/find-by-id';
 import { GetAllServicesByStatusDTO } from '../../../domain/dto/service/get-all-by-status';
+import { DeactivateServiceDTO } from '../../../domain/dto/service/deactivate';
 
 export class ServiceService {
 
@@ -167,5 +168,22 @@ export class ServiceService {
         return {
             services
         };
+    }
+
+    public async deactivate(dto: DeactivateServiceDTO) {
+        const { id } = dto; 
+
+        const deactivatedService = await this.serviceRepository.deactivate(id);
+
+        if (!deactivatedService) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR)
+        }
+
+        return {
+            message: "Service deactivated successfully",
+            service: {
+                id: deactivatedService.id
+            }
+        }
     }
 }

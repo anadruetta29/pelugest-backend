@@ -47,6 +47,12 @@ export class ServiceRoute {
             (req, res) => controller.getAllByStatus(req, res)
         );
 
+        router.get(
+            '/deactivate/:id',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.deactivate(req, res)
+        )
+
         return router;
     }
 }

@@ -14,5 +14,6 @@ export interface ClientRepositoryI {
 
     getAllByStatus(statusId: string): Promise<ClientEntity[]>;
 
+    deactivate(id: string): Promise<ClientEntity>;
 
 }

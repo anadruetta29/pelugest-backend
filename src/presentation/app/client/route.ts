@@ -36,10 +36,22 @@ export class ClientRoute {
         );
 
         router.get(
+            '/get-all',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.getAll(req, res)
+        )
+
+        router.get(
             '/get-all-by-status/:statusId',
             AuthMiddleware.validateSession,
             (req, res) => controller.getAllByStatus(req, res)
         );
+
+        router.get(
+            '/deactivate/:id',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.deactivate(req, res)
+        )
 
         return router;
     }

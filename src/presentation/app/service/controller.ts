@@ -6,6 +6,7 @@ import { DeleteServiceDTO } from '../../../domain/dto/service/delete';
 import { FindServiceByIdDTO } from '../../../domain/dto/service/find-by-id';
 import { GetAllServicesDTO } from '../../../domain/dto/service/get-all';
 import { GetAllServicesByStatusDTO } from '../../../domain/dto/service/get-all-by-status';
+import { DeactivateServiceDTO } from '../../../domain/dto/service/deactivate';
 
 export class ServiceController {
     constructor(
@@ -64,5 +65,15 @@ export class ServiceController {
 
         return res.status(200).json(result);
 
+    }
+
+     deactivate = async(req: Request, res: Response) => {
+        const { id } = req.params;
+
+        const [_, dto] = DeactivateServiceDTO.create({ id });
+
+        const result = await this.serviceService.deactivate(dto!);
+
+        return res.status(200).json(result);
     }
 }

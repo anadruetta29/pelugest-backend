@@ -14,5 +14,6 @@ export interface ServiceRepositoryI {
 
     getAllByStatus(statusId: string): Promise<ServiceEntity[]>;
 
+    deactivate(id: string): Promise<ServiceEntity>;
 
 }
