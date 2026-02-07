@@ -3,6 +3,7 @@ import { AuthRoute } from "../app/auth/route";
 import { ClientRoute } from "../app/client/route";
 import { RecordStatusRoute } from "../app/record-status/route";
 import { ServiceRoute } from "../app/service/route";
+import { ProductRoute } from '../app/product/route';
 
 export class AppRouter {
     static get routes(): Router {
@@ -11,7 +12,8 @@ export class AppRouter {
         router.use('/api/auth', AuthRoute.routes);
         router.use('/api/clients', ClientRoute.routes);
         router.use('/api/record-status', RecordStatusRoute.routes);
-        router.use('/api/services', ServiceRoute.routes)
+        router.use('/api/services', ServiceRoute.routes);
+        router.use('/api/products', ProductRoute.routes);
         return router;
     }
 }
