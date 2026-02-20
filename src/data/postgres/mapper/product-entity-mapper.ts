@@ -1,5 +1,5 @@
 import { RecordStatusEntity } from "../../../common/entity/record-status";
-import { ClientEntity, ProductEntity } from "../../../common";
+import { ProductEntity } from "../../../common";
 import { Product, RecordStatus } from "@prisma/client";
 
 export type ProductModel = Product & {

@@ -1,0 +1,45 @@
+import { StockMovement } from '@prisma/client';
+import { StockMovementEntity } from "../../../common/entity/stock-movement";
+
+export type StockMovementModel = StockMovement;
+
+export class StockMovementEntityMapper {
+
+    public static toDomain(
+        movementModel: StockMovementModel | null
+    ): StockMovementEntity | null {
+        if (!movementModel) return null;
+
+        return StockMovementEntity.fromObject({
+            id: movementModel.id,
+            quantityMl: movementModel.quantityMl,
+            type: movementModel.type,
+            createdAt: movementModel.createdAt,
+            product: movementModel.id_product,
+            user: movementModel.id_user,
+        });
+    }
+
+    public static toModel(movement: StockMovementEntity | null): any {
+        if (!movement) return null;
+
+        return {
+            id: movement.id,
+            quantityMl: movement.quantityMl,
+            type: movement.type,
+            createdAt: movement.createdAt,
+            id_product: movement.product,
+            id_user: movement.user,
+        };
+    }
+
+    public static toDomainList(
+        movementModels: StockMovementModel[] | null | undefined
+    ): StockMovementEntity[] {
+        if (!movementModels) return [];
+
+        return movementModels
+            .map(model => this.toDomain(model))
+            .filter((movement): movement is StockMovementEntity => movement !== null);
+    }
+}
