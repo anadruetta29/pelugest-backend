@@ -124,7 +124,6 @@ model StockMovement {
 	quantityMl      Int
 	type            StockMovementType
 	createdAt       DateTime           @default(now())
-	reason          String?
 
 	id_product      String
 	id_user         String
