@@ -13,7 +13,6 @@ export class StockMovementPostgresRepository {
                 id: data.id,
                 quantityMl: data.quantityMl,
                 type: data.type,
-                reason: data.reason,
                 createdAt: data.createdAt,
                 product: {
                     connect: { id: data.id_product }

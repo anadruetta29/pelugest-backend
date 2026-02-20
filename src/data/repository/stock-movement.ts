@@ -25,7 +25,6 @@ export class StockMovementRepository implements StockMovementRepositoryI {
                 id: model.id,
                 quantityMl: model.quantityMl,
                 type: model.type,
-                reason: model.reason,
                 createdAt: model.createdAt,
                 product: {
                     connect: { id: model.id_product }

@@ -23,12 +23,6 @@ export class StockProductService {
             throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
         }
 
-        const existing = await this.stockProductRepository.findByProductId(productId);
-
-        if (!existing) {
-            throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
-        }
-
         const stockId = GenerateUUIDHelper.generate();
 
         const newStockEntity = StockProductEntity.fromObject({
@@ -111,7 +105,7 @@ export class StockProductService {
         }
 
         return {
-            stockProduct: stock
+            stock: stock
         };
     }
 

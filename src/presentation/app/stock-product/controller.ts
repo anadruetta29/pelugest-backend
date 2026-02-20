@@ -49,7 +49,7 @@ export class StockProductController {
 
     findByProduct = async (req: Request, res: Response) => {
         const [_, dto] = FindStockProductByProductDTO.create({
-            id_product: req.params.productId
+            productId: req.params.productId
         });
 
         const result = await this.stockProductService.findByProduct(dto!);

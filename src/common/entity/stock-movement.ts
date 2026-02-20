@@ -1,4 +1,5 @@
 import { Product, User } from "@prisma/client";
+import { StockMovementTypeEntity } from "./stock-movement-type";
 
 export class StockMovementEntity {
     private constructor(
