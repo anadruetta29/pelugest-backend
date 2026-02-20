@@ -1,12 +1,12 @@
 import { ErrorHandler, ErrorTypeName } from "../../../common";
 
-export class DeleteStockProdutDTO {
+export class DeleteStockProductDTO {
     
     private constructor(
         public id: string
     ) {}
 
-    static create(object: { [key: string]: any }): [string?, DeleteStockProdutDTO?] {
+    static create(object: { [key: string]: any }): [string?, DeleteStockProductDTO?] {
 
         const { id } = object;
 
@@ -14,6 +14,6 @@ export class DeleteStockProdutDTO {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
 
-        return [undefined, new DeleteStockProdutDTO(id)];
+        return [undefined, new DeleteStockProductDTO(id)];
     }
 }

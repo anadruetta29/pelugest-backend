@@ -4,6 +4,8 @@ import { ClientRoute } from "../app/client/route";
 import { RecordStatusRoute } from "../app/record-status/route";
 import { ServiceRoute } from "../app/service/route";
 import { ProductRoute } from '../app/product/route';
+import { StockProductRoute } from "../app/stock-product/route";
+import { StockMovementRoute } from "../app/stock-movement/route";
 
 export class AppRouter {
     static get routes(): Router {
@@ -14,6 +16,8 @@ export class AppRouter {
         router.use('/api/record-status', RecordStatusRoute.routes);
         router.use('/api/services', ServiceRoute.routes);
         router.use('/api/products', ProductRoute.routes);
+        router.use('/api/stock-products', StockProductRoute.routes);
+        router.use('/api/stock-movements', StockMovementRoute.routes);
         return router;
     }
 }
