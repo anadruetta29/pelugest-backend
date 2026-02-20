@@ -1,4 +1,6 @@
 import { ErrorHandler, ErrorTypeName } from "../../../common";
+import { StockMovementEntity } from "../../../common/entity/stock-movement";
+import { StockMovementTypeEntity } from "../../../common/entity/stock-movement-type";
 
 export class CreateStockMovementDTO {
 
