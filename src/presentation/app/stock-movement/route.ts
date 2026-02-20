@@ -16,6 +16,12 @@ export class StockMovementRoute {
             (req, res) => controller.create(req, res)
         );
 
+        router.put(  
+            '/update/:id',
+            AuthMiddleware.validateSession,
+            (req, res) => controller.update(req, res)
+        );
+
         router.delete(
             '/delete/:id',
             AuthMiddleware.validateSession,

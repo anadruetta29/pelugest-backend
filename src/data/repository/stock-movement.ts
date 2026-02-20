@@ -5,18 +5,6 @@ import { StockMovementEntityMapper, StockMovementModel } from "../postgres/mappe
 
 export class StockMovementRepository implements StockMovementRepositoryI {
 
-    async findById(id: string): Promise<StockMovementEntity | null> {
-        const model = await prisma.stockMovement.findUnique({
-            where: { id },
-            include: {
-                product: true,
-                user: true
-            }
-        });
-
-        return StockMovementEntityMapper.toDomain(model as StockMovementModel);
-    }
-
     async create(movement: StockMovementEntity): Promise<StockMovementEntity> {
         const model = StockMovementEntityMapper.toModel(movement);
 
@@ -42,6 +30,39 @@ export class StockMovementRepository implements StockMovementRepositoryI {
         return StockMovementEntityMapper.toDomain(saved as StockMovementModel)!;
     }
 
+    async update(movement: StockMovementEntity): Promise<StockMovementEntity> {
+        const model = StockMovementEntityMapper.toModel(movement);
+
+        const updated = await prisma.stockMovement.update({
+            where: { id: model.id },
+            data: {
+                quantityMl: model.quantityMl,
+                type: model.type,
+                product: { connect: { id: model.id_product } },
+                user: { connect: { id: model.id_user } }
+            },
+            include: {
+                product: true,
+                user: true
+            }
+        });
+
+        return StockMovementEntityMapper.toDomain(updated as StockMovementModel)!;
+    }
+
+    async findById(id: string): Promise<StockMovementEntity | null> {
+        const model = await prisma.stockMovement.findUnique({
+            where: { id },
+            include: {
+                product: true,
+                user: true
+            }
+        });
+
+        return StockMovementEntityMapper.toDomain(model as StockMovementModel);
+    }
+
+    
     async delete(id: string): Promise<void> {
         await prisma.stockMovement.delete({
             where: { id }

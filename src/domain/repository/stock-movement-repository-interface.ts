@@ -4,6 +4,8 @@ export interface StockMovementRepositoryI {
 
     create(movement: StockMovementEntity): Promise<StockMovementEntity>;
 
+    update(movement: StockMovementEntity): Promise<StockMovementEntity>; 
+
     delete(id: string): Promise<void>;
 
     findById(id: string): Promise<StockMovementEntity | null>;

@@ -11,6 +11,7 @@ import { GetAllStockMovementsByUserDTO } from "../../../domain/dto/stock-movemen
 import { StockMovementEntity } from "../../../common/entity/stock-movement";
 import { DeleteStockMovementDTO } from "../../../domain/dto/stock-movement/delete";
 import { GetAllStockMovementsDTO } from "../../../domain/dto/stock-movement/get-all";
+import { UpdateStockMovementDTO } from "../../../domain/dto/stock-movement/update";
 
 export class StockMovementService {
 
@@ -71,6 +72,49 @@ export class StockMovementService {
             stockMovement: {
                 id: savedMovement.id
             }
+        };
+    }
+
+    public async update(dto: UpdateStockMovementDTO) {
+        const { id, quantityMl, type, productId, userId } = dto;
+
+        if (quantityMl <= 0) throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
+
+        const existingMovement = await this.stockMovementRepository.findById(id);
+        if (!existingMovement) throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
+
+        const stock = await this.stockProductRepository.findByProductId(productId);
+        if (!stock) throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
+
+        let updatedAmount = stock.currentAmountMl;
+
+        if (existingMovement.type === "IN") updatedAmount -= existingMovement.quantityMl;
+        else if (existingMovement.type === "OUT") updatedAmount += existingMovement.quantityMl;
+
+        if (type === "IN") updatedAmount += quantityMl;
+        else if (type === "OUT") {
+            if (updatedAmount < quantityMl) throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
+            updatedAmount -= quantityMl;
+        } else throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
+
+        const movementEntity = StockMovementEntity.fromObject({
+            id,
+            quantityMl,
+            type,
+            product: { id: productId },
+            user: { id: userId }
+        });
+
+        const updatedMovement = await this.stockMovementRepository.update(movementEntity);
+
+        await this.stockProductRepository.update({
+            ...stock,
+            currentAmountMl: updatedAmount
+        });
+
+        return {
+            message: "Stock movement updated successfully",
+            stockMovement: { id: updatedMovement.id }
         };
     }
 

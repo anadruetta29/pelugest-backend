@@ -5,6 +5,7 @@ import { DeleteStockMovementDTO } from '../../../domain/dto/stock-movement/delet
 import { GetAllStockMovementsByProductDTO } from '../../../domain/dto/stock-movement/get-all-by-product';
 import { GetAllStockMovementsByUserDTO } from '../../../domain/dto/stock-movement/get-all-by-user';
 import { StockMovementService } from './service';
+import { UpdateStockMovementDTO } from '../../../domain/dto/stock-movement/update';
 
 
 export class StockMovementController {
@@ -21,6 +22,18 @@ export class StockMovementController {
         return res.status(201).json(result);
     }
 
+    update = async (req: Request, res: Response) => {
+        const [_, dto] = UpdateStockMovementDTO.create({
+            id: req.params.id,
+            ...req.body
+        });
+
+        const result = await this.stockMovementService.update(dto!);
+
+        return res.status(200).json(result);
+    }
+
+    
     delete = async (req: Request, res: Response) => {
         const [_, dto] = DeleteStockMovementDTO.create({
             id: req.params.id

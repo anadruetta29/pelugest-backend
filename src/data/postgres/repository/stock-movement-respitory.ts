@@ -30,6 +30,26 @@ export class StockMovementPostgresRepository {
         return StockMovementEntityMapper.toDomain(movementModel);
     }
 
+    async update(movementEntity: StockMovementEntity): Promise<StockMovementEntity | null> {
+        const data = StockMovementEntityMapper.toModel(movementEntity);
+
+        const movementModel = await prisma.stockMovement.update({
+            where: { id: data.id },
+            data: {
+                quantityMl: data.quantityMl,
+                type: data.type,
+                product: { connect: { id: data.id_product } },
+                user: { connect: { id: data.id_user } }
+            },
+            include: {
+                product: true,
+                user: true
+            }
+        });
+
+        return StockMovementEntityMapper.toDomain(movementModel);
+    }
+
     async findById(id: string): Promise<StockMovementEntity | null> {
 
         const movementModel = await prisma.stockMovement.findUnique({
