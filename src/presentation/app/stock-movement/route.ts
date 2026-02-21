@@ -11,45 +11,45 @@ export class StockMovementRoute {
         const controller = new StockMovementController(service);
 
         router.post(
-            '/create',
+            '/',
             AuthMiddleware.validateSession,
-            (req, res) => controller.create(req, res)
+            controller.create
         );
 
-        router.put(  
-            '/update/:id',
+        router.put(
+            '/:id',
             AuthMiddleware.validateSession,
-            (req, res) => controller.update(req, res)
+            controller.update
         );
 
         router.delete(
-            '/delete/:id',
+            '/:id',
             AuthMiddleware.validateSession,
-            (req, res) => controller.delete(req, res)
+            controller.delete
         );
 
         router.get(
-            '/find-by-id/:id',
+            '/:id',
             AuthMiddleware.validateSession,
-            (req, res) => controller.findById(req, res)
+            controller.findById
         );
 
         router.get(
-            '/get-all',
+            '/',
             AuthMiddleware.validateSession,
-            (req, res) => controller.getAll(req, res)
+            controller.getAll
         );
 
         router.get(
-            '/get-all-by-product/:productId',
+            '/product/:productId',
             AuthMiddleware.validateSession,
-            (req, res) => controller.getAllByProduct(req, res)
+            controller.getAllByProduct
         );
 
         router.get(
-            '/get-all-by-user/:userId',
+            '/user/:userId',
             AuthMiddleware.validateSession,
-            (req, res) => controller.getAllByUser(req, res)
+            controller.getAllByUser
         );
 
         return router;

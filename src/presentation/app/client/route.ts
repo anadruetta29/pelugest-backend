@@ -1,6 +1,4 @@
-import { authHelper } from './../../../config/helpers/AuthHelper';
-import { Router } from "express"
-import { AuthHelper } from "../../../config";
+import { Router } from "express";
 import { AuthMiddleware } from '../../../common';
 import { ClientService } from '../client/service';
 import { ClientController } from '../client/controller';
@@ -12,46 +10,46 @@ export class ClientRoute {
         const controller = new ClientController(service);
 
         router.post(
-            '/create',
+            '/',
             AuthMiddleware.validateSession,
-            (req, res) => controller.create(req, res)
+            controller.create
         );
 
         router.put(
-            '/update/:id',
+            '/:id',
             AuthMiddleware.validateSession,
-            (req, res) => controller.update(req, res)
+            controller.update
         );
 
         router.delete(
-            '/delete',
+            '/:id',
             AuthMiddleware.validateSession,
-            (req, res) => controller.delete(req, res)
+            controller.delete
         );
 
         router.get(
-            '/find-by-id/:id',
+            '/:id',
             AuthMiddleware.validateSession,
-            (req, res) => controller.findById(req, res)
+            controller.findById
         );
 
         router.get(
-            '/get-all',
+            '/',
             AuthMiddleware.validateSession,
-            (req, res) => controller.getAll(req, res)
-        )
-
-        router.get(
-            '/get-all-by-status/:statusId',
-            AuthMiddleware.validateSession,
-            (req, res) => controller.getAllByStatus(req, res)
+            controller.getAll
         );
 
         router.get(
-            '/deactivate/:id',
+            '/status/:statusId',
             AuthMiddleware.validateSession,
-            (req, res) => controller.deactivate(req, res)
-        )
+            controller.getAllByStatus
+        );
+
+        router.patch(
+            '/:id/deactivate',
+            AuthMiddleware.validateSession,
+            controller.deactivate
+        );
 
         return router;
     }
