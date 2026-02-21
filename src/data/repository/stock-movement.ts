@@ -8,12 +8,6 @@ export class StockMovementRepository implements StockMovementRepositoryI {
     async create(movement: StockMovementEntity): Promise<StockMovementEntity> {
         const model = StockMovementEntityMapper.toModel(movement);
 
-    console.log("=== DEBUG DATA ===");
-    console.log("ID del Usuario extraído:", model.id_user);
-    console.log("ID del Producto extraído:", model.id_product);
-    console.log("==================");
-
-
         const saved = await prisma.stockMovement.create({
             data: {
                 id: model.id,

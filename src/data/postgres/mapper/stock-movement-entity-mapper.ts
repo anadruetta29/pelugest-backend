@@ -1,7 +1,14 @@
 import { StockMovement } from '@prisma/client';
 import { StockMovementEntity } from "../../../common/entity/stock-movement";
+import { Prisma } from "@prisma/client";
 
-export type StockMovementModel = StockMovement;
+export type StockMovementModel =
+    Prisma.StockMovementGetPayload<{
+        include: {
+        product: true;
+        user: true;
+        };
+    }>;
 
 export class StockMovementEntityMapper {
 
@@ -16,8 +23,14 @@ export class StockMovementEntityMapper {
             quantityMl: movementModel.quantityMl,
             type: movementModel.type,
             createdAt: movementModel.createdAt,
-            product: { id: movementModel.id_product },
-            user: { id: movementModel.id_user },
+            product: {
+                id: movementModel.product.id,
+                name: movementModel.product.name,
+            },
+            user: {
+                id: movementModel.user.id,
+                name: movementModel.user.name,
+            },
         });
     }
 
