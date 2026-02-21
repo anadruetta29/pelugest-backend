@@ -14,66 +14,128 @@ export class ServiceController {
     ) {}
 
     create = async (req: Request, res: Response) => {
-        const [_, dto] = CreateServiceDTO.create(req.body);
+        try {
+            const [error, dto] = CreateServiceDTO.create(req.body);
 
-        const result = await this.serviceService.create(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(201).json(result);
+            const result = await this.serviceService.create(dto!);
+
+            return res.status(201).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
     }
 
     update = async (req: Request, res: Response) => {
-        const [_, dto] = UpdateServiceDTO.create({
-            id: req.params.id,
-            ...req.body  
-        });
+        try {
+            const [error, dto] = UpdateServiceDTO.create({
+                id: req.params.id,
+                ...req.body  
+            });
 
-        const result = await this.serviceService.update(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
+            const result = await this.serviceService.update(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
     }
 
     delete = async (req: Request, res: Response) => {
-        const [_, dto] = DeleteServiceDTO.create(req.body);
+        try {
+            const [error, dto] = DeleteServiceDTO.create(req.body);
 
-        const result = await this.serviceService.delete(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
+            const result = await this.serviceService.delete(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
     }
 
     findById = async (req: Request, res: Response) => {
-        const [_, dto] = FindServiceByIdDTO.create({ id: req.params.id });
+        try {
+            const [error, dto] = FindServiceByIdDTO.create({ id: req.params.id });
 
-        const result = await this.serviceService.findById(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
+            const result = await this.serviceService.findById(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
     }
 
     getAll = async(req: Request, res: Response) => {
-        const [_, dto] = GetAllServicesDTO.create();
+        try {
+            const [error, dto] = GetAllServicesDTO.create();
 
-        const result = await this.serviceService.getAll(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
+            const result = await this.serviceService.getAll(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
     }
 
     getAllByStatus = async(req: Request, res: Response) => {
-        const { statusId } = req.params;
+        try {
+            const { statusId } = req.params;
 
-        const [_, dto] = GetAllServicesByStatusDTO.create({ statusId });
+            const [error, dto] = GetAllServicesByStatusDTO.create({ statusId });
 
-        const result = await this.serviceService.getAllByStatus(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
+            const result = await this.serviceService.getAllByStatus(dto!);
 
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
     }
 
-     deactivate = async(req: Request, res: Response) => {
-        const { id } = req.params;
+    deactivate = async(req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
 
-        const [_, dto] = DeactivateServiceDTO.create({ id });
+            const [error, dto] = DeactivateServiceDTO.create({ id });
 
-        const result = await this.serviceService.deactivate(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
+            const result = await this.serviceService.deactivate(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { ClientService } from './service';
 import { CreateClientDTO, DeleteClientDTO, FindClientByIdDTO, GetAllClientsByStatusDTO, UpdateClientDTO } from '../../../domain';
 import { DeactivateClientDTO } from '../../../domain/dto/client/deactivate';
@@ -9,67 +9,115 @@ export class ClientController {
         private readonly clientService: ClientService
     ) {}
 
-    create = async (req: Request, res: Response) => {
-        const [_, dto] = CreateClientDTO.create(req.body);
+    create = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const [error, dto] = CreateClientDTO.create(req.body);
 
-        const result = await this.clientService.create(dto!);
+            if (error) return res.status(400).json({ error });
 
-        return res.status(201).json(result);
+            const result = await this.clientService.create(dto!);
+
+            return res.status(201).json(result);
+        } 
+        catch (error) {
+            next(error);
+        }
     }
 
-    update = async (req: Request, res: Response) => {
-        const [_, dto] = UpdateClientDTO.create({
-            id: req.params.id,
-            ...req.body  
-        });
+    update = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const [error, dto] = UpdateClientDTO.create({
+                id: req.params.id,
+                ...req.body
+            });
 
-        const result = await this.clientService.update(dto!);
+            if (error) return res.status(400).json({ error });
 
-        return res.status(200).json(result);
+            const result = await this.clientService.update(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error) {
+            next(error);
+        }
     }
 
-    delete = async (req: Request, res: Response) => {
-        const [_, dto] = DeleteClientDTO.create(req.body);
+    delete = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const [error, dto] = DeleteClientDTO.create(req.body);
 
-        const result = await this.clientService.delete(dto!);
+            if (error) return res.status(400).json({ error });
 
-        return res.status(200).json(result);
+            const result = await this.clientService.delete(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error) {
+            next(error);
+        }
     }
 
-    findById = async (req: Request, res: Response) => {
-        const [_, dto] = FindClientByIdDTO.create({ id: req.params.id });
+    findById = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const [error, dto] = FindClientByIdDTO.create({ id: req.params.id });
 
-        const result = await this.clientService.findById(dto!);
+            if (error) return res.status(400).json({ error });
 
-        return res.status(200).json(result);
+            const result = await this.clientService.findById(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error) {
+            next(error);
+        }
     }
 
-    getAll = async(req: Request, res: Response) => {
-        const [_, dto] = GetAllClientsDTO.create();
+    getAll = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const [error, dto] = GetAllClientsDTO.create();
 
-        const result = await this.clientService.getAll(dto!);
+            if (error) return res.status(400).json({ error });
 
-        return res.status(200).json(result);
+            const result = await this.clientService.getAll(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error) {
+            next(error);
+        }
     }
 
-    getAllByStatus = async(req: Request, res: Response) => {
-        const { statusId } = req.params;
+    getAllByStatus = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { statusId } = req.params;
 
-        const [_, dto] = GetAllClientsByStatusDTO.create({ statusId });
+            const [error, dto] = GetAllClientsByStatusDTO.create({ statusId });
 
-        const result = await this.clientService.getAllByStatus(dto!);
+            if (error) return res.status(400).json({ error });
 
-        return res.status(200).json(result);
+            const result = await this.clientService.getAllByStatus(dto!);
 
+            return res.status(200).json(result);
+        } 
+        catch (error) {
+            next(error);
+        }
     }
 
-    deactivate = async(req: Request, res: Response) => {
-        const { id } = req.params;
+    deactivate = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { id } = req.params;
 
-        const [_, dto] = DeactivateClientDTO.create({ id });
+            const [error, dto] = DeactivateClientDTO.create({ id });
 
-        const result = await this.clientService.deactivate(dto!);
+            if (error) return res.status(400).json({ error });
 
-        return res.status(200).json(result);
+            const result = await this.clientService.deactivate(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error) {
+            next(error);
+        }
     }
 }

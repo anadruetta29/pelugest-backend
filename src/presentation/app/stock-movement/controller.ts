@@ -7,7 +7,6 @@ import { GetAllStockMovementsByUserDTO } from '../../../domain/dto/stock-movemen
 import { StockMovementService } from './service';
 import { UpdateStockMovementDTO } from '../../../domain/dto/stock-movement/update';
 
-
 export class StockMovementController {
 
     constructor(
@@ -15,78 +14,136 @@ export class StockMovementController {
     ) {}
 
     create = async (req: Request, res: Response) => {
-        const [_, dto] = CreateStockMovementDTO.create(req.body);
+        try {
+            const [error, dto] = CreateStockMovementDTO.create(req.body);
 
-        const userId = req.authUser?.id;
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        if (!userId) {
-            return res.status(401).json({ error: "Usuario no autenticado en la sesión" });
+            const userId = req.authUser?.id;
+
+            if (!userId) {
+                return res.status(401).json({ message: "Usuario no autenticado en la sesión" });
+            }
+
+            const result = await this.stockMovementService.create(dto!, userId);
+
+            return res.status(201).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
         }
-
-        const result = await this.stockMovementService.create(dto!, userId);
-
-        return res.status(201).json(result);
-    }
+    };
 
     update = async (req: Request, res: Response) => {
-        const [_, dto] = UpdateStockMovementDTO.create({
-            id: req.params.id,
-            ...req.body
-        });
+        try {
+            const [error, dto] = UpdateStockMovementDTO.create({
+                id: req.params.id,
+                ...req.body
+            });
 
-        const userId = req.authUser?.id;
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        if (!userId) {
-            return res.status(401).json({ error: "Usuario no autenticado en la sesión" });
+            const userId = req.authUser?.id;
+
+            if (!userId) {
+                return res.status(401).json({ message: "Usuario no autenticado en la sesión" });
+            }
+
+            const result = await this.stockMovementService.update(dto!, userId);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
         }
+    };
 
-        const result = await this.stockMovementService.update(dto!, userId);
-
-        return res.status(200).json(result);
-    }
-
-    
     delete = async (req: Request, res: Response) => {
-        const [_, dto] = DeleteStockMovementDTO.create({
-            id: req.params.id
-        });
+        try {
+            const [error, dto] = DeleteStockMovementDTO.create({
+                id: req.params.id
+            });
 
-        const result = await this.stockMovementService.delete(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
-    }
+            const result = await this.stockMovementService.delete(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    };
 
     findById = async (req: Request, res: Response) => {
-        const result = await this.stockMovementService.findById(req.params.id);
+        try {
+            const result = await this.stockMovementService.findById(req.params.id);
 
-        return res.status(200).json(result);
-    }
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    };
 
     getAllByProduct = async (req: Request, res: Response) => {
-        const [_, dto] = GetAllStockMovementsByProductDTO.create({
-            productId: req.params.productId
-        });
+        try {
+            const [error, dto] = GetAllStockMovementsByProductDTO.create({
+                productId: req.params.productId
+            });
 
-        const result = await this.stockMovementService.getAllByProduct(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
-    }
+            const result = await this.stockMovementService.getAllByProduct(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    };
 
     getAllByUser = async (req: Request, res: Response) => {
-        const [_, dto] = GetAllStockMovementsByUserDTO.create({
-            userId: req.params.userId
-        });
+        try {
+            const [error, dto] = GetAllStockMovementsByUserDTO.create({
+                userId: req.params.userId
+            });
 
-        const result = await this.stockMovementService.getAllByUser(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
-    }
+            const result = await this.stockMovementService.getAllByUser(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    };
 
     getAll = async (req: Request, res: Response) => {
-        const [_, dto] = GetAllStockMovementsDTO.create();
+        try {
+            const [error, dto] = GetAllStockMovementsDTO.create();
 
-        const result = await this.stockMovementService.getAll(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
-    }
+            const result = await this.stockMovementService.getAll(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    };
 }

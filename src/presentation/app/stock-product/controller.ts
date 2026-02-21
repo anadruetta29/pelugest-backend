@@ -13,55 +13,105 @@ export class StockProductController {
     ) {}
 
     create = async (req: Request, res: Response) => {
-        const [_, dto] = CreateStockProductDTO.create(req.body);
+        try {
+            const [error, dto] = CreateStockProductDTO.create(req.body);
 
-        const result = await this.stockProductService.create(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(201).json(result);
-    }
+            const result = await this.stockProductService.create(dto!);
+
+            return res.status(201).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    };
 
     update = async (req: Request, res: Response) => {
-        const [_, dto] = UpdateStockProductDTO.create({
-            id: req.params.id,
-            ...req.body
-        });
+        try {
+            const [error, dto] = UpdateStockProductDTO.create({
+                id: req.params.id,
+                ...req.body
+            });
 
-        const result = await this.stockProductService.update(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
-    }
+            const result = await this.stockProductService.update(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    };
 
     delete = async (req: Request, res: Response) => {
-        const [_, dto] = DeleteStockProductDTO.create({
-            id: req.params.id
-        });
+        try {
+            const [error, dto] = DeleteStockProductDTO.create({
+                id: req.params.id
+            });
 
-        const result = await this.stockProductService.delete(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
-    }
+            const result = await this.stockProductService.delete(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    };
 
     findById = async (req: Request, res: Response) => {
-        const result = await this.stockProductService.findById(req.params.id);
+        try {
+            const result = await this.stockProductService.findById(req.params.id);
 
-        return res.status(200).json(result);
-    }
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    };
 
     findByProduct = async (req: Request, res: Response) => {
-        const [_, dto] = FindStockProductByProductDTO.create({
-            productId: req.params.productId
-        });
+        try {
+            const [error, dto] = FindStockProductByProductDTO.create({
+                productId: req.params.productId
+            });
 
-        const result = await this.stockProductService.findByProduct(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
-    }
+            const result = await this.stockProductService.findByProduct(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    };
 
     getAll = async (req: Request, res: Response) => {
-        const [_, dto] = GetAllStockProductsDTO.create();
+        try {
+            const [error, dto] = GetAllStockProductsDTO.create();
 
-        const result = await this.stockProductService.getAll(dto!);
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
 
-        return res.status(200).json(result);
-    }
+            const result = await this.stockProductService.getAll(dto!);
+
+            return res.status(200).json(result);
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    };
 }
