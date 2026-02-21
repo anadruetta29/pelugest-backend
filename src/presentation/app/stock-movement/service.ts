@@ -46,6 +46,9 @@ export class StockMovementService {
 
             updatedAmount -= quantityMl;
         } 
+        else if (type === "ADJUSTMENT") {
+            updatedAmount = quantityMl; 
+        }
         else {
             throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
         }
