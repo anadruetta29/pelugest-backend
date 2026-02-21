@@ -7,14 +7,13 @@ export class UpdateStockMovementDTO {
         public quantityMl: number,
         public type: string,
         public productId: string,
-        public userId: string,
     ) {}
 
     static create(object: { [key: string]: any }): [string?, UpdateStockMovementDTO?] {
 
-        const { id, quantityMl, type, productId, userId, status } = object;
+        const { id, quantityMl, type, productId } = object;
 
-        if (!id || !quantityMl || !type || !productId || !userId) {
+        if (!id || !quantityMl || !type || !productId ) {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
 
@@ -25,7 +24,6 @@ export class UpdateStockMovementDTO {
                 quantityMl,
                 type,
                 productId,
-                userId,
             )
         ];
     }

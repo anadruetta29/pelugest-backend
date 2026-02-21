@@ -15,9 +15,10 @@ export class JWTHelper {
         return this.getClaims(token, (claims) => claims.sub as string);
     }
 
-    public createToken(user: { email: string }): string {
+    public createToken(user: { id: string, email: string }): string {
         const payload = {
-            sub: user.email,
+            sub: user.id, 
+            email: user.email, 
             iat: Math.floor(Date.now() / 1000),
         };
 

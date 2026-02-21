@@ -14,20 +14,18 @@ export class AuthHelper {
         return await this.passwordEncoder.compare(password, user.password);
     }
 
-    public createToken(user: any): { token: string } {
-
+    public createToken(user: { id: string, email: string, [key: string]: any }): { token: string } {
         return { token: this.jwtHelper.createToken(user) };
     }
 
-  
     public validateToken(rawHeader: string | undefined): string | null {
         if (!rawHeader || rawHeader.trim() === '') return null;
-
         if (!rawHeader.startsWith('Bearer ')) return null;
 
         const tokenValue = rawHeader.substring(7).trim();
 
         try {
+            // El JWTHelper debe verificar la firma
             if (this.jwtHelper.validateToken(tokenValue)) {
                 return tokenValue;
             }
@@ -37,6 +35,10 @@ export class AuthHelper {
         }
 
         return null;
+    }
+
+    public getUserIdFromToken(token: string): string {
+        return this.jwtHelper.getSubject(token);
     }
 
     public getSubject(token: string): string {

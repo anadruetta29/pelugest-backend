@@ -7,6 +7,7 @@ export class StockMovementPostgresRepository {
     async create(movementEntity: StockMovementEntity): Promise<StockMovementEntity | null> {
 
         const data = StockMovementEntityMapper.toModel(movementEntity);
+            
 
         const movementModel = await prisma.stockMovement.create({
             data: {
@@ -31,6 +32,7 @@ export class StockMovementPostgresRepository {
     }
 
     async update(movementEntity: StockMovementEntity): Promise<StockMovementEntity | null> {
+
         const data = StockMovementEntityMapper.toModel(movementEntity);
 
         const movementModel = await prisma.stockMovement.update({

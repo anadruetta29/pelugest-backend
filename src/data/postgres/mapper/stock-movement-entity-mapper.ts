@@ -8,6 +8,7 @@ export class StockMovementEntityMapper {
     public static toDomain(
         movementModel: StockMovementModel | null
     ): StockMovementEntity | null {
+
         if (!movementModel) return null;
 
         return StockMovementEntity.fromObject({
@@ -15,8 +16,8 @@ export class StockMovementEntityMapper {
             quantityMl: movementModel.quantityMl,
             type: movementModel.type,
             createdAt: movementModel.createdAt,
-            product: movementModel.id_product,
-            user: movementModel.id_user,
+            product: { id: movementModel.id_product },
+            user: { id: movementModel.id_user },
         });
     }
 
@@ -28,8 +29,8 @@ export class StockMovementEntityMapper {
             quantityMl: movement.quantityMl,
             type: movement.type,
             createdAt: movement.createdAt,
-            id_product: movement.product,
-            id_user: movement.user,
+            id_product: movement.product.id,
+            id_user: movement.user.id,
         };
     }
 

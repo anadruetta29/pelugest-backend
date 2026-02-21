@@ -17,7 +17,13 @@ export class StockMovementController {
     create = async (req: Request, res: Response) => {
         const [_, dto] = CreateStockMovementDTO.create(req.body);
 
-        const result = await this.stockMovementService.create(dto!);
+        const userId = req.authUser?.id;
+
+        if (!userId) {
+            return res.status(401).json({ error: "Usuario no autenticado en la sesión" });
+        }
+
+        const result = await this.stockMovementService.create(dto!, userId);
 
         return res.status(201).json(result);
     }
@@ -28,7 +34,13 @@ export class StockMovementController {
             ...req.body
         });
 
-        const result = await this.stockMovementService.update(dto!);
+        const userId = req.authUser?.id;
+
+        if (!userId) {
+            return res.status(401).json({ error: "Usuario no autenticado en la sesión" });
+        }
+
+        const result = await this.stockMovementService.update(dto!, userId);
 
         return res.status(200).json(result);
     }

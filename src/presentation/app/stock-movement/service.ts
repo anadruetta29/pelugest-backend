@@ -20,8 +20,8 @@ export class StockMovementService {
         private readonly stockProductRepository: StockProductRepositoryI = new StockProductRepository()
     ) {}
 
-    public async create(dto: CreateStockMovementDTO) {
-        const { quantityMl, type, productId, userId } = dto;
+    public async create(dto: CreateStockMovementDTO, userId: string) {
+        const { quantityMl, type, productId } = dto;
 
         if (quantityMl <= 0) {
             throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
@@ -75,8 +75,8 @@ export class StockMovementService {
         };
     }
 
-    public async update(dto: UpdateStockMovementDTO) {
-        const { id, quantityMl, type, productId, userId } = dto;
+    public async update(dto: UpdateStockMovementDTO, userId: string) {
+        const { id, quantityMl, type, productId } = dto;
 
         if (quantityMl <= 0) throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
 
