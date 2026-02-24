@@ -210,13 +210,11 @@ export class ClientService {
         const totalPages = Math.ceil(result.total / limit);
 
         return {
-            data: result.data,
-            meta: {
-                total: result.total,
-                page,
-                limit,
-                totalPages
-            }
+            clients: result.data,  
+            total: result.total,   
+            page,                  
+            limit,                 
+            totalPages             
         };
     }
 }
