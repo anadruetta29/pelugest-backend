@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { AuthMiddleware } from '../../../common';
-import { ServiceController } from './controller';
-import { ServiceService } from './service';
+import { ProductController } from './controller';
+import { ProductService } from './service';
 
-export class ServiceRoute {
+export class ProductRoute {
     static get routes(): Router {
         const router = Router();
-        const service = new ServiceService();
-        const controller = new ServiceController(service);
+        const service = new ProductService();
+        const controller = new ProductController(service);
 
         router.post(
             '/',

@@ -1,0 +1,30 @@
+import { ErrorHandler, ErrorTypeName } from "../../../common";
+
+export class UpdateStockMovementDTO {
+
+    private constructor(
+        public id: string,
+        public quantityMl: number,
+        public type: string,
+        public productId: string,
+    ) {}
+
+    static create(object: { [key: string]: any }): [string?, UpdateStockMovementDTO?] {
+
+        const { id, quantityMl, type, productId } = object;
+
+        if (!id || !quantityMl || !type || !productId ) {
+            throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
+        }
+
+        return [
+            undefined,
+            new UpdateStockMovementDTO(
+                id,
+                quantityMl,
+                type,
+                productId,
+            )
+        ];
+    }
+}

@@ -6,7 +6,7 @@ import { ServiceRepositoryI } from '../../../domain/repository/service-repositor
 import { RecordStatusRepositoryI, RegexValidator } from '../../../domain';
 import { ServiceRepository } from '../../../data/repository/service-repository';
 import { RecordStatusRepository } from '../../../data';
-import { CreateServicetDTO } from '../../../domain/dto/service/create';
+import { CreateServiceDTO } from '../../../domain/dto/service/create';
 import { ServiceEntity } from '../../../common';
 import { UpdateServiceDTO } from '../../../domain/dto/service/update';
 import { DeleteServiceDTO } from '../../../domain/dto/service/delete';
@@ -22,7 +22,7 @@ export class ServiceService {
         private readonly recordStatusRepository: RecordStatusRepositoryI = new RecordStatusRepository()
     ) {}
 
-    public async create(dto: CreateServicetDTO) {
+    public async create(dto: CreateServiceDTO) {
         const { name, description, estimatedDurationMin, basePrice } = dto;
 
         if (!RegexValidator.validate(name, RegexValidator.NAME)) {

@@ -10,9 +10,9 @@ export class RecordStatusRoute {
         const controller = new RecordStatusController(service);
 
         router.get(
-            '/find-by-name/:name',
+            '/name/:name',
             AuthMiddleware.validateSession,
-            (req, res) => controller.findByName(req, res)
+            controller.findByName
         );
 
         return router;

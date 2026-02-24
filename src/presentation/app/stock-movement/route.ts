@@ -1,13 +1,14 @@
 import { Router } from "express";
-import { AuthMiddleware } from '../../../common';
-import { ServiceController } from './controller';
-import { ServiceService } from './service';
+import { AuthMiddleware } from "../../../common";
+import { StockMovementController } from "./controller";
+import { StockMovementService } from "./service";
 
-export class ServiceRoute {
+export class StockMovementRoute {
     static get routes(): Router {
+
         const router = Router();
-        const service = new ServiceService();
-        const controller = new ServiceController(service);
+        const service = new StockMovementService();
+        const controller = new StockMovementController(service);
 
         router.post(
             '/',
@@ -40,15 +41,15 @@ export class ServiceRoute {
         );
 
         router.get(
-            '/status/:statusId',
+            '/product/:productId',
             AuthMiddleware.validateSession,
-            controller.getAllByStatus
+            controller.getAllByProduct
         );
 
-        router.patch(
-            '/:id/deactivate',
+        router.get(
+            '/user/:userId',
             AuthMiddleware.validateSession,
-            controller.deactivate
+            controller.getAllByUser
         );
 
         return router;

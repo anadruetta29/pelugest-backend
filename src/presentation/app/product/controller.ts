@@ -1,21 +1,25 @@
 import { Request, Response, NextFunction } from 'express';
-import { ClientService } from './service';
-import { CreateClientDTO, DeleteClientDTO, FindClientByIdDTO, GetAllClientsByStatusDTO, UpdateClientDTO } from '../../../domain';
-import { DeactivateClientDTO } from '../../../domain/dto/client/deactivate';
-import { GetAllClientsDTO } from '../../../domain/dto/client/get-all';
+import { CreateProductDTO } from '../../../domain/dto/product/create';
+import { UpdateProductDTO } from '../../../domain/dto/product/update';
+import { DeleteProductDTO } from '../../../domain/dto/product/delete';
+import { FindProductByIdDTO } from '../../../domain/dto/product/find-by-id';
+import { GetAllProductsDTO } from '../../../domain/dto/product/get-all';
+import { GetAllProductsByStatusDTO } from '../../../domain/dto/product/get-all-by-status';
+import { DeactivateProductDTO } from '../../../domain/dto/product/deactivate';
+import { ProductService } from './service';
 
-export class ClientController {
+export class ProductController {
     constructor(
-        private readonly clientService: ClientService
+        private readonly productService: ProductService
     ) {}
 
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const [error, dto] = CreateClientDTO.create(req.body);
+            const [error, dto] = CreateProductDTO.create(req.body);
 
             if (error) return res.status(400).json({ error });
 
-            const result = await this.clientService.create(dto!);
+            const result = await this.productService.create(dto!);
 
             return res.status(201).json(result);
         } 
@@ -26,14 +30,14 @@ export class ClientController {
 
     update = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const [error, dto] = UpdateClientDTO.create({
+            const [error, dto] = UpdateProductDTO.create({
                 id: req.params.id,
                 ...req.body
             });
 
             if (error) return res.status(400).json({ error });
 
-            const result = await this.clientService.update(dto!);
+            const result = await this.productService.update(dto!);
 
             return res.status(200).json(result);
         } 
@@ -44,11 +48,11 @@ export class ClientController {
 
     delete = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const [error, dto] = DeleteClientDTO.create(req.body);
+            const [error, dto] = DeleteProductDTO.create(req.body);
 
             if (error) return res.status(400).json({ error });
 
-            const result = await this.clientService.delete(dto!);
+            const result = await this.productService.delete(dto!);
 
             return res.status(200).json(result);
         } 
@@ -59,11 +63,11 @@ export class ClientController {
 
     findById = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const [error, dto] = FindClientByIdDTO.create({ id: req.params.id });
+            const [error, dto] = FindProductByIdDTO.create({ id: req.params.id });
 
             if (error) return res.status(400).json({ error });
 
-            const result = await this.clientService.findById(dto!);
+            const result = await this.productService.findById(dto!);
 
             return res.status(200).json(result);
         } 
@@ -74,11 +78,11 @@ export class ClientController {
 
     getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const [error, dto] = GetAllClientsDTO.create();
+            const [error, dto] = GetAllProductsDTO.create();
 
             if (error) return res.status(400).json({ error });
 
-            const result = await this.clientService.getAll(dto!);
+            const result = await this.productService.getAll(dto!);
 
             return res.status(200).json(result);
         } 
@@ -91,11 +95,11 @@ export class ClientController {
         try {
             const { statusId } = req.params;
 
-            const [error, dto] = GetAllClientsByStatusDTO.create({ statusId });
+            const [error, dto] = GetAllProductsByStatusDTO.create({ statusId });
 
             if (error) return res.status(400).json({ error });
 
-            const result = await this.clientService.getAllByStatus(dto!);
+            const result = await this.productService.getAllByStatus(dto!);
 
             return res.status(200).json(result);
         } 
@@ -108,11 +112,11 @@ export class ClientController {
         try {
             const { id } = req.params;
 
-            const [error, dto] = DeactivateClientDTO.create({ id });
+            const [error, dto] = DeactivateProductDTO.create({ id });
 
             if (error) return res.status(400).json({ error });
 
-            const result = await this.clientService.deactivate(dto!);
+            const result = await this.productService.deactivate(dto!);
 
             return res.status(200).json(result);
         } 

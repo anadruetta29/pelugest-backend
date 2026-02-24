@@ -1,6 +1,6 @@
 import { ErrorHandler, ErrorTypeName } from "../../../common";
 
-export class CreateServicetDTO {
+export class CreateServiceDTO {
     private constructor(
         public name: string,
         public description: string,
@@ -8,7 +8,7 @@ export class CreateServicetDTO {
         public basePrice: number
     ){}
 
-    static create(object: { [key: string]: any }): [string?, CreateServicetDTO?]  {
+    static create(object: { [key: string]: any }): [string?, CreateServiceDTO?]  {
         const { name, description, estimatedDurationMin, basePrice } = object;
 
         if (!name || !description || !estimatedDurationMin || !basePrice) {
@@ -23,6 +23,6 @@ export class CreateServicetDTO {
             throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
         }
 
-        return [undefined, new CreateServicetDTO(name, description, estimatedDurationMin, basePrice)];
+        return [undefined, new CreateServiceDTO(name, description, estimatedDurationMin, basePrice)];
     }
 }
