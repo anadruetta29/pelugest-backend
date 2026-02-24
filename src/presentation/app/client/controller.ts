@@ -3,6 +3,7 @@ import { ClientService } from './service';
 import { CreateClientDTO, DeleteClientDTO, FindClientByIdDTO, GetAllClientsByStatusDTO, UpdateClientDTO } from '../../../domain';
 import { DeactivateClientDTO } from '../../../domain/dto/client/deactivate';
 import { GetAllClientsDTO } from '../../../domain/dto/client/get-all';
+import { SearchClientDTO } from '../../../domain/dto/client/search';
 
 export class ClientController {
     constructor(
@@ -116,6 +117,23 @@ export class ClientController {
 
             return res.status(200).json(result);
         } 
+        catch (error) {
+            next(error);
+        }
+    }
+
+    search = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { name, page, limit } = req.query;
+
+            const [error, dto] = SearchClientDTO.create({ name, page, limit });
+
+            if (error) return res.status(400).json({ error });
+
+            const result = await this.clientService.search(dto!);
+
+            return res.status(200).json(result);
+        }
         catch (error) {
             next(error);
         }

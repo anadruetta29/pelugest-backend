@@ -28,12 +28,6 @@ export class ClientRoute {
         );
 
         router.get(
-            '/:id',
-            AuthMiddleware.validateSession,
-            controller.findById
-        );
-
-        router.get(
             '/',
             AuthMiddleware.validateSession,
             controller.getAll
@@ -49,6 +43,18 @@ export class ClientRoute {
             '/:id/deactivate',
             AuthMiddleware.validateSession,
             controller.deactivate
+        );
+
+        router.get(
+            '/search',
+            AuthMiddleware.validateSession,
+            controller.search
+        );
+
+        router.get(
+            '/:id',
+            AuthMiddleware.validateSession,
+            controller.findById
         );
 
         return router;

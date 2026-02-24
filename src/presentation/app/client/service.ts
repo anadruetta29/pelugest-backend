@@ -6,6 +6,7 @@ import { ClientRepository, RecordStatusRepository } from '../../../data';
 import { ClientEntity } from '../../../common';
 import { DeactivateClientDTO } from "../../../domain/dto/client/deactivate";
 import { GetAllClientsDTO } from "../../../domain/dto/client/get-all";
+import { SearchClientDTO } from "../../../domain/dto/client/search";
 
 export class ClientService {
 
@@ -190,5 +191,30 @@ export class ClientService {
                 id: deactivatedClient.id
             }
         }
+    }
+
+    public async search(dto: SearchClientDTO) {
+
+        const { name, skip, take, page, limit } = dto;
+
+        const result = await this.clientRepository.search({
+            name,
+            skip,
+            take
+        });
+
+        if (!result) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
+        }
+
+        const totalPages = Math.ceil(result.total / limit);
+
+        return {
+            clients: result.data,  
+            total: result.total,   
+            page,                  
+            limit,                 
+            totalPages             
+        };
     }
 }
