@@ -6,7 +6,6 @@ export * from './postgres/mapper/service-entity-mapper';
 export * from './postgres/mapper/stock-movement-entity-mapper';
 export * from './postgres/mapper/stock-product-entity-mapper';
 export * from './postgres/mapper/user-entity-mapper';
-export * from './postgres/repository/client-postgres-repository';
 export * from './postgres/repository/product-postgres-repository';
 export * from './postgres/repository/record-status-postgres-repository';
 export * from './postgres/repository/role-postgres-repository';

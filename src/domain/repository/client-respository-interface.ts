@@ -16,4 +16,6 @@ export interface ClientRepositoryI {
 
     deactivate(id: string): Promise<ClientEntity>;
 
+    search(params: {name?: string; skip: number; take: number; }): Promise<{ data: ClientEntity[]; total: number; }>;
+    
 }

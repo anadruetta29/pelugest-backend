@@ -89,4 +89,25 @@ export class ClientRepository implements ClientRepositoryI {
         return ClientEntityMapper.toDomain(model as ClientModel)!;
     }
 
+    async search(params: { name?: string; skip: number; take: number }) {
+        const { name, skip, take } = params;
+        const where: any = {
+            status: { NOT: { id: 'DELETED' } }
+        };
+
+        if (name) {
+            where.name = { contains: name, mode: 'insensitive' };
+        }
+
+        const [models, total] = await prisma.$transaction([
+            prisma.client.findMany({ where, skip, take, include: { status: true }, orderBy: { name: 'asc' } }),
+            prisma.client.count({ where })
+        ]);
+
+        return {
+            data: ClientEntityMapper.toDomainList(models as ClientModel[]),
+            total
+        };
+    }
+
 }
