@@ -62,4 +62,18 @@ export class AppointmentEntity {
     cancel() {
         this.status.cancel(this);
     }
+
+    static fromObject(object: { [key: string]: any }): AppointmentEntity {
+
+    const state = AppointmentStateFactory.create(object.status);
+
+    return new AppointmentEntity(
+        object.id,
+        new Date(object.startDateTime),
+        new Date(object.estimatedEndDateTime),
+        state,
+        object.client,
+        object.hairdresser
+    );
+}
 }

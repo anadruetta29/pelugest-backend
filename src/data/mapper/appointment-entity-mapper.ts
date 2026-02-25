@@ -1,6 +1,6 @@
 import { Appointment as PrismaAppointment, Client, User, AppointmentDetail, Service, AppointmentStatusName } 
     from "@prisma/client";
-import { AppointmentEntity } from "../../common";
+import { AppointmentEntity, ClientEntity, UserEntity } from "../../common";
 import { ClientEntityMapper } from "./client-entity-mapper";
 import { UserEntityMapper } from "./user-entity-mapper";
 
@@ -14,45 +14,48 @@ export type AppointmentModel = PrismaAppointment & {
 
 export class AppointmentEntityMapper {
 
-    public static toDomain(model: AppointmentModel | null): AppointmentEntity | null {
-        if (!model) return null;
+    public static toDomain(appointmentModel: AppointmentModel | null): AppointmentEntity | null {
+        if (!appointmentModel) return null;
 
-        const client = ClientEntityMapper.toDomain(model.client ?? null);
-        const hairdresser = UserEntityMapper.toDomain(model.hairdresser ?? null);
-
-        if (!client || !hairdresser) {
-        throw new Error("Invalid Appointment: client or hairdresser missing");
-        }
-
-        return AppointmentEntity.create({
-        id: model.id,
-        startDateTime: model.startDateTime,
-        estimatedEndDateTime: model.estimatedEndDateTime,
-        status: model.status, 
-        client,
-        hairdresser
-        });
+        return AppointmentEntity.fromObject({
+            id: appointmentModel.id,
+            startDateTime: appointmentModel.startDateTime,
+            estimatedEndDateTime: appointmentModel.estimatedEndDateTime,
+            status: appointmentModel.status, 
+            client: appointmentModel.client
+                ? ClientEntity.fromObject({
+                    id: appointmentModel.client.id,
+                    name: appointmentModel.client.name
+                })
+                : null,
+            hairdresser: appointmentModel.hairdresser
+                ? UserEntity.fromObject({
+                    id: appointmentModel.hairdresser.id,
+                    name: appointmentModel.hairdresser.name
+                })
+                : null
+        })
     }
 
-    public static toModel(entity: AppointmentEntity | null): Partial<PrismaAppointment> | null {
-        if (!entity) return null;
+    public static toModel(appointment: AppointmentEntity | null): Partial<PrismaAppointment> | null {
+        if (!appointment) return null;
 
         return {
-        id: entity.id,
-        startDateTime: entity.startDateTime,
-        estimatedEndDateTime: entity.estimatedEndDateTime,
-        status: entity.getStatus() as AppointmentStatusName,
-        id_client: entity.client.id,
-        id_user: entity.hairdresser.id
+            id: appointment.id,
+            startDateTime: appointment.startDateTime,
+            estimatedEndDateTime: appointment.estimatedEndDateTime,
+            status: appointment.getStatus() as AppointmentStatusName,
+            id_client: appointment.client.id,
+            id_user: appointment.hairdresser.id
         };
     }
 
     public static toDomainList(
-        models: AppointmentModel[] | null | undefined
+        appointmentModels: AppointmentModel[] | null | undefined
     ): AppointmentEntity[] {
-        if (!models) return [];
+        if (!appointmentModels) return [];
 
-        return models
+        return appointmentModels
         .map(model => this.toDomain(model))
         .filter((appointment): appointment is AppointmentEntity => appointment !== null);
     }
