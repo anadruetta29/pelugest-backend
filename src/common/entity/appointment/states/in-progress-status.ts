@@ -1,3 +1,5 @@
+import { ErrorHandler } from "../../../errors/ErrorHandler";
+import { ErrorTypeName } from "../../../errors/ErrorType";
 import { AppointmentEntity } from "../appointment";
 import { AppointmentStatus } from "../appointment-status";
 import { AttendedStatus } from "./attended-status";
@@ -10,7 +12,7 @@ export class InProgressStatus implements AppointmentStatus {
     }
 
     start(): void {
-        throw new Error('Appointment already started');
+        throw new ErrorHandler(ErrorTypeName.APPOINTMENT_ALREADY_STARTED);
     }
 
     attend(appointment: AppointmentEntity): void {
@@ -22,6 +24,6 @@ export class InProgressStatus implements AppointmentStatus {
     }
 
     cancel(): void {
-        throw new Error('Cannot cancel an appointment that is in progress');
+        throw new ErrorHandler(ErrorTypeName.APPOINTMENT_ALREADY_IN_PROGRESS);
     }
 }

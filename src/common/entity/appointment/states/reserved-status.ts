@@ -1,3 +1,5 @@
+import { ErrorHandler } from "../../../errors/ErrorHandler";
+import { ErrorTypeName } from "../../../errors/ErrorType";
 import { AppointmentEntity } from "../appointment";
 import { AppointmentStatus } from "../appointment-status";
 import { CancelledStatus } from "./cancelled-status";
@@ -15,7 +17,7 @@ export class ReservedStatus implements AppointmentStatus {
     }
 
     attend(): void {
-        throw new Error('Cannot attend: appointment not started');
+        throw new ErrorHandler(ErrorTypeName.APPOINTMENT_NOT_STARTED);
     }
 
     miss(appointment: AppointmentEntity): void {

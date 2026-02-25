@@ -1,5 +1,7 @@
 import { AppointmentStatus } from "../appointment-status";
 import { AppointmentEntity } from "../appointment";
+import { ErrorHandler } from "../../../errors/ErrorHandler";
+import { ErrorTypeName } from "../../../errors/ErrorType";
 
 export class AttendedStatus implements AppointmentStatus {
     getStatus(): string {
@@ -7,18 +9,18 @@ export class AttendedStatus implements AppointmentStatus {
     }
 
     start(appointment: AppointmentEntity): void {
-        throw new Error('Appointment already attended');
+        throw new ErrorHandler(ErrorTypeName.APPOINTMENT_ALREADY_ATTENDED);
     }
 
     attend(appointment: AppointmentEntity): void {
-        throw new Error('Appointment already attended');
+        throw new ErrorHandler(ErrorTypeName.APPOINTMENT_ALREADY_ATTENDED);
     }
 
     miss(appointment: AppointmentEntity): void {
-        throw new Error('Appointment already attended');
+        throw new ErrorHandler(ErrorTypeName.APPOINTMENT_ALREADY_ATTENDED);
     }
 
     cancel(appointment: AppointmentEntity): void {
-        throw new Error('Cannot cancel: appointment already attended');
+        throw new ErrorHandler(ErrorTypeName.APPOINTMENT_ALREADY_ATTENDED);
     }
 }
