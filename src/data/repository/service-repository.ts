@@ -2,7 +2,7 @@ import { Service } from '@prisma/client';
 import { prisma } from "../../app";
 import { ServiceEntity } from "../../common";
 import { ServiceRepositoryI } from "../../domain/repository/service-repository-interface";
-import { ServiceEntityMapper, ServiceModel } from "../postgres/mapper/service-entity-mapper";
+import { ServiceEntityMapper, ServiceModel } from '../mapper/service-entity-mapper';
 
 export class ServiceRepository implements ServiceRepositoryI {
 
@@ -89,6 +89,27 @@ export class ServiceRepository implements ServiceRepositoryI {
         });
     
         return ServiceEntityMapper.toDomain(models as ServiceModel)!;
+    }
+
+    async search(params: { name?: string; skip: number; take: number }) {
+        const { name, skip, take } = params;
+        const where: any = {
+            status: { NOT: { id: 'DELETED' } }
+        };
+
+        if (name) {
+            where.name = { contains: name, mode: 'insensitive' };
+        }
+
+        const [models, total] = await prisma.$transaction([
+            prisma.service.findMany({ where, skip, take, include: { status: true }, orderBy: { name: 'asc' } }),
+            prisma.service.count({ where })
+        ]);
+
+        return {
+            data: ServiceEntityMapper.toDomainList(models as ServiceModel[]),
+            total
+        };
     }
 
 }

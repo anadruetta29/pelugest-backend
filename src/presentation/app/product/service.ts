@@ -14,6 +14,7 @@ import { FindProductByIdDTO } from '../../../domain/dto/product/find-by-id';
 import { GetAllProductsDTO } from '../../../domain/dto/product/get-all';
 import { GetAllProductsByStatusDTO } from '../../../domain/dto/product/get-all-by-status';
 import { DeactivateProductDTO } from '../../../domain/dto/product/deactivate';
+import { SearchProductDTO } from '../../../domain/dto/product/search';
 
 
 export class ProductService {
@@ -179,5 +180,30 @@ export class ProductService {
                 id: deactivatedProduct.id
             }
         }
+    }
+
+    public async search(dto: SearchProductDTO) {
+    
+        const { name, skip, take, page, limit } = dto;
+
+        const result = await this.productRepository.search({
+            name,
+            skip,
+            take
+        });
+
+        if (!result) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
+        }
+
+        const totalPages = Math.ceil(result.total / limit);
+
+        return {
+            products: result.data,  
+            total: result.total,   
+            page,                  
+            limit,                 
+            totalPages             
+        };
     }
 }

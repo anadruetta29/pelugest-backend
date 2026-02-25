@@ -40,6 +40,12 @@ export class ProductRoute {
         );
 
         router.get(
+            '/search',
+            AuthMiddleware.validateSession,
+            controller.search
+        );
+
+        router.get(
             '/status/:statusId',
             AuthMiddleware.validateSession,
             controller.getAllByStatus

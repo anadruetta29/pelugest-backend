@@ -7,6 +7,7 @@ import { GetAllProductsDTO } from '../../../domain/dto/product/get-all';
 import { GetAllProductsByStatusDTO } from '../../../domain/dto/product/get-all-by-status';
 import { DeactivateProductDTO } from '../../../domain/dto/product/deactivate';
 import { ProductService } from './service';
+import { SearchProductDTO } from '../../../domain/dto/product/search';
 
 export class ProductController {
     constructor(
@@ -120,6 +121,23 @@ export class ProductController {
 
             return res.status(200).json(result);
         } 
+        catch (error) {
+            next(error);
+        }
+    }
+
+    search = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { name, page, limit } = req.query;
+
+            const [error, dto] = SearchProductDTO.create({ name, page, limit });
+
+            if (error) return res.status(400).json({ error });
+
+            const result = await this.productService.search(dto!);
+
+            return res.status(200).json(result);
+        }
         catch (error) {
             next(error);
         }

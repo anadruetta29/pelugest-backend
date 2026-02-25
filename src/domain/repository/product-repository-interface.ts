@@ -16,4 +16,6 @@ export interface ProductRepositoryI {
 
     deactivate(id: string): Promise<ProductEntity>;
 
+    search(params: {name?: string; skip: number; take: number; }): Promise<{ data: ProductEntity[]; total: number; }>;
+
 }

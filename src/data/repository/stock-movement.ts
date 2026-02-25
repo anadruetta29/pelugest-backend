@@ -1,7 +1,7 @@
 import { prisma } from "../../app";
 import { StockMovementEntity } from "../../common/entity/stock-movement";
 import { StockMovementRepositoryI } from "../../domain/repository/stock-movement-repository-interface";
-import { StockMovementEntityMapper, StockMovementModel } from "../postgres/mapper/stock-movement-entity-mapper";
+import { StockMovementEntityMapper, StockMovementModel } from "../mapper/stock-movement-entity-mapper";
 
 export class StockMovementRepository implements StockMovementRepositoryI {
 

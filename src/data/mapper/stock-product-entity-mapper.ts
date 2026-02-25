@@ -1,5 +1,5 @@
 import { StockProduct } from "@prisma/client";
-import { StockProductEntity } from "../../../common";
+import { StockProductEntity } from "../../common";
 
 export type StockProductModel = StockProduct;
 

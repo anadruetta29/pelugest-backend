@@ -1,6 +1,5 @@
-import { RecordStatusEntity } from "../../../common/entity/record-status";
-import { ClientEntity } from "../../../common";
 import { Client as PrismaClient, RecordStatus } from "@prisma/client";
+import { ClientEntity, RecordStatusEntity } from "../../common";
 
 export type ClientModel = PrismaClient & {
     status?: RecordStatus | null;

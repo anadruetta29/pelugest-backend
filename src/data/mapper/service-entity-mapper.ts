@@ -1,6 +1,5 @@
 import { Service, RecordStatus } from "@prisma/client";
-import { ServiceEntity } from "../../../common";
-import { RecordStatusEntity } from "../../../common/entity/record-status";
+import { RecordStatusEntity, ServiceEntity } from "../../common";
 
 export type ServiceModel = Service & {
   	status?: RecordStatus | null;

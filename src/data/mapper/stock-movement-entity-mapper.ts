@@ -1,6 +1,6 @@
 import { StockMovement } from '@prisma/client';
-import { StockMovementEntity } from "../../../common/entity/stock-movement";
 import { Prisma } from "@prisma/client";
+import { StockMovementEntity } from '../../common/entity/stock-movement';
 
 export type StockMovementModel =
     Prisma.StockMovementGetPayload<{
