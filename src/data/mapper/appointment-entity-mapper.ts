@@ -37,7 +37,7 @@ export class AppointmentEntityMapper {
         })
     }
 
-    public static toModel(appointment: AppointmentEntity | null): Partial<PrismaAppointment> | null {
+    public static toModel(appointment: AppointmentEntity | null): any {
         if (!appointment) return null;
 
         return {

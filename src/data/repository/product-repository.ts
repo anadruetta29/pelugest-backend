@@ -1,7 +1,5 @@
-import { RecordStatus } from './../../../generated/prisma/client';
-import { Client, Product } from './../../../node_modules/.prisma/client/index.d';
 import { prisma } from "../../app";
-import { ProductEntity, RecordStatusEntity } from "../../common";
+import { ProductEntity } from "../../common";
 import { ProductEntityMapper, ProductModel } from '../mapper/product-entity-mapper';
 import { ProductRepositoryI } from '../../domain/repository/product-repository-interface';
 
