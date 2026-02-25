@@ -1,5 +1,5 @@
-import { AppointmentEntity } from "./appointment";
-import { AppointmentStatus } from "./appointment-status";
+import { AppointmentStatus } from "../appointment-status";
+import { AppointmentEntity } from "../appointment";
 
 export class MissedStatus implements AppointmentStatus {
     getStatus(): string {
