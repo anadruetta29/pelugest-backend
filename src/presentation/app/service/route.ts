@@ -28,6 +28,12 @@ export class ServiceRoute {
         );
 
         router.get(
+            '/search',
+            AuthMiddleware.validateSession,
+            controller.search
+        );
+
+        router.get(
             '/:id',
             AuthMiddleware.validateSession,
             controller.findById
@@ -39,11 +45,6 @@ export class ServiceRoute {
             controller.getAll
         );
 
-        router.get(
-            '/search',
-            AuthMiddleware.validateSession,
-            controller.search
-        );
 
         router.get(
             '/status/:statusId',

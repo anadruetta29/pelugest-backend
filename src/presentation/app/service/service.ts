@@ -206,7 +206,7 @@ export class ServiceService {
         const totalPages = Math.ceil(result.total / limit);
 
         return {
-            clients: result.data,  
+            services: result.data,  
             total: result.total,   
             page,                  
             limit,                 
