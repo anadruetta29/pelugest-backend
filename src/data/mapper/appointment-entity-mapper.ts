@@ -1,8 +1,6 @@
 import { Appointment as PrismaAppointment, Client, User, AppointmentDetail, Service, AppointmentStatusName } 
     from "@prisma/client";
 import { AppointmentEntity, ClientEntity, UserEntity } from "../../common";
-import { ClientEntityMapper } from "./client-entity-mapper";
-import { UserEntityMapper } from "./user-entity-mapper";
 
 export type AppointmentModel = PrismaAppointment & {
     client?: Client | null;
