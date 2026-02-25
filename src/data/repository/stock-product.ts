@@ -1,7 +1,7 @@
 import { prisma } from "../../app";
 import { StockProductEntity } from "../../common";
 import { StockProductRepositoryI } from "../../domain/repository/stock-product-repository-interface";
-import { StockProductEntityMapper, StockProductModel } from "../postgres/mapper/stock-product-entity-mapper";
+import { StockProductEntityMapper, StockProductModel } from "../mapper/stock-product-entity-mapper";
 
 export class StockProductRepository implements StockProductRepositoryI {
 

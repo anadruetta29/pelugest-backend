@@ -16,4 +16,5 @@ export interface ServiceRepositoryI {
 
     deactivate(id: string): Promise<ServiceEntity>;
 
+    search(params: {name?: string; skip: number; take: number; }): Promise<{ data: ServiceEntity[]; total: number; }>;
 }

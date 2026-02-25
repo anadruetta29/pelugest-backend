@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { ServiceService } from './service';
 import { CreateServiceDTO } from '../../../domain/dto/service/create';
 import { UpdateServiceDTO } from '../../../domain/dto/service/update';
@@ -7,6 +7,7 @@ import { FindServiceByIdDTO } from '../../../domain/dto/service/find-by-id';
 import { GetAllServicesDTO } from '../../../domain/dto/service/get-all';
 import { GetAllServicesByStatusDTO } from '../../../domain/dto/service/get-all-by-status';
 import { DeactivateServiceDTO } from '../../../domain/dto/service/deactivate';
+import { SearchServiceDTO } from '../../../domain/dto/service/search';
 
 export class ServiceController {
     constructor(
@@ -136,6 +137,23 @@ export class ServiceController {
         } 
         catch (error: any) {
             return res.status(500).json({ message: error.message || 'Internal server error' });
+        }
+    }
+
+    search = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { name, page, limit } = req.query;
+    
+            const [error, dto] = SearchServiceDTO.create({ name, page, limit });
+    
+            if (error) return res.status(400).json({ error });
+    
+            const result = await this.serviceService.search(dto!);
+    
+            return res.status(200).json(result);
+        }
+        catch (error) {
+            next(error);
         }
     }
 }

@@ -1,5 +1,5 @@
 import { Role as PrismaRole } from "@prisma/client";
-import { RoleEntity } from "../../../common/entity/role";
+import { RoleEntity } from "../../common";
 
 export type RoleModel = PrismaRole;
 

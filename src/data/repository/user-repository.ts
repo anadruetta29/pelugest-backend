@@ -1,7 +1,7 @@
 import { prisma } from "../../app";
 import { UserEntity } from "../../common/entity/user";
 import { UserRepositoryI } from "../../domain/repository/user-repository-interface";
-import { UserEntityMapper, UserModel } from "../postgres/mapper/user-entity-mapper";
+import { UserEntityMapper, UserModel } from "../mapper/user-entity-mapper";
 
 export class UserRepository implements UserRepositoryI {
 

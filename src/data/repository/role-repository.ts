@@ -1,6 +1,6 @@
 import { prisma } from "../../app";
 import { RoleEntity } from "../../common/entity/role";
-import { RoleEntityMapper, RoleModel } from "../postgres/mapper/role-entity-mapper";
+import { RoleEntityMapper, RoleModel } from "../mapper/role-entity-mapper";
 
 export class RoleRepository {
 

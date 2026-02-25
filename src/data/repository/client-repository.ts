@@ -1,8 +1,7 @@
 import { RecordStatus } from './../../../generated/prisma/client';
-import { Client } from './../../../node_modules/.prisma/client/index.d';
 import { prisma } from "../../app";
-import { ClientEntity, RecordStatusEntity } from "../../common";
-import { ClientEntityMapper, ClientModel } from "../postgres/mapper/client-entity-mapper";
+import { ClientEntity } from "../../common";
+import { ClientEntityMapper, ClientModel } from "../mapper/client-entity-mapper";
 import { ClientRepositoryI } from '../../domain/repository/client-respository-interface';
 
 export class ClientRepository implements ClientRepositoryI {

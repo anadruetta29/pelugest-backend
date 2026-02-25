@@ -2,7 +2,7 @@ import { RecordStatus } from './../../../generated/prisma/client';
 import { Client, Product } from './../../../node_modules/.prisma/client/index.d';
 import { prisma } from "../../app";
 import { ProductEntity, RecordStatusEntity } from "../../common";
-import { ProductEntityMapper, ProductModel } from '../postgres/mapper/product-entity-mapper';
+import { ProductEntityMapper, ProductModel } from '../mapper/product-entity-mapper';
 import { ProductRepositoryI } from '../../domain/repository/product-repository-interface';
 
 export class ProductRepository implements ProductRepositoryI {
@@ -83,6 +83,27 @@ export class ProductRepository implements ProductRepositoryI {
         });
 
         return ProductEntityMapper.toDomain(model as ProductModel)!;
+    }
+
+    async search(params: { name?: string; skip: number; take: number }) {
+        const { name, skip, take } = params;
+        const where: any = {
+            status: { NOT: { id: 'DELETED' } }
+        };
+
+        if (name) {
+            where.name = { contains: name, mode: 'insensitive' };
+        }
+
+        const [models, total] = await prisma.$transaction([
+            prisma.product.findMany({ where, skip, take, include: { status: true }, orderBy: { name: 'asc' } }),
+            prisma.product.count({ where })
+        ]);
+
+        return {
+            data: ProductEntityMapper.toDomainList(models as ProductModel[]),
+            total
+        };
     }
 
 }

@@ -14,6 +14,7 @@ import { GetAllServicesDTO } from '../../../domain/dto/service/get-all';
 import { FindServiceByIdDTO } from '../../../domain/dto/service/find-by-id';
 import { GetAllServicesByStatusDTO } from '../../../domain/dto/service/get-all-by-status';
 import { DeactivateServiceDTO } from '../../../domain/dto/service/deactivate';
+import { SearchServiceDTO } from '../../../domain/dto/service/search';
 
 export class ServiceService {
 
@@ -156,6 +157,7 @@ export class ServiceService {
  
     }
 
+
     public async getAllByStatus(dto: GetAllServicesByStatusDTO) {
         const { statusId } = dto;
 
@@ -185,5 +187,30 @@ export class ServiceService {
                 id: deactivatedService.id
             }
         }
+    }
+
+    public async search(dto: SearchServiceDTO) {
+
+        const { name, skip, take, page, limit } = dto;
+
+        const result = await this.serviceRepository.search({
+            name,
+            skip,
+            take
+        });
+
+        if (!result) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
+        }
+
+        const totalPages = Math.ceil(result.total / limit);
+
+        return {
+            services: result.data,  
+            total: result.total,   
+            page,                  
+            limit,                 
+            totalPages             
+        };
     }
 }

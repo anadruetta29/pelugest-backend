@@ -1,7 +1,5 @@
 import { User as PrismaUser, Role, RecordStatus } from "@prisma/client";
-import { UserEntity } from "../../../common/entity/user";
-import { RoleEntity } from "../../../common/entity/role";
-import { RecordStatusEntity } from "../../../common/entity/record-status";
+import { RecordStatusEntity, RoleEntity, UserEntity } from "../../common";
 
 
 export type UserModel = PrismaUser & {
