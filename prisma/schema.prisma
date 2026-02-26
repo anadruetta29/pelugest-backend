@@ -23,6 +23,7 @@ model RecordStatus {
 	clients  Client[]
 	services Service[]
 	products Product[]
+	appointment_details AppointmentDetail[]
 
 	@@map("record_status")
 }
@@ -100,7 +101,7 @@ model StockProduct {
 	@@map("stock_products")
 }
 
-	model Product {
+model Product {
 	id     String @id @default(uuid()) 
 	name   String
 	price  Decimal
@@ -169,9 +170,11 @@ model AppointmentDetail {
 	price       Decimal
 	durationMin Int
 
+	id_record_status String
 	id_appointment String
 	id_service     String
 
+	status RecordStatus @relation(fields: [id_record_status], references: [id])
 	appointment Appointment @relation(fields: [id_appointment], references: [id])
 	service     Service     @relation(fields: [id_service], references: [id])
 

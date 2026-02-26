@@ -1,4 +1,4 @@
-import { ErrorHandler, ErrorTypeName } from "../../../common";
+import { ErrorHandler, ErrorTypeName, RecordStatusEntity } from "../../../common";
 
 export class UpdateAppointmentDetailDTO {
 
@@ -7,19 +7,21 @@ export class UpdateAppointmentDetailDTO {
         public price: number,
         public durationMin: number,
         public serviceId: string,
-        public appointmentId: string
+        public appointmentId: string,
+        public status: RecordStatusEntity,
     ) {}
 
     static create(object: { [key: string]: any }): [string?, UpdateAppointmentDetailDTO?] {
 
-        const { id, price, durationMin, serviceId, appointmentId } = object;
+        const { id, price, durationMin, serviceId, appointmentId, status } = object;
 
         if (
             !id ||
             price === undefined ||
             durationMin === undefined ||
             !serviceId ||
-            !appointmentId
+            !appointmentId ||
+            !status
         ) {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
@@ -42,7 +44,8 @@ export class UpdateAppointmentDetailDTO {
                 parsedPrice,
                 parsedDuration,
                 serviceId,
-                appointmentId
+                appointmentId,
+                status
             )
         ];
     }

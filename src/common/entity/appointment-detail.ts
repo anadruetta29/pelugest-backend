@@ -1,4 +1,5 @@
 import { Service } from "@prisma/client";
+import { RecordStatusEntity } from "./record-status";
 
 export class AppointmentDetailEntity {
 
@@ -12,33 +13,18 @@ export class AppointmentDetailEntity {
             name: string;
             price: number;
             durationMin: number;
-        } | null
+        } | null,
+        public status: RecordStatusEntity
     ) {}
 
     static fromObject(object: { [key: string]: any }): AppointmentDetailEntity {
-
-        if (!object.id) {
-            throw new Error("AppointmentDetail id is required");
-        }
-
-        if (object.price == null) {
-            throw new Error("AppointmentDetail price is required");
-        }
-
-        if (object.durationMin == null) {
-            throw new Error("AppointmentDetail durationMin is required");
-        }
-
-        if (!object.appointmentId) {
-            throw new Error("AppointmentDetail appointmentId is required");
-        }
-
         return new AppointmentDetailEntity(
             object.id,
             object.price,
             object.durationMin,
             object.appointmentId,
-            object.service ?? null
+            object.service ?? null,
+            object.status
         );
     }
 }

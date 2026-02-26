@@ -1,9 +1,10 @@
-import { AppointmentDetail as PrismaAppointmentDetail, Client, User, AppointmentDetail, Service, AppointmentStatusName } 
+import { AppointmentDetail as PrismaAppointmentDetail, Client, User, AppointmentDetail, Service, AppointmentStatusName, RecordStatus } 
     from "@prisma/client";
-import { AppointmentDetailEntity, AppointmentEntity, ClientEntity, UserEntity } from "../../common";
+import { AppointmentDetailEntity, AppointmentEntity, ClientEntity, RecordStatusEntity, UserEntity } from "../../common";
 
 export type AppointmentDetailModel = PrismaAppointmentDetail & {
     service?: Service | null;
+    status?: RecordStatus | null;
 };
 
 export class AppointmentDetailEntityMapper {
@@ -22,6 +23,12 @@ export class AppointmentDetailEntityMapper {
                     price: appointmentDetailModel.service.basePrice,
                     duration: appointmentDetailModel.service.estimatedDurationMin
                 }
+                : null,
+            status: appointmentDetailModel.status
+                ? RecordStatusEntity.fromObject({
+                    id: appointmentDetailModel.status.id,
+                    name: appointmentDetailModel.status.name
+                })
                 : null
         });
     }
@@ -34,7 +41,8 @@ export class AppointmentDetailEntityMapper {
             price: appointmentDetail.price,
             durationMin: appointmentDetail.durationMin,
             id_service: appointmentDetail.service?.id,
-            id_appointment: appointmentDetail.appointmentId
+            id_appointment: appointmentDetail.appointmentId,
+            id_record_status: appointmentDetail.status?.id,
         };
     }
 
