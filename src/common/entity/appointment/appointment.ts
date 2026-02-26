@@ -39,6 +39,10 @@ export class AppointmentEntity {
         return this.status.getStatus();
     }
 
+    canBeModified(): boolean {
+        return this.status.canBeModified();
+    }
+
     private setStatus(state: AppointmentStatus) {
         this.status = state;
     }

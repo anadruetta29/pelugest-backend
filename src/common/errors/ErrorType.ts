@@ -23,7 +23,8 @@ export enum ErrorTypeName {
     APPOINTMENT_ALREADY_IN_PROGRESS = "APPOINTMENT_ALREADY_IN_PROGRESS",
     APPOINTMENT_ALREADY_MISSED = "APPOINTMENT_ALREADY_MISSED",
     APPOINTMENT_NOT_STARTED = "APPOINTMENT_NOT_STARTED",
-    INVALID_DATE_RANGE = "INVALID_DATE_RANGE"
+    INVALID_DATE_RANGE = "INVALID_DATE_RANGE",
+    INVALID_STATE_TRANSITION = "INVALID_STATE_TRANSITION"
 
 }
 
@@ -58,5 +59,6 @@ export const ErrorType: Record<ErrorTypeName, ErrorDetail> = {
     [ErrorTypeName.APPOINTMENT_ALREADY_MISSED]: { message: "Appointment already missed", httpCode: 400},
     [ErrorTypeName.APPOINTMENT_NOT_STARTED]: { message: "Appointment not started", httpCode: 400},
     [ErrorTypeName.INVALID_DATE_RANGE]: { message: "Invalid date range", httpCode: 400},
+    [ErrorTypeName.INVALID_STATE_TRANSITION]: { message: "Invalid state transition", httpCode: 400},
 
 };

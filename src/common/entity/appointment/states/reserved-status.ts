@@ -27,4 +27,8 @@ export class ReservedStatus implements AppointmentStatus {
     cancel(appointment: AppointmentEntity): void {
         appointment.changeState(new CancelledStatus());
     }
+
+    canBeModified(): boolean {
+        return true;
+    }
 }

@@ -23,4 +23,8 @@ export class AttendedStatus implements AppointmentStatus {
     cancel(appointment: AppointmentEntity): void {
         throw new ErrorHandler(ErrorTypeName.APPOINTMENT_ALREADY_ATTENDED);
     }
+
+    canBeModified(): boolean {
+        return false;
+    }
 }

@@ -23,4 +23,8 @@ export class MissedStatus implements AppointmentStatus {
     cancel(appointment: AppointmentEntity): void {
         throw new ErrorHandler(ErrorTypeName.APPOINTMENT_ALREADY_MISSED);
     }
+
+    canBeModified(): boolean {
+        return false;
+    }
 }

@@ -23,4 +23,8 @@ export class CancelledStatus implements AppointmentStatus {
     cancel(appointment: AppointmentEntity): void {
         throw new ErrorHandler(ErrorTypeName.APPOINTMENT_ALREADY_CANCELLED);
     }
+
+    canBeModified(): boolean {
+        return false;
+    }
 }

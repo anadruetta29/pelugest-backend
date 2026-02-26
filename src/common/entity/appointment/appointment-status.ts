@@ -6,4 +6,5 @@ export interface AppointmentStatus {
     miss(appointment: AppointmentEntity): void;
     cancel(appointment: AppointmentEntity): void;
     getStatus(): string;
+    canBeModified(): boolean;
 }

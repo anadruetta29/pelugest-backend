@@ -1,15 +1,14 @@
 import { Router } from "express";
-import { AuthMiddleware } from '../../../common';
-import { ClientService } from '../client/service';
-import { ClientController } from '../client/controller';
-import { AppointmentDetailController } from "./controller";
-import { AppointmentDetailService } from "./service";
+import { AuthMiddleware } from "../../../common";
+import { AppointmentController } from "./controller";
+import { AppointmentService } from "./service";
 
-export class AppointmentDetailRoute {
+export class AppointmentRoute {
     static get routes(): Router {
+
         const router = Router();
-        const service = new AppointmentDetailService();
-        const controller = new AppointmentDetailController(service);
+        const service = new AppointmentService();
+        const controller = new AppointmentController(service);
 
         router.post(
             '/',
@@ -28,17 +27,23 @@ export class AppointmentDetailRoute {
             AuthMiddleware.validateSession,
             controller.delete
         );
-
+        
+        router.get(
+            '/',
+            AuthMiddleware.validateSession,
+            controller.getAll
+        );
+        
+        router.get(
+            '/status/:statusId',
+            AuthMiddleware.validateSession,
+            controller.getAllByStatus
+        );
+        
         router.get(
             '/:id',
             AuthMiddleware.validateSession,
             controller.findById
-        );
-
-        router.get(
-            '/appointment/:appointmentId',
-            AuthMiddleware.validateSession,
-            controller.findByAppointmentId
         );
 
         return router;

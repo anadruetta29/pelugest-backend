@@ -26,4 +26,8 @@ export class InProgressStatus implements AppointmentStatus {
     cancel(): void {
         throw new ErrorHandler(ErrorTypeName.APPOINTMENT_ALREADY_IN_PROGRESS);
     }
+
+    canBeModified(): boolean {
+        return false;
+    }
 }
