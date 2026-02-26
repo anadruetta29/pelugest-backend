@@ -9,7 +9,8 @@ export class AppointmentDetailRepository implements AppointmentDetailRepositoryI
         const model = await prisma.appointmentDetail.findUnique({
             where: { id },
             include: {
-                service: true
+                service: true,
+                status: true
             }
         });
 
@@ -31,10 +32,12 @@ export class AppointmentDetailRepository implements AppointmentDetailRepositoryI
                 },
                 appointment: {
                     connect: { id: model.id_appointment }
-                }
+                },
+                status: { connect: { id: model.id_status } }
             },
             include: {
-                service: true
+                service: true,
+                status: true
             }
         });
 
@@ -74,7 +77,8 @@ export class AppointmentDetailRepository implements AppointmentDetailRepositoryI
         const models = await prisma.appointmentDetail.findMany({
             where: { id_appointment: appointmentId },
             include: {
-                service: true
+                service: true,
+                status: true
             }
         });
 
