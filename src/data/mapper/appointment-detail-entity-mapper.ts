@@ -6,7 +6,7 @@ export type AppointmentDetailModel = PrismaAppointmentDetail & {
     service?: Service | null;
 };
 
-export class AppointmentEntityMapper {
+export class AppointmentDetailEntityMapper {
 
     public static toDomain(appointmentDetailModel: AppointmentDetailModel | null): AppointmentDetailEntity | null {
         if (!appointmentDetailModel) return null;
