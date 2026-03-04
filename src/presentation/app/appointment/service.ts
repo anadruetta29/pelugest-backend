@@ -20,8 +20,7 @@ export class AppointmentService {
         private readonly recordStatusRepository: RecordStatusRepositoryI = new RecordStatusRepository()
     ) {}
 
-     public async create(dto: CreateAppointmentDTO) {
-
+    public async create(dto: CreateAppointmentDTO) {
         const { startDateTime, estimatedEndDateTime, clientId, hairdresserId, details } = dto;
 
         if (estimatedEndDateTime <= startDateTime) {
@@ -32,8 +31,12 @@ export class AppointmentService {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
 
-        const appointmentId = GenerateUUIDHelper.generate();
+        const recordStatus = await this.recordStatusRepository.findByName("ACTIVE");
+        if (!recordStatus) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
+        }
 
+        const appointmentId = GenerateUUIDHelper.generate();
         const appointment = AppointmentEntity.fromObject({
             id: appointmentId,
             startDateTime,
@@ -43,38 +46,27 @@ export class AppointmentService {
             status: "RESERVED"
         });
 
-        const savedAppointment = await this.appointmentRepository.save(appointment);
-
-        const recordStatus = await this.recordStatusRepository.findByName("ACTIVE");
-
-        if (!recordStatus) {
-            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
-        }
-
-        for (const detail of details) {
-
+        const detailsToSave = details.map(detail => {
             if (detail.price < 0 || detail.durationMin <= 0) {
                 throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
             }
 
-            const detailId = GenerateUUIDHelper.generate();
-
-            const appointmentDetail = AppointmentDetailEntity.fromObject({
-                id: detailId,
+            return {
+                id: GenerateUUIDHelper.generate(),
                 price: detail.price,
                 durationMin: detail.durationMin,
-                service: { id: detail.serviceId },
-                appointmentId: savedAppointment.id,
-                status: { id: recordStatus.id }
-            });
+                service: { id: detail.serviceId }, 
+                status: { id: recordStatus.id }    
+            };
+        });
 
-            await this.appointmentDetailRepository.save(appointmentDetail);
-        }
+        const savedAppointment = await this.appointmentRepository.save(appointment, detailsToSave);
 
         return {
             message: "Appointment created successfully",
             appointment: { id: savedAppointment.id }
         };
+    
     }
 
     public async update(dto: UpdateAppointmentDTO) {

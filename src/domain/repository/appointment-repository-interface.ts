@@ -5,7 +5,7 @@ export interface AppointmentRepositoryI {
 
     findById(id: string): Promise<AppointmentEntity | null>;
 
-    save(appointment: AppointmentEntity): Promise<AppointmentEntity>;
+    save(appointment: AppointmentEntity, details: any[]): Promise<AppointmentEntity>;
 
     update(appointment: AppointmentEntity): Promise<AppointmentEntity>;
 

@@ -21,7 +21,7 @@ export class AppointmentRepository implements AppointmentRepositoryI {
         return AppointmentEntityMapper.toDomain(model as AppointmentModel);
     }
 
-    async save(appointment: AppointmentEntity): Promise<AppointmentEntity> {
+    async save(appointment: AppointmentEntity, details: any[]): Promise<AppointmentEntity> {
         const model = AppointmentEntityMapper.toModel(appointment);
 
         const saved = await prisma.appointment.create({
@@ -30,8 +30,18 @@ export class AppointmentRepository implements AppointmentRepositoryI {
                 startDateTime: model.startDateTime,
                 estimatedEndDateTime: model.estimatedEndDateTime,
                 status: model.status as AppointmentStatusName,
-                client: { connect: { id: model!.id_client } },
-                hairdresser: { connect: { id: model!.id_user } }
+                client: { connect: { id: model.id_client } },
+                hairdresser: { connect: { id: model.id_user } },
+                // Crea los detalles al mismo tiempo
+                details: {
+                    create: details.map(d => ({
+                        id: d.id,
+                        price: d.price,
+                        durationMin: d.durationMin,
+                        id_service: d.service.id,
+                        id_record_status: d.status.id
+                    }))
+                }
             },
             include: {
                 client: true,
