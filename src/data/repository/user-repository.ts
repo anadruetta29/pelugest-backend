@@ -82,4 +82,20 @@ export class UserRepository implements UserRepositoryI {
             where: { id_rol: roleId }
         });
     }
+
+    async getAllByRoleName(roleName: string): Promise<UserEntity[]> {
+        const models = await prisma.user.findMany({
+            where: {
+                role: {
+                    name: {
+                        equals: roleName,
+                        mode: "insensitive"
+                    }
+                }
+            },
+            include: { role: true, status: true }
+        });
+
+        return UserEntityMapper.toDomainList(models as UserModel[]);
+    }
 }

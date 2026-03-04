@@ -15,4 +15,6 @@ export interface UserRepositoryI {
     getAllByStatus(statusId: string): Promise<UserEntity[]>;
 
     getUsersQuantityByRole(roleId: string): Promise<number>;
+
+    getAllByRoleName(roleName: string): Promise<UserEntity[]>;
 }

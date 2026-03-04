@@ -18,6 +18,7 @@ export class AppRouter {
         router.use('/api/products', ProductRoute.routes);
         router.use('/api/stock-products', StockProductRoute.routes);
         router.use('/api/stock-movements', StockMovementRoute.routes);
+        router.use('/api/users')
         return router;
     }
 }
