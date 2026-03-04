@@ -8,12 +8,7 @@ export class AppointmentDetailEntity {
         public price: number,
         public durationMin: number,
         public appointmentId: string,
-        public service: {
-            id: string;
-            name: string;
-            price: number;
-            durationMin: number;
-        } | null,
+        public serviceId: string,
         public status: RecordStatusEntity
     ) {}
 
@@ -23,7 +18,7 @@ export class AppointmentDetailEntity {
             object.price,
             object.durationMin,
             object.appointmentId,
-            object.service ?? null,
+            object.serviceId,
             object.status
         );
     }

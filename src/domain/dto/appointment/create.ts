@@ -1,4 +1,5 @@
 import { AppointmentDetailEntity, ErrorHandler, ErrorTypeName } from "../../../common";
+import { CreateAppointmentDetailDTO } from "../appointment-detail/create";
 
 export class CreateAppointmentDTO {
 
@@ -7,7 +8,7 @@ export class CreateAppointmentDTO {
         public estimatedEndDateTime: Date,
         public clientId: string,
         public hairdresserId: string,
-        public details: AppointmentDetailEntity[]
+        public details: CreateAppointmentDetailDTO[]
     ) {}
 
     static create(object: { [key: string]: any }): [string?, CreateAppointmentDTO?] {

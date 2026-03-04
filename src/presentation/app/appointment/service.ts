@@ -63,7 +63,7 @@ export class AppointmentService {
                 id: detailId,
                 price: detail.price,
                 durationMin: detail.durationMin,
-                service: { id: detail.service?.id },
+                service: { id: detail.serviceId },
                 appointmentId: savedAppointment.id,
                 status: { id: recordStatus.id }
             });

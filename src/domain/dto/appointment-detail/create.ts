@@ -5,15 +5,18 @@ export class CreateAppointmentDetailDTO {
     private constructor(
         public price: number,
         public durationMin: number,
-        public serviceId: string,
-        public appointmentId: string
+        public serviceId: string
     ) {}
 
     static create(object: { [key: string]: any }): [string?, CreateAppointmentDetailDTO?] {
 
-        const { price, durationMin, serviceId, appointmentId } = object;
+        const { price, durationMin, serviceId } = object;
 
-        if ( !price || !durationMin || !serviceId || !appointmentId) {
+        if (
+            price === undefined ||
+            durationMin === undefined ||
+            !serviceId
+        ) {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
         }
 
@@ -33,8 +36,7 @@ export class CreateAppointmentDetailDTO {
             new CreateAppointmentDetailDTO(
                 parsedPrice,
                 parsedDuration,
-                serviceId,
-                appointmentId
+                serviceId
             )
         ];
     }
