@@ -31,4 +31,8 @@ export class ReservedStatus implements AppointmentStatus {
     canBeModified(): boolean {
         return true;
     }
+
+    toJSON() {
+        return { name: this.getStatus() };
+    }
 }

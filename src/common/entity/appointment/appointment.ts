@@ -67,6 +67,17 @@ export class AppointmentEntity {
         this.status.cancel(this);
     }
 
+    toJSON() {
+        return {
+            id: this.id,
+            startDateTime: this.startDateTime,
+            estimatedEndDateTime: this.estimatedEndDateTime,
+            client: this.client,
+            hairdresser: this.hairdresser,
+            status: this.status.toJSON()  
+        };
+    }
+
     static fromObject(object: { [key: string]: any }): AppointmentEntity {
 
     const state = AppointmentStateFactory.create(object.status);

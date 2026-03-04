@@ -30,4 +30,8 @@ export class InProgressStatus implements AppointmentStatus {
     canBeModified(): boolean {
         return false;
     }
+
+    toJSON() {
+        return { name: this.getStatus() };
+    }
 }

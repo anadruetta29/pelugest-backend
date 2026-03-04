@@ -1,8 +1,8 @@
 import { ErrorHandler } from "../../../common/errors/ErrorHandler";
 import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
-import { AppointmentDetailRepository, AppointmentRepository, RecordStatusRepository, StockProductRepository } from "../../../data";
-import { AppointmentDetailEntity, AppointmentEntity, AppointmentStateFactory, StockProductEntity } from "../../../common";
+import { AppointmentDetailRepository, AppointmentRepository, RecordStatusRepository } from "../../../data";
+import { AppointmentDetailEntity, AppointmentEntity, AppointmentStateFactory } from "../../../common";
 import { AppointmentRepositoryI, RecordStatusRepositoryI } from "../../../domain";
 import { CreateAppointmentDTO } from "../../../domain/dto/appointment/create";
 import { UpdateAppointmentDTO } from "../../../domain/dto/appointment/update";
