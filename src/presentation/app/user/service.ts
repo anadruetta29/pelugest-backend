@@ -12,6 +12,6 @@ export class UserService {
 
         const users = await this.userRepository.getAllByRoleName(dto.roleName);
 
-        return users ;
+        return { users } ;
     }
 }
