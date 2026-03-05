@@ -39,6 +39,12 @@ export class AppointmentRoute {
             AuthMiddleware.validateSession,
             controller.getAllByStatus
         );
+
+        router.get(
+            '/:id/details',
+            AuthMiddleware.validateSession,
+            controller.findDetailsByAppointmentId
+        );
         
         router.get(
             '/:id',

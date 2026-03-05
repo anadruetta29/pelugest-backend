@@ -12,6 +12,7 @@ import { UpdateAppointmentDTO } from '../../../domain/dto/appointment/update';
 import { DeleteAppointmentDTO } from '../../../domain/dto/appointment/delete';
 import { GetAllAppointmentsByStatusDTO } from '../../../domain/dto/appointment/get-all-by-status';
 import { ChangeAppointmentStatusDTO } from "../../../domain/dto/appointment/change-appointment-status";
+import { FindAppointmentDetailsByAppointmentIdDTO } from '../../../domain/dto/appointment-detail/find-by-appointment-id';
 
 export class AppointmentController {
 
@@ -196,6 +197,26 @@ export class AppointmentController {
             }
 
             const result = await this.appointmentService.cancel(dto!);
+
+            return res.status(200).json(result);
+
+        } catch (error: any) {
+            return res.status(500).json({ message: error.message || "Internal server error" });
+        }
+    };
+
+    findDetailsByAppointmentId = async (req: Request, res: Response) => {
+        try {
+
+            const [error, dto] = FindAppointmentDetailsByAppointmentIdDTO.create({
+                appointmentId: req.params.id
+            });
+
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
+
+            const result = await this.appointmentService.findDetailsByAppointmentId(dto!);
 
             return res.status(200).json(result);
 

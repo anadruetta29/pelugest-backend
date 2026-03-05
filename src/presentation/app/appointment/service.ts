@@ -12,6 +12,7 @@ import { GetAllAppointmentsDTO } from "../../../domain/dto/appointment/get-all";
 import { GetAllAppointmentsByStatusDTO } from "../../../domain/dto/appointment/get-all-by-status";
 import { AppointmentDetailRepositoryI } from "../../../domain/repository/appointment-detail-repository-interface";
 import { ChangeAppointmentStatusDTO } from "../../../domain/dto/appointment/change-appointment-status";
+import { FindAppointmentDetailsByAppointmentIdDTO } from "../../../domain/dto/appointment-detail/find-by-appointment-id";
 
 export class AppointmentService {
 
@@ -247,6 +248,29 @@ export class AppointmentService {
 
         return {
             appointments: appointments.map(a => this.mapAppointmentResponse(a))
+        };
+    }
+
+    public async findDetailsByAppointmentId(dto: FindAppointmentDetailsByAppointmentIdDTO) {
+
+        const { appointmentId } = dto;
+
+        const appointment = await this.appointmentRepository.findById(appointmentId);
+
+        if (!appointment) {
+            throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
+        }
+
+        const details = await this.appointmentDetailRepository.findByAppointmentId(appointmentId);
+
+        return {
+            appointmentId,
+            details: details.map(detail => ({
+                id: detail.id,
+                service: detail.serviceId,
+                price: detail.price,
+                durationMin: detail.durationMin
+            }))
         };
     }
 }
