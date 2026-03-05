@@ -32,7 +32,6 @@ export class AppointmentRepository implements AppointmentRepositoryI {
                 status: model.status as AppointmentStatusName,
                 client: { connect: { id: model.id_client } },
                 hairdresser: { connect: { id: model.id_user } },
-                // Crea los detalles al mismo tiempo
                 details: {
                     create: details.map(d => ({
                         id: d.id,

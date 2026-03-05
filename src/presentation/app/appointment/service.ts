@@ -11,6 +11,7 @@ import { FindAppointmentByIdDTO } from "../../../domain/dto/appointment/find-by-
 import { GetAllAppointmentsDTO } from "../../../domain/dto/appointment/get-all";
 import { GetAllAppointmentsByStatusDTO } from "../../../domain/dto/appointment/get-all-by-status";
 import { AppointmentDetailRepositoryI } from "../../../domain/repository/appointment-detail-repository-interface";
+import { ChangeAppointmentStatusDTO } from "../../../domain/dto/appointment/change-appointment-status";
 
 export class AppointmentService {
 
@@ -104,9 +105,9 @@ export class AppointmentService {
         };
     }
 
-    public async start(id: string) {
+    public async start(dto: ChangeAppointmentStatusDTO) {
 
-        const appointment = await this.appointmentRepository.findById(id);
+        const appointment = await this.appointmentRepository.findById(dto.id);
 
         if (!appointment) {
             throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
@@ -122,9 +123,9 @@ export class AppointmentService {
         };
     }
 
-    public async attend(id: string) {
+    public async attend(dto: ChangeAppointmentStatusDTO) {
 
-        const appointment = await this.appointmentRepository.findById(id);
+        const appointment = await this.appointmentRepository.findById(dto.id);
 
         if (!appointment) {
             throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
@@ -140,9 +141,9 @@ export class AppointmentService {
         };
     }
 
-    public async miss(id: string) {
+    public async miss(dto: ChangeAppointmentStatusDTO) {
 
-        const appointment = await this.appointmentRepository.findById(id);
+        const appointment = await this.appointmentRepository.findById(dto.id);
 
         if (!appointment) {
             throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
@@ -158,9 +159,9 @@ export class AppointmentService {
         };
     }
 
-    public async cancel(id: string) {
+    public async cancel(dto: ChangeAppointmentStatusDTO) {
 
-        const appointment = await this.appointmentRepository.findById(id);
+        const appointment = await this.appointmentRepository.findById(dto.id);
 
         if (!appointment) {
             throw new ErrorHandler(ErrorTypeName.NOT_FOUND);

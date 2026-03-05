@@ -2,6 +2,7 @@ import { AppointmentStatus } from "./appointment-status";
 import { ClientEntity } from "../client";
 import { UserEntity } from "../user";
 import { AppointmentStateFactory } from "./appointment-state.factory";
+import { ReservedStatus } from "./states/reserved-status";
 
 export class AppointmentEntity {
 
@@ -12,24 +13,23 @@ export class AppointmentEntity {
         private status: AppointmentStatus,
         public readonly client: ClientEntity,
         public readonly hairdresser: UserEntity
-    ){}
+    ) {}
 
     static create(props: {
         id: string;
         startDateTime: Date;
         estimatedEndDateTime: Date;
-        status: string;
         client: ClientEntity;
         hairdresser: UserEntity;
     }): AppointmentEntity {
 
-        const state = AppointmentStateFactory.create(props.status);
+        const initialState = new ReservedStatus();
 
         return new AppointmentEntity(
             props.id,
             props.startDateTime,
             props.estimatedEndDateTime,
-            state,
+            initialState,
             props.client,
             props.hairdresser
         );
@@ -43,12 +43,8 @@ export class AppointmentEntity {
         return this.status.canBeModified();
     }
 
-    private setStatus(state: AppointmentStatus) {
-        this.status = state;
-    }
-
     changeState(state: AppointmentStatus) {
-        this.setStatus(state);
+        this.status = state;
     }
 
     start() {
@@ -74,21 +70,21 @@ export class AppointmentEntity {
             estimatedEndDateTime: this.estimatedEndDateTime,
             client: this.client,
             hairdresser: this.hairdresser,
-            status: this.status.toJSON()  
+            status: this.getStatus()
         };
     }
 
     static fromObject(object: { [key: string]: any }): AppointmentEntity {
 
-    const state = AppointmentStateFactory.create(object.status);
+        const state = AppointmentStateFactory.create(object.status);
 
-    return new AppointmentEntity(
-        object.id,
-        new Date(object.startDateTime),
-        new Date(object.estimatedEndDateTime),
-        state,
-        object.client,
-        object.hairdresser
-    );
-}
+        return new AppointmentEntity(
+            object.id,
+            new Date(object.startDateTime),
+            new Date(object.estimatedEndDateTime),
+            state,
+            object.client,
+            object.hairdresser
+        );
+    }
 }
