@@ -16,7 +16,15 @@ export enum ErrorTypeName {
     INVALID_MOBILE_NUMBER = "INVALID_CELLOPHONE_NUMBER",
     INVALID_LANDLINE_NUMBER = "INVALID_LANDLINE_NUMBER",
     INVALID_FIELD = "INVALID_FIELD",
-    INVALID_PAGINATION = "INVALID_PAGINATION"
+    INVALID_PAGINATION = "INVALID_PAGINATION",
+    APPOINTMENT_ALREADY_ATTENDED = "APPOINTMENT_ALREADY_ATTENDED",
+    APPOINTMENT_ALREADY_CANCELLED = "APPOINTMENT_ALREADY_CANCELLED",
+    APPOINTMENT_ALREADY_STARTED = "APPOINTMENT_ALREADY_STARTED",
+    APPOINTMENT_ALREADY_IN_PROGRESS = "APPOINTMENT_ALREADY_IN_PROGRESS",
+    APPOINTMENT_ALREADY_MISSED = "APPOINTMENT_ALREADY_MISSED",
+    APPOINTMENT_NOT_STARTED = "APPOINTMENT_NOT_STARTED",
+    INVALID_DATE_RANGE = "INVALID_DATE_RANGE",
+    INVALID_STATE_TRANSITION = "INVALID_STATE_TRANSITION"
 
 }
 
@@ -43,5 +51,14 @@ export const ErrorType: Record<ErrorTypeName, ErrorDetail> = {
     [ErrorTypeName.INVALID_LANDLINE_NUMBER]: { message: "Invalid landline number", httpCode: 400},
     [ErrorTypeName.NOT_FOUND]: { message: "Item not found", httpCode: 400 },
     [ErrorTypeName.INVALID_FIELD]: { message: "Invalid field", httpCode: 400 },
-    [ErrorTypeName.INVALID_PAGINATION]: { message: "Invalid pagination parameters", httpCode: 400 } 
+    [ErrorTypeName.INVALID_PAGINATION]: { message: "Invalid pagination parameters", httpCode: 400 },
+    [ErrorTypeName.APPOINTMENT_ALREADY_ATTENDED]: { message: "Appointment already attended", httpCode: 400},
+    [ErrorTypeName.APPOINTMENT_ALREADY_CANCELLED]: { message: "Appointment already cancelled", httpCode: 400},
+    [ErrorTypeName.APPOINTMENT_ALREADY_STARTED]: { message: "Appointment already started", httpCode: 400},
+    [ErrorTypeName.APPOINTMENT_ALREADY_IN_PROGRESS]: { message: "Appointment already in progress", httpCode: 400},
+    [ErrorTypeName.APPOINTMENT_ALREADY_MISSED]: { message: "Appointment already missed", httpCode: 400},
+    [ErrorTypeName.APPOINTMENT_NOT_STARTED]: { message: "Appointment not started", httpCode: 400},
+    [ErrorTypeName.INVALID_DATE_RANGE]: { message: "Invalid date range", httpCode: 400},
+    [ErrorTypeName.INVALID_STATE_TRANSITION]: { message: "Invalid state transition", httpCode: 400},
+
 };

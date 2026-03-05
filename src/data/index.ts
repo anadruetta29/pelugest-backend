@@ -1,3 +1,5 @@
+export * from './mapper/appointment-detail-entity-mapper';
+export * from './mapper/appointment-entity-mapper';
 export * from './mapper/client-entity-mapper';
 export * from './mapper/product-entity-mapper';
 export * from './mapper/record-status-entity-mapper';
@@ -6,6 +8,8 @@ export * from './mapper/service-entity-mapper';
 export * from './mapper/stock-movement-entity-mapper';
 export * from './mapper/stock-product-entity-mapper';
 export * from './mapper/user-entity-mapper';
+export * from './repository/appointment-detail-repository';
+export * from './repository/appointment-repository';
 export * from './repository/client-repository';
 export * from './repository/product-repository';
 export * from './repository/record-status-repository';
