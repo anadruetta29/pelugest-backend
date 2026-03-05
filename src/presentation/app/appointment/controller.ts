@@ -11,6 +11,7 @@ import { GetAllAppointmentsDTO } from '../../../domain/dto/appointment/get-all';
 import { UpdateAppointmentDTO } from '../../../domain/dto/appointment/update';
 import { DeleteAppointmentDTO } from '../../../domain/dto/appointment/delete';
 import { GetAllAppointmentsByStatusDTO } from '../../../domain/dto/appointment/get-all-by-status';
+import { ChangeAppointmentStatusDTO } from "../../../domain/dto/appointment/change-appointment-status";
 
 export class AppointmentController {
 
@@ -122,4 +123,84 @@ export class AppointmentController {
             next(error);
         }
     }
+
+    start = async (req: Request, res: Response) => {
+        try {
+
+            const [error, dto] = ChangeAppointmentStatusDTO.create({
+                id: req.params.id
+            });
+
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
+
+            const result = await this.appointmentService.start(dto!);
+
+            return res.status(200).json(result);
+
+        } catch (error: any) {
+            return res.status(500).json({ message: error.message || "Internal server error" });
+        }
+    };
+
+    attend = async (req: Request, res: Response) => {
+        try {
+
+            const [error, dto] = ChangeAppointmentStatusDTO.create({
+                id: req.params.id
+            });
+
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
+
+            const result = await this.appointmentService.attend(dto!);
+
+            return res.status(200).json(result);
+
+        } catch (error: any) {
+            return res.status(500).json({ message: error.message || "Internal server error" });
+        }
+    };
+
+    miss = async (req: Request, res: Response) => {
+        try {
+
+            const [error, dto] = ChangeAppointmentStatusDTO.create({
+                id: req.params.id
+            });
+
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
+
+            const result = await this.appointmentService.miss(dto!);
+
+            return res.status(200).json(result);
+
+        } catch (error: any) {
+            return res.status(500).json({ message: error.message || "Internal server error" });
+        }
+    };
+
+    cancel = async (req: Request, res: Response) => {
+        try {
+
+            const [error, dto] = ChangeAppointmentStatusDTO.create({
+                id: req.params.id
+            });
+
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
+
+            const result = await this.appointmentService.cancel(dto!);
+
+            return res.status(200).json(result);
+
+        } catch (error: any) {
+            return res.status(500).json({ message: error.message || "Internal server error" });
+        }
+    };
 }

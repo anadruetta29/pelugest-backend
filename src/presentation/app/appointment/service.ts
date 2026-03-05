@@ -119,7 +119,7 @@ export class AppointmentService {
 
         return {
             message: "Appointment started",
-            status: updated.getStatus()
+            appointment: updated
         };
     }
 
@@ -137,7 +137,7 @@ export class AppointmentService {
 
         return {
             message: "Appointment attended",
-            status: updated.getStatus()
+            appointment: updated
         };
     }
 
@@ -155,7 +155,7 @@ export class AppointmentService {
 
         return {
             message: "Appointment marked as missed",
-            status: updated.getStatus()
+            appointment: updated
         };
     }
 
@@ -173,7 +173,7 @@ export class AppointmentService {
 
         return {
             message: "Appointment cancelled",
-            status: updated.getStatus()
+            appointment: updated
         };
     }
 

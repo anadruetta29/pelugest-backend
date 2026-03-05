@@ -46,6 +46,29 @@ export class AppointmentRoute {
             controller.findById
         );
 
+        router.patch(
+            '/:id/start',
+            AuthMiddleware.validateSession,
+            controller.start
+        );
+
+        router.patch(
+            '/:id/attend',
+            AuthMiddleware.validateSession,
+            controller.attend
+        );
+
+        router.patch(
+            '/:id/miss',
+            AuthMiddleware.validateSession,
+            controller.miss
+        );
+
+        router.patch(
+            '/:id/cancel',
+            AuthMiddleware.validateSession,
+            controller.cancel
+        );
         return router;
     }
 }
