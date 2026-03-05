@@ -2,7 +2,7 @@ import { ErrorHandler } from "../../../common/errors/ErrorHandler";
 import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
 import { AppointmentDetailRepository, AppointmentRepository, RecordStatusRepository } from "../../../data";
-import { AppointmentDetailEntity, AppointmentEntity, AppointmentStateFactory } from "../../../common";
+import { AppointmentEntity, AppointmentStateFactory } from "../../../common";
 import { AppointmentRepositoryI, RecordStatusRepositoryI } from "../../../domain";
 import { CreateAppointmentDTO } from "../../../domain/dto/appointment/create";
 import { UpdateAppointmentDTO } from "../../../domain/dto/appointment/update";
@@ -21,7 +21,25 @@ export class AppointmentService {
         private readonly recordStatusRepository: RecordStatusRepositoryI = new RecordStatusRepository()
     ) {}
 
+    private mapAppointmentResponse(appointment: any) {
+
+        const statusState = AppointmentStateFactory.create(appointment.getStatus());
+
+        return {
+            id: appointment.id,
+            startDateTime: appointment.startDateTime,
+            estimatedEndDateTime: appointment.estimatedEndDateTime,
+            client: appointment.client,
+            hairdresser: appointment.hairdresser,
+            status: {
+                name: appointment.getStatus(),
+                label: statusState.toJSON()
+            }
+        };
+    }
+
     public async create(dto: CreateAppointmentDTO) {
+
         const { startDateTime, estimatedEndDateTime, clientId, hairdresserId, details } = dto;
 
         if (estimatedEndDateTime <= startDateTime) {
@@ -33,11 +51,13 @@ export class AppointmentService {
         }
 
         const recordStatus = await this.recordStatusRepository.findByName("ACTIVE");
+
         if (!recordStatus) {
             throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
         }
 
         const appointmentId = GenerateUUIDHelper.generate();
+
         const appointment = AppointmentEntity.fromObject({
             id: appointmentId,
             startDateTime,
@@ -48,6 +68,7 @@ export class AppointmentService {
         });
 
         const detailsToSave = details.map(detail => {
+
             if (detail.price < 0 || detail.durationMin <= 0) {
                 throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
             }
@@ -56,9 +77,10 @@ export class AppointmentService {
                 id: GenerateUUIDHelper.generate(),
                 price: detail.price,
                 durationMin: detail.durationMin,
-                service: { id: detail.serviceId }, 
-                status: { id: recordStatus.id }    
+                service: { id: detail.serviceId },
+                status: { id: recordStatus.id }
             };
+
         });
 
         const savedAppointment = await this.appointmentRepository.save(appointment, detailsToSave);
@@ -67,7 +89,6 @@ export class AppointmentService {
             message: "Appointment created successfully",
             appointment: { id: savedAppointment.id }
         };
-    
     }
 
     public async update(dto: UpdateAppointmentDTO) {
@@ -119,7 +140,7 @@ export class AppointmentService {
 
         return {
             message: "Appointment started",
-            appointment: updated
+            appointment: this.mapAppointmentResponse(updated)
         };
     }
 
@@ -137,7 +158,7 @@ export class AppointmentService {
 
         return {
             message: "Appointment attended",
-            appointment: updated
+            appointment: this.mapAppointmentResponse(updated)
         };
     }
 
@@ -155,7 +176,7 @@ export class AppointmentService {
 
         return {
             message: "Appointment marked as missed",
-            appointment: updated
+            appointment: this.mapAppointmentResponse(updated)
         };
     }
 
@@ -173,7 +194,7 @@ export class AppointmentService {
 
         return {
             message: "Appointment cancelled",
-            appointment: updated
+            appointment: this.mapAppointmentResponse(updated)
         };
     }
 
@@ -198,8 +219,7 @@ export class AppointmentService {
         };
     }
 
-
-     public async findById(dto: FindAppointmentByIdDTO) {
+    public async findById(dto: FindAppointmentByIdDTO) {
 
         const appointment = await this.appointmentRepository.findById(dto.id);
 
@@ -207,21 +227,26 @@ export class AppointmentService {
             throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
         }
 
-        return { appointment };
+        return {
+            appointment: this.mapAppointmentResponse(appointment)
+        };
     }
 
     public async getAll(_: GetAllAppointmentsDTO) {
 
         const appointments = await this.appointmentRepository.getAll();
 
-        return { appointments };
+        return {
+            appointments: appointments.map(a => this.mapAppointmentResponse(a))
+        };
     }
 
     public async getAllByStatus(dto: GetAllAppointmentsByStatusDTO) {
 
         const appointments = await this.appointmentRepository.getAllByStatus(dto.status);
 
-        return { appointments };
+        return {
+            appointments: appointments.map(a => this.mapAppointmentResponse(a))
+        };
     }
-
 }
