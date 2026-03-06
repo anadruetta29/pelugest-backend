@@ -1,9 +1,10 @@
+import { ServiceRepository } from './../../../data/repository/service-repository';
 import { ErrorHandler } from "../../../common/errors/ErrorHandler";
 import { ErrorTypeName } from "../../../common/errors/ErrorType";
 import { GenerateUUIDHelper } from "../../../config/adapters/generate-UUID";
 import { AppointmentDetailRepository, AppointmentRepository, RecordStatusRepository } from "../../../data";
 import { AppointmentEntity, AppointmentStateFactory } from "../../../common";
-import { AppointmentRepositoryI, RecordStatusRepositoryI } from "../../../domain";
+import { AppointmentRepositoryI, RecordStatusRepositoryI, ServiceRepositoryI } from "../../../domain";
 import { CreateAppointmentDTO } from "../../../domain/dto/appointment/create";
 import { UpdateAppointmentDTO } from "../../../domain/dto/appointment/update";
 import { DeleteAppointmentDTO } from "../../../domain/dto/appointment/delete";
@@ -19,7 +20,8 @@ export class AppointmentService {
     constructor(
         private readonly appointmentRepository: AppointmentRepositoryI = new AppointmentRepository(),
         private readonly appointmentDetailRepository: AppointmentDetailRepositoryI = new AppointmentDetailRepository(),
-        private readonly recordStatusRepository: RecordStatusRepositoryI = new RecordStatusRepository()
+        private readonly recordStatusRepository: RecordStatusRepositoryI = new RecordStatusRepository(),
+        private readonly serviceRepository: ServiceRepositoryI = new ServiceRepository()
     ) {}
 
     private mapAppointmentResponse(appointment: any) {
@@ -263,14 +265,27 @@ export class AppointmentService {
 
         const details = await this.appointmentDetailRepository.findByAppointmentId(appointmentId);
 
+        const detailsWithService = await Promise.all(
+            details.map(async (detail) => {
+
+                const service = await this.serviceRepository.findById(detail.serviceId);
+
+                if (!service) {
+                    throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
+                }
+
+                return {
+                    id: detail.id,
+                    service: service, 
+                    price: detail.price,
+                    durationMin: detail.durationMin
+                };
+            })
+        );
+
         return {
             appointmentId,
-            details: details.map(detail => ({
-                id: detail.id,
-                service: detail.serviceId,
-                price: detail.price,
-                durationMin: detail.durationMin
-            }))
+            details: detailsWithService
         };
     }
 }
