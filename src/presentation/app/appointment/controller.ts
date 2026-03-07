@@ -13,6 +13,7 @@ import { DeleteAppointmentDTO } from '../../../domain/dto/appointment/delete';
 import { GetAllAppointmentsByStatusDTO } from '../../../domain/dto/appointment/get-all-by-status';
 import { ChangeAppointmentStatusDTO } from "../../../domain/dto/appointment/change-appointment-status";
 import { FindAppointmentDetailsByAppointmentIdDTO } from '../../../domain/dto/appointment-detail/find-by-appointment-id';
+import { ToggleAppointmentDetailStatusDTO } from '../../../domain/dto/appointment-detail/toggle-status';
 
 export class AppointmentController {
 
@@ -140,7 +141,8 @@ export class AppointmentController {
 
             return res.status(200).json(result);
 
-        } catch (error: any) {
+        } 
+        catch (error: any) {
             return res.status(500).json({ message: error.message || "Internal server error" });
         }
     };
@@ -160,7 +162,8 @@ export class AppointmentController {
 
             return res.status(200).json(result);
 
-        } catch (error: any) {
+        } 
+        catch (error: any) {
             return res.status(500).json({ message: error.message || "Internal server error" });
         }
     };
@@ -180,7 +183,8 @@ export class AppointmentController {
 
             return res.status(200).json(result);
 
-        } catch (error: any) {
+        } 
+        catch (error: any) {
             return res.status(500).json({ message: error.message || "Internal server error" });
         }
     };
@@ -200,7 +204,8 @@ export class AppointmentController {
 
             return res.status(200).json(result);
 
-        } catch (error: any) {
+        } 
+        catch (error: any) {
             return res.status(500).json({ message: error.message || "Internal server error" });
         }
     };
@@ -220,8 +225,32 @@ export class AppointmentController {
 
             return res.status(200).json(result);
 
-        } catch (error: any) {
+        } 
+        catch (error: any) {
             return res.status(500).json({ message: error.message || "Internal server error" });
         }
     };
+
+    toggleAppointmentDetailStatus = async (req: Request, res: Response) => {
+        try {
+
+            const [error, dto] = ToggleAppointmentDetailStatusDTO.create({
+                appointmentDetailId: req.params.detailId,
+                recordStatusId: req.body.recordStatusId
+            });
+
+            if (error) {
+                return res.status(400).json({ message: error });
+            }
+
+            const result = await this.appointmentService.toggleAppointmentDetailStatus(dto!);
+
+            return res.status(200).json(result);
+
+        } 
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || "Internal server error" });
+        }
+    };
+    
 }

@@ -75,7 +75,14 @@ export class AppointmentDetailRepository implements AppointmentDetailRepositoryI
 
     async findByAppointmentId(appointmentId: string): Promise<AppointmentDetailEntity[]> {
         const models = await prisma.appointmentDetail.findMany({
-            where: { id_appointment: appointmentId },
+            where: {
+                id_appointment: appointmentId,
+                status: {
+                    is: {
+                        name: "ACTIVE"
+                    }
+                }
+            },
             include: {
                 service: true,
                 status: true
@@ -84,6 +91,24 @@ export class AppointmentDetailRepository implements AppointmentDetailRepositoryI
 
         return AppointmentDetailEntityMapper.toDomainList(
             models as AppointmentDetailModel[]
+        );
+    }
+
+    async updateStatus(id: string, recordStatusId: string) {
+
+        const updated = await prisma.appointmentDetail.update({
+            where: { id },
+            data: {
+                id_record_status: recordStatusId
+            },
+            include: {
+                service: true,
+                status: true
+            }
+        });
+
+        return AppointmentDetailEntityMapper.toDomain(
+            updated as AppointmentDetailModel
         );
     }
 }

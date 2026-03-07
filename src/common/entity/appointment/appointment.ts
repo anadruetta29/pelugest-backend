@@ -3,6 +3,7 @@ import { ClientEntity } from "../client";
 import { UserEntity } from "../user";
 import { AppointmentStateFactory } from "./appointment-state.factory";
 import { ReservedStatus } from "./states/reserved-status";
+import { AppointmentDetailEntity } from "../appointment-detail";
 
 export class AppointmentEntity {
 
@@ -12,7 +13,8 @@ export class AppointmentEntity {
         public estimatedEndDateTime: Date,
         private status: AppointmentStatus,
         public readonly client: ClientEntity,
-        public readonly hairdresser: UserEntity
+        public readonly hairdresser: UserEntity,
+        public readonly details: AppointmentDetailEntity[]
     ) {}
 
     static create(props: {
@@ -21,6 +23,7 @@ export class AppointmentEntity {
         estimatedEndDateTime: Date;
         client: ClientEntity;
         hairdresser: UserEntity;
+        details: AppointmentDetailEntity[];
     }): AppointmentEntity {
 
         const initialState = new ReservedStatus();
@@ -31,7 +34,8 @@ export class AppointmentEntity {
             props.estimatedEndDateTime,
             initialState,
             props.client,
-            props.hairdresser
+            props.hairdresser,
+            props.details
         );
     }
 
@@ -84,7 +88,8 @@ export class AppointmentEntity {
             new Date(object.estimatedEndDateTime),
             state,
             object.client,
-            object.hairdresser
+            object.hairdresser,
+            object.details
         );
     }
 }

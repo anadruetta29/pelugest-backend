@@ -13,6 +13,9 @@ export class AppointmentRepository implements AppointmentRepositoryI {
                 client: true,
                 hairdresser: true,
                 details: {
+                    where: {
+                        status: { name: "ACTIVE" }
+                    },
                     include: { service: true }
                 }
             }
@@ -59,15 +62,35 @@ export class AppointmentRepository implements AppointmentRepositoryI {
             where: { id: model.id },
             data: {
                 startDateTime: model.startDateTime,
-                estimatedEndDateTime: model!.estimatedEndDateTime,
+                estimatedEndDateTime: model.estimatedEndDateTime,
                 status: model.status as AppointmentStatusName,
                 id_client: model.id_client,
-                id_user: model.id_user
+                id_user: model.id_user,
+                details: {
+                    upsert: (appointment.details || []).map((d: any) => ({
+                        where: { id: d.id },
+                        update: {
+                            price: d.price,
+                            durationMin: d.durationMin,
+                            id_record_status: d.status?.id 
+                        },
+                        create: {
+                            id: d.id,
+                            price: d.price,
+                            durationMin: d.durationMin,
+                            id_service: d.service.id,
+                            id_record_status: d.status?.id
+                        }
+                    }))
+                }
             },
             include: {
                 client: true,
                 hairdresser: true,
-                details: { include: { service: true } }
+                details: { 
+                    where: { status: { name: "ACTIVE" } }, 
+                    include: { service: true } 
+                }
             }
         });
 
@@ -85,7 +108,12 @@ export class AppointmentRepository implements AppointmentRepositoryI {
             include: {
                 client: true,
                 hairdresser: true,
-                details: { include: { service: true } }
+                details: {
+                    where: {
+                        status: { name: "ACTIVE" }
+                    },
+                    include: { service: true }
+                }
             },
             orderBy: { startDateTime: "asc" }
         });
@@ -99,7 +127,12 @@ export class AppointmentRepository implements AppointmentRepositoryI {
             include: {
                 client: true,
                 hairdresser: true,
-                details: { include: { service: true } }
+                details: {
+                    where: {
+                        status: { name: "ACTIVE" }
+                    },
+                    include: { service: true }
+                }
             },
             orderBy: { startDateTime: "asc" }
         });
@@ -128,7 +161,12 @@ export class AppointmentRepository implements AppointmentRepositoryI {
                 include: {
                     client: true,
                     hairdresser: true,
-                    details: { include: { service: true } }
+                    details: {
+                        where: {
+                            status: { name: "ACTIVE" }
+                        },
+                        include: { service: true }
+                    }
                 },
                 orderBy: { startDateTime: "asc" }
             }),

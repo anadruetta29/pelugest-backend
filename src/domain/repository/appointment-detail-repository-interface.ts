@@ -11,4 +11,6 @@ export interface AppointmentDetailRepositoryI {
     delete(id: string): Promise<void>;
 
     findByAppointmentId(appointmentId: string): Promise<AppointmentDetailEntity[]>;
+
+    updateStatus(id: string, recordStatusId: string): Promise<AppointmentDetailEntity | null>;
 }

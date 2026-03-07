@@ -14,6 +14,7 @@ import { GetAllAppointmentsByStatusDTO } from "../../../domain/dto/appointment/g
 import { AppointmentDetailRepositoryI } from "../../../domain/repository/appointment-detail-repository-interface";
 import { ChangeAppointmentStatusDTO } from "../../../domain/dto/appointment/change-appointment-status";
 import { FindAppointmentDetailsByAppointmentIdDTO } from "../../../domain/dto/appointment-detail/find-by-appointment-id";
+import { ToggleAppointmentDetailStatusDTO } from '../../../domain/dto/appointment-detail/toggle-status';
 
 export class AppointmentService {
 
@@ -96,7 +97,7 @@ export class AppointmentService {
 
     public async update(dto: UpdateAppointmentDTO) {
 
-        const { id, startDateTime, estimatedEndDateTime } = dto;
+        const { id, startDateTime, estimatedEndDateTime, details } = dto;
 
         const appointment = await this.appointmentRepository.findById(id);
 
@@ -118,7 +119,8 @@ export class AppointmentService {
             estimatedEndDateTime,
             status: appointment.getStatus(),
             client: appointment.client,
-            hairdresser: appointment.hairdresser
+            hairdresser: appointment.hairdresser,
+            details: details
         });
 
         const saved = await this.appointmentRepository.update(updatedAppointment);
@@ -286,6 +288,29 @@ export class AppointmentService {
         return {
             appointmentId,
             details: detailsWithService
+        };
+    }
+
+    async toggleAppointmentDetailStatus(dto: ToggleAppointmentDetailStatusDTO) {
+
+        const { appointmentDetailId, recordStatusId } = dto;
+
+        console.log(recordStatusId)
+
+        const appointmentDetail = await this.appointmentDetailRepository.findById(appointmentDetailId);
+
+        if (!appointmentDetail) {
+            throw new ErrorHandler(ErrorTypeName.NOT_FOUND);
+        }
+
+        const updated = await this.appointmentDetailRepository.updateStatus(
+            appointmentDetailId,
+            recordStatusId
+        );
+
+        return {
+            message: "Appointment detail status updated",
+            appointmentDetail: updated
         };
     }
 }

@@ -1,4 +1,4 @@
-import { ErrorHandler, ErrorTypeName } from "../../../common";
+import { AppointmentDetailEntity, ErrorHandler, ErrorTypeName } from "../../../common";
 
 export class UpdateAppointmentDTO {
 
@@ -7,12 +7,13 @@ export class UpdateAppointmentDTO {
         public startDateTime: Date,
         public estimatedEndDateTime: Date,
         public clientId: string,
-        public hairdresserId: string
+        public hairdresserId: string,
+        public details: AppointmentDetailEntity[]
     ) {}
 
     static create(object: { [key: string]: any }): [string?, UpdateAppointmentDTO?] {
 
-        const { id, startDateTime, estimatedEndDateTime, clientId, hairdresserId } = object;
+        const { id, startDateTime, estimatedEndDateTime, clientId, hairdresserId, details } = object;
 
         if ( !id || !startDateTime || !estimatedEndDateTime || !clientId || !hairdresserId) {
             throw new ErrorHandler(ErrorTypeName.MISSING_REQUIRED_FIELDS);
@@ -36,7 +37,8 @@ export class UpdateAppointmentDTO {
                 start,
                 end,
                 clientId,
-                hairdresserId
+                hairdresserId,
+                details
             )
         ];
     }
