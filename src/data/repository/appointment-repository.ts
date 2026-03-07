@@ -56,46 +56,61 @@ export class AppointmentRepository implements AppointmentRepositoryI {
     }
 
     async update(appointment: AppointmentEntity): Promise<AppointmentEntity> {
-        const model = AppointmentEntityMapper.toModel(appointment);
 
-        const updated = await prisma.appointment.update({
-            where: { id: model.id },
-            data: {
-                startDateTime: model.startDateTime,
-                estimatedEndDateTime: model.estimatedEndDateTime,
-                status: model.status as AppointmentStatusName,
-                id_client: model.id_client,
-                id_user: model.id_user,
-                details: {
-                    upsert: (appointment.details || []).map((d: any) => ({
-                        where: { id: d.id },
-                        update: {
-                            price: d.price,
-                            durationMin: d.durationMin,
-                            id_record_status: d.status?.id 
-                        },
-                        create: {
-                            id: d.id,
-                            price: d.price,
-                            durationMin: d.durationMin,
-                            id_service: d.service.id,
-                            id_record_status: d.status?.id
-                        }
-                    }))
-                }
-            },
-            include: {
-                client: true,
-                hairdresser: true,
-                details: { 
-                    where: { status: { name: "ACTIVE" } }, 
-                    include: { service: true } 
-                }
+    const model = AppointmentEntityMapper.toModel(appointment);
+
+    const detailList = model.details ?? [];
+    const detailIds = detailList.map((d: any) => d.id);
+
+    const updated = await prisma.appointment.update({
+        where: { id: model.id },
+
+        data: {
+            startDateTime: model.startDateTime,
+            estimatedEndDateTime: model.estimatedEndDateTime,
+            status: model.status as AppointmentStatusName,
+            id_client: model.id_client,
+            id_user: model.id_user,
+
+            details: {
+
+                deleteMany: {
+                    id_appointment: model.id,
+                    ...(detailIds.length && { id: { notIn: detailIds } })
+                },
+
+                upsert: detailList.map((d: any) => ({
+                    where: { id: d.id },
+
+                    update: {
+                        price: d.price,
+                        durationMin: d.durationMin,
+                        id_record_status: d.status.id
+                    },
+
+                    create: {
+                        id: d.id,
+                        price: d.price,
+                        durationMin: d.durationMin,
+                        id_service: d.service.id,
+                        id_record_status: d.status.id
+                    }
+                }))
             }
-        });
+        },
 
-        return AppointmentEntityMapper.toDomain(updated as AppointmentModel)!;
-    }
+        include: {
+            client: true,
+            hairdresser: true,
+            details: {
+                where: { status: { name: "ACTIVE" } },
+                include: { service: true }
+            }
+        }
+    });
+
+    return AppointmentEntityMapper.toDomain(updated as AppointmentModel)!;
+}
 
     async delete(id: string): Promise<void> {
         await prisma.appointment.delete({

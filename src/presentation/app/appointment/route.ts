@@ -53,7 +53,7 @@ export class AppointmentRoute {
         );
 
         router.patch(
-            "/appointments/details/:detailId/status",
+            "/details/:detailId/status",
             AuthMiddleware.validateSession,
             controller.toggleAppointmentDetailStatus
         );

@@ -39,24 +39,41 @@ export class AppointmentController {
     };
 
     update = async (req: Request, res: Response) => {
-        try {
-            const [error, dto] = UpdateAppointmentDTO.create({
-                id: req.params.id,
-                ...req.body
-            });
+    try {
 
-            if (error) {
-                return res.status(400).json({ message: error });
-            }
+        console.log("===== UPDATE APPOINTMENT REQUEST =====");
+        console.log("PARAM ID:", req.params.id);
+        console.log("BODY:", JSON.stringify(req.body, null, 2));
 
-            const result = await this.appointmentService.update(dto!);
+        const [error, dto] = UpdateAppointmentDTO.create({
+            id: req.params.id,
+            ...req.body
+        });
 
-            return res.status(200).json(result);
-        } 
-        catch (error: any) {
-            return res.status(500).json({ message: error.message || 'Internal server error' });
+        if (error) {
+            console.log("DTO ERROR:", error);
+            return res.status(400).json({ message: error });
         }
-    };
+
+        console.log("DTO CREATED:", JSON.stringify(dto, null, 2));
+
+        const result = await this.appointmentService.update(dto!);
+
+        console.log("UPDATE SUCCESS:", result);
+
+        return res.status(200).json(result);
+    } 
+    catch (error: any) {
+
+        console.error("UPDATE CONTROLLER ERROR:");
+        console.error(error);
+
+        return res.status(500).json({
+            message: error.message,
+            stack: error.stack
+        });
+    }
+};
 
     delete = async (req: Request, res: Response) => {
         try {

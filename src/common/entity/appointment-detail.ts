@@ -1,5 +1,6 @@
 import { Service } from "@prisma/client";
 import { RecordStatusEntity } from "./record-status";
+import { ServiceEntity } from "./service";
 
 export class AppointmentDetailEntity {
 
@@ -8,7 +9,7 @@ export class AppointmentDetailEntity {
         public price: number,
         public durationMin: number,
         public appointmentId: string,
-        public serviceId: string,
+        public service: ServiceEntity,
         public status: RecordStatusEntity
     ) {}
 
@@ -18,7 +19,7 @@ export class AppointmentDetailEntity {
             object.price,
             object.durationMin,
             object.appointmentId,
-            object.serviceId,
+            object.service,
             object.status
         );
     }

@@ -113,6 +113,29 @@ export class AppointmentService {
             throw new ErrorHandler(ErrorTypeName.INVALID_STATE_TRANSITION);
         }
 
+        const recordStatus = await this.recordStatusRepository.findByName("ACTIVE");
+
+        if (!recordStatus) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
+        }
+
+        const mappedDetails = details.map(d => {
+
+            return {
+                id: d.id,
+                price: Number(d.price),
+                durationMin: d.durationMin,
+
+                service: { 
+                    id: d.service.id 
+                },
+
+                status: { 
+                    id: recordStatus.id 
+                }
+            };
+        });
+
         const updatedAppointment = AppointmentEntity.fromObject({
             id: appointment.id,
             startDateTime,
@@ -120,7 +143,7 @@ export class AppointmentService {
             status: appointment.getStatus(),
             client: appointment.client,
             hairdresser: appointment.hairdresser,
-            details: details
+            details: mappedDetails
         });
 
         const saved = await this.appointmentRepository.update(updatedAppointment);
@@ -270,7 +293,7 @@ export class AppointmentService {
         const detailsWithService = await Promise.all(
             details.map(async (detail) => {
 
-                const service = await this.serviceRepository.findById(detail.serviceId);
+                const service = await this.serviceRepository.findById(detail.service.id);
 
                 if (!service) {
                     throw new ErrorHandler(ErrorTypeName.NOT_FOUND);

@@ -16,7 +16,9 @@ export class AppointmentDetailEntityMapper {
             id: appointmentDetailModel.id,
             price: appointmentDetailModel.price,
             durationMin: appointmentDetailModel.durationMin,
-            serviceId: appointmentDetailModel.id_service,
+            service: {
+                id: appointmentDetailModel.id_service
+            },
             status: appointmentDetailModel.status
                 ? RecordStatusEntity.fromObject({
                     id: appointmentDetailModel.status.id,
@@ -33,7 +35,7 @@ export class AppointmentDetailEntityMapper {
             id: appointmentDetail.id,
             price: appointmentDetail.price,
             durationMin: appointmentDetail.durationMin,
-            id_service: appointmentDetail.serviceId,
+            id_service: appointmentDetail.service.id,
             id_appointment: appointmentDetail.appointmentId,
             id_record_status: appointmentDetail.status?.id,
         };

@@ -1,3 +1,4 @@
+import { ServiceEntity } from './../../../common/entity/service';
 import { ErrorHandler, ErrorTypeName, RecordStatusEntity } from "../../../common";
 
 export class UpdateAppointmentDetailDTO {
@@ -6,7 +7,7 @@ export class UpdateAppointmentDetailDTO {
         public id: string,
         public price: number,
         public durationMin: number,
-        public serviceId: string,
+        public service: ServiceEntity,
         public appointmentId: string,
         public status: RecordStatusEntity,
     ) {}

@@ -33,7 +33,9 @@ export class AppointmentDetailRepository implements AppointmentDetailRepositoryI
                 appointment: {
                     connect: { id: model.id_appointment }
                 },
-                status: { connect: { id: model.id_status } }
+                status: {
+                    connect: { id: model.id_record_status }
+                }
             },
             include: {
                 service: true,
@@ -76,12 +78,7 @@ export class AppointmentDetailRepository implements AppointmentDetailRepositoryI
     async findByAppointmentId(appointmentId: string): Promise<AppointmentDetailEntity[]> {
         const models = await prisma.appointmentDetail.findMany({
             where: {
-                id_appointment: appointmentId,
-                status: {
-                    is: {
-                        name: "ACTIVE"
-                    }
-                }
+                id_appointment: appointmentId
             },
             include: {
                 service: true,

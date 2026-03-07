@@ -1,6 +1,6 @@
 import { Appointment as PrismaAppointment, Client, User, AppointmentDetail, Service, AppointmentStatusName } 
     from "@prisma/client";
-import { AppointmentEntity, ClientEntity, UserEntity } from "../../common";
+import { AppointmentEntity, ClientEntity, ServiceEntity, UserEntity } from "../../common";
 
 export type AppointmentModel = PrismaAppointment & {
     client?: Client | null;
@@ -31,7 +31,16 @@ export class AppointmentEntityMapper {
                     id: appointmentModel.hairdresser.id,
                     name: appointmentModel.hairdresser.name
                 })
-                : null
+                : null,
+            details: appointmentModel.details?.map(d => ({
+                id: d.id,
+                price: d.price,
+                durationMin: d.durationMin,
+                service: ServiceEntity.fromObject({
+                    id: d.id_service
+                }),
+                status: { id: d.id_record_status }
+            }))
         })
     }
 
@@ -44,7 +53,19 @@ export class AppointmentEntityMapper {
             estimatedEndDateTime: appointment.estimatedEndDateTime,
             status: appointment.getStatus() as AppointmentStatusName,
             id_client: appointment.client.id,
-            id_user: appointment.hairdresser.id
+            id_user: appointment.hairdresser.id,
+
+            details: appointment.details?.map(d => ({
+                id: d.id,
+                price: d.price,
+                durationMin: d.durationMin,
+                service: {
+                    id: d.service.id
+                },
+                status: {
+                    id: d.status.id
+                }
+            }))
         };
     }
 
