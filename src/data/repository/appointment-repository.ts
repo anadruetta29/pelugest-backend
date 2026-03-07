@@ -130,7 +130,7 @@ export class AppointmentRepository implements AppointmentRepositoryI {
                     include: { service: true }
                 }
             },
-            orderBy: { startDateTime: "asc" }
+            orderBy: { startDateTime: "desc" }
         });
 
         return AppointmentEntityMapper.toDomainList(models as AppointmentModel[]);
@@ -149,7 +149,7 @@ export class AppointmentRepository implements AppointmentRepositoryI {
                     include: { service: true }
                 }
             },
-            orderBy: { startDateTime: "asc" }
+            orderBy: { startDateTime: "desc" }
         });
 
         return AppointmentEntityMapper.toDomainList(models as AppointmentModel[]);
@@ -183,7 +183,7 @@ export class AppointmentRepository implements AppointmentRepositoryI {
                         include: { service: true }
                     }
                 },
-                orderBy: { startDateTime: "asc" }
+                orderBy: { startDateTime: "desc" }
             }),
             prisma.appointment.count({ where })
         ]);
