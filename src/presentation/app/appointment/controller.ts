@@ -255,7 +255,7 @@ export class AppointmentController {
             const [error, dto] = SearchAppointmentDTO.create({
                 clientId: req.query.clientId,
                 date: req.query.date,
-                status: req.query.status,
+                statusName: req.query.statusName,
                 hairdresserId: req.query.hairdresserId,
                 page: req.query.page,
                 limit: req.query.limit

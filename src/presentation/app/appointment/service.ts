@@ -337,30 +337,26 @@ export class AppointmentService {
     }
 
     async search(dto: SearchAppointmentDTO) {
-        const { clientId, date, hairdresserId, limit, page, skip, status, take } = dto;
+
+        const { clientId, date, hairdresserId, statusName, skip, take, limit, page } = dto;
 
         const result = await this.appointmentRepository.search({
             clientId,
             date,
-            hairdresserId, 
-            status,
+            hairdresserId,
+            statusName,
             skip,
             take
         });
 
-        if (!result) {
-            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
-        }
-
         const totalPages = Math.ceil(result.total / limit);
 
         return {
-            appointments: result.data,  
-            total: result.total,   
-            page,                  
-            limit,                 
-            totalPages             
+            appointments: result.data.map(a => this.mapAppointmentResponse(a)),
+            total: result.total,
+            page,
+            limit,
+            totalPages
         };
-
     }
 }

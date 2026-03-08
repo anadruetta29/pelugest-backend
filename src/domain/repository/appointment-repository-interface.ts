@@ -1,5 +1,5 @@
 import { AppointmentStatusName } from "@prisma/client";
-import { AppointmentEntity } from "../../common";
+import { AppointmentEntity, AppointmentStatus } from "../../common";
 
 export interface AppointmentRepositoryI {
 
@@ -15,7 +15,7 @@ export interface AppointmentRepositoryI {
 
     getAllByStatus(status: AppointmentStatusName): Promise<AppointmentEntity[]>;
 
-    search(params: { date?: Date; status?: AppointmentStatusName; clientId?: string; hairdresserId?: string; 
+    search(params: { date?: Date; statusName?: AppointmentStatusName; clientId?: string; hairdresserId?: string; 
         skip: number; take: number; }): Promise<{ data: AppointmentEntity[]; total: number; }>;
         
 }

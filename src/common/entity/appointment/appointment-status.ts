@@ -7,5 +7,5 @@ export interface AppointmentStatus {
     cancel(appointment: AppointmentEntity): void;
     getStatus(): string;
     canBeModified(): boolean;
-    toJSON(): { name: string};
+    toJSON(): { name: string };
 }

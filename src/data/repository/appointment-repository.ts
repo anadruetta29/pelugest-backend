@@ -1,6 +1,6 @@
 import { prisma } from "../../app";
 import { AppointmentStatusName } from "@prisma/client";
-import { AppointmentEntity } from "../../common";
+import { AppointmentEntity, AppointmentStatus } from "../../common";
 import { AppointmentEntityMapper, AppointmentModel } from "../mapper/appointment-entity-mapper";
 import { AppointmentRepositoryI } from "../../domain/repository/appointment-repository-interface";
 
@@ -155,10 +155,10 @@ export class AppointmentRepository implements AppointmentRepositoryI {
         return AppointmentEntityMapper.toDomainList(models as AppointmentModel[]);
     }
 
-    async search(params: { date?: Date; status?: AppointmentStatusName; clientId?: string; hairdresserId?: string; 
-        skip: number; take: number; }) {
+    async search(params: { date?: Date; statusName?: AppointmentStatusName; clientId?: string; 
+        hairdresserId?: string; skip: number; take: number;  }) {
 
-        const { date, status, clientId, hairdresserId, skip, take } = params;
+        const { date, statusName, clientId, hairdresserId, skip, take } = params;
 
         const where: any = {};
 
@@ -170,17 +170,17 @@ export class AppointmentRepository implements AppointmentRepositoryI {
             where.id_user = hairdresserId;
         }
 
-        if (status) {
-            where.status = status;
+        if (statusName) {
+            where.status = statusName as AppointmentStatusName;
         }
 
         if (date) {
 
             const start = new Date(date);
-                start.setHours(0,0,0,0);
+            start.setHours(0,0,0,0);
 
             const end = new Date(date);
-                end.setHours(23,59,59,999);
+            end.setHours(23,59,59,999);
 
             where.startDateTime = {
                 gte: start,

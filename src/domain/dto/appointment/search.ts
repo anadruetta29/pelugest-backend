@@ -5,7 +5,7 @@ export class SearchAppointmentDTO {
 
     private constructor(
         public date: Date | undefined,
-        public status: AppointmentStatusName | undefined,
+        public statusName: AppointmentStatusName | undefined,
         public clientId: string | undefined,
         public hairdresserId: string | undefined,
         public page: number,
@@ -24,7 +24,7 @@ export class SearchAppointmentDTO {
 
         const {
             date,
-            status,
+            statusName,
             clientId,
             hairdresserId,
             page = 1,
@@ -48,13 +48,11 @@ export class SearchAppointmentDTO {
             throw new ErrorHandler(ErrorTypeName.INVALID_FIELD);
         }
 
-        const parsedStatus = status as AppointmentStatusName | undefined;
-
         return [
             undefined,
             new SearchAppointmentDTO(
                 parsedDate,
-                parsedStatus,
+                statusName,
                 clientId,
                 hairdresserId,
                 pageNumber,
