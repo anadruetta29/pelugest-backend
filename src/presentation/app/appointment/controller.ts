@@ -1,10 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { AppointmentService } from './service';
-import { GetAllStockProductsDTO } from '../../../domain/dto/stock-product/get-all';
-import { CreateStockProductDTO } from '../../../domain/dto/stock-product/create';
-import { UpdateStockProductDTO } from '../../../domain/dto/stock-product/update';
-import { DeleteStockProductDTO } from '../../../domain/dto/stock-product/delete';
-import { FindStockProductByProductDTO } from '../../../domain/dto/stock-product/find-by-product';
 import { CreateAppointmentDTO } from '../../../domain/dto/appointment/create';
 import { FindAppointmentByIdDTO } from '../../../domain/dto/appointment/find-by-id';
 import { GetAllAppointmentsDTO } from '../../../domain/dto/appointment/get-all';
@@ -14,6 +9,7 @@ import { GetAllAppointmentsByStatusDTO } from '../../../domain/dto/appointment/g
 import { ChangeAppointmentStatusDTO } from "../../../domain/dto/appointment/change-appointment-status";
 import { FindAppointmentDetailsByAppointmentIdDTO } from '../../../domain/dto/appointment-detail/find-by-appointment-id';
 import { ToggleAppointmentDetailStatusDTO } from '../../../domain/dto/appointment-detail/toggle-status';
+import { SearchAppointmentDTO } from '../../../domain/dto/appointment/search';
 
 export class AppointmentController {
 
@@ -253,5 +249,27 @@ export class AppointmentController {
             return res.status(500).json({ message: error.message || "Internal server error" });
         }
     };
+
+    search = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const [error, dto] = SearchAppointmentDTO.create({
+                clientId: req.query.clientId,
+                date: req.query.date,
+                status: req.query.status,
+                hairdresserId: req.query.hairdresserId,
+                page: req.query.page,
+                limit: req.query.limit
+            });
+    
+            if (error) return res.status(400).json({ error });
+    
+            const result = await this.appointmentService.search(dto!);
+    
+            return res.status(200).json(result);
+        }
+        catch (error: any) {
+            return res.status(500).json({ message: error.message || "Internal server error" });
+        }
+    }
     
 }

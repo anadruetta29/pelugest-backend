@@ -15,6 +15,7 @@ import { AppointmentDetailRepositoryI } from "../../../domain/repository/appoint
 import { ChangeAppointmentStatusDTO } from "../../../domain/dto/appointment/change-appointment-status";
 import { FindAppointmentDetailsByAppointmentIdDTO } from "../../../domain/dto/appointment-detail/find-by-appointment-id";
 import { ToggleAppointmentDetailStatusDTO } from '../../../domain/dto/appointment-detail/toggle-status';
+import { SearchAppointmentDTO } from '../../../domain/dto/appointment/search';
 
 export class AppointmentService {
 
@@ -318,8 +319,6 @@ export class AppointmentService {
 
         const { appointmentDetailId, recordStatusId } = dto;
 
-        console.log(recordStatusId)
-
         const appointmentDetail = await this.appointmentDetailRepository.findById(appointmentDetailId);
 
         if (!appointmentDetail) {
@@ -335,5 +334,33 @@ export class AppointmentService {
             message: "Appointment detail status updated",
             appointmentDetail: updated
         };
+    }
+
+    async search(dto: SearchAppointmentDTO) {
+        const { clientId, date, hairdresserId, limit, page, skip, status, take } = dto;
+
+        const result = await this.appointmentRepository.search({
+            clientId,
+            date,
+            hairdresserId, 
+            status,
+            skip,
+            take
+        });
+
+        if (!result) {
+            throw new ErrorHandler(ErrorTypeName.INTERNAL_ERROR);
+        }
+
+        const totalPages = Math.ceil(result.total / limit);
+
+        return {
+            appointments: result.data,  
+            total: result.total,   
+            page,                  
+            limit,                 
+            totalPages             
+        };
+
     }
 }

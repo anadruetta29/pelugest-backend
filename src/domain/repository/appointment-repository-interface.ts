@@ -15,7 +15,7 @@ export interface AppointmentRepositoryI {
 
     getAllByStatus(status: AppointmentStatusName): Promise<AppointmentEntity[]>;
 
-    search(params: { clientId?: string; hairdresserId?: string; skip: number; take: number; }): 
-        Promise<{ data: AppointmentEntity[]; total: number; }>;
+    search(params: { date?: Date; status?: AppointmentStatusName; clientId?: string; hairdresserId?: string; 
+        skip: number; take: number; }): Promise<{ data: AppointmentEntity[]; total: number; }>;
         
 }

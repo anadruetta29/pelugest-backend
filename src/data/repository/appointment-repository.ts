@@ -155,8 +155,10 @@ export class AppointmentRepository implements AppointmentRepositoryI {
         return AppointmentEntityMapper.toDomainList(models as AppointmentModel[]);
     }
 
-    async search(params: { clientId?: string; hairdresserId?: string; skip: number; take: number }) {
-        const { clientId, hairdresserId, skip, take } = params;
+    async search(params: { date?: Date; status?: AppointmentStatusName; clientId?: string; hairdresserId?: string; 
+        skip: number; take: number; }) {
+
+        const { date, status, clientId, hairdresserId, skip, take } = params;
 
         const where: any = {};
 
@@ -168,6 +170,24 @@ export class AppointmentRepository implements AppointmentRepositoryI {
             where.id_user = hairdresserId;
         }
 
+        if (status) {
+            where.status = status;
+        }
+
+        if (date) {
+
+            const start = new Date(date);
+                start.setHours(0,0,0,0);
+
+            const end = new Date(date);
+                end.setHours(23,59,59,999);
+
+            where.startDateTime = {
+                gte: start,
+                lte: end
+            };
+        }
+
         const [models, total] = await prisma.$transaction([
             prisma.appointment.findMany({
                 where,
@@ -177,9 +197,7 @@ export class AppointmentRepository implements AppointmentRepositoryI {
                     client: true,
                     hairdresser: true,
                     details: {
-                        where: {
-                            status: { name: "ACTIVE" }
-                        },
+                        where: { status: { name: "ACTIVE" } },
                         include: { service: true }
                     }
                 },
